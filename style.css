@@ -1,0 +1,70 @@
+@import url('https://fonts.cdnfonts.com/css/maximum-impact');
+
+
+html {
+    overflow: hidden;
+    position: fixed;
+    height: 100%;
+	width: 100%;
+}
+
+body {
+	height: 100vh;
+	overflow-y: scroll;
+	margin: 0;
+	padding: 0;
+	font-family: 'Maximum Impact', Impact, sans-serif;
+	font-size: 5em;
+	overflow: auto;
+    position: relative;
+}
+
+section:last-child {
+	cursor: pointer;
+}
+
+.container {
+	overflow-y: scroll;
+	height: 100vh;
+}
+.animated-letter {
+	padding: 10px;
+	display: inline-flex;
+	z-index: 1000;
+	position: relative;
+}
+
+.quarter-height {
+	height: 25%;
+	position: relative;
+}
+
+.vertical-center {
+	position: absolute;
+	top: 50%;
+}
+
+@media only screen and (max-width: 800px) {
+	body {
+		font-size: 4em;
+	}
+  }
+
+@media only screen and (max-width: 700px) {
+	body {
+		font-size: 3em;
+	}
+  }
+
+@media only screen and (max-width: 600px) {
+	body {
+		font-size: 2em;
+		letter-spacing: -10px;
+		height: calc(100vh - 110px);
+	}
+
+	.vertical-center {
+		position: absolute;
+		top: 30%;
+	}
+  }

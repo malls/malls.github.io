@@ -1,133 +1,22 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-	<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
-	<meta content="utf-8" http-equiv="encoding">
-	<meta name="viewport" content="width=device-width">
-	<link href="https://fonts.cdnfonts.com/css/maximum-impact" rel="stylesheet">
+	<meta charset="utf-8"/>
+	<meta name="viewport" content="width=device-width"/>
+	<title>Forrest Almasi</title>
+	<link href="https://fonts.cdnfonts.com/css/maximum-impact" rel="stylesheet"/>
                 
-	<style>
-		@import url('https://fonts.cdnfonts.com/css/maximum-impact');
-
-		body {
-			margin: 0;
-			padding: 0;
-			height: 100%;
-			font-family: 'Maximum Impact', Impact, sans-serif;
-			font-size: 5em;
-			text-align: center;
-		}
-
-		.animated-letter {
-			padding: 10px;
-			display: inline-flex;
-			z-index: 1000;
-			position: relative;
-		}
-
-		.quarter-height {
-			height: 25vh;
-			position: relative;
-		}
-
-		.vertical-center {
-			position: absolute;
-			top: 50%;
-		}
-
-		@media only screen and (max-width: 800px) {
-			body {
-				font-size: 4em;
-			}
-		}
-
-		@media only screen and (max-width: 700px) {
-			body {
-				font-size: 3em;
-			}
-		}
-
-		@media only screen and (max-width: 600px) {
-			body {
-				font-size: 2em;
-				letter-spacing: -10px;
-			}
-		}
-	</style>
-	<script>
-		window.onload = function() {
-
-		function randomNumberToMax(max = 256) {
-			return Math.floor(Math.random() * max);
-		}
-
-		function randomColor() {
-			return `rgb(${[randomNumberToMax(), randomNumberToMax(), randomNumberToMax()].join(',')})`;
-		}
-
-		function filterValue() {
-			return `drop-shadow(.11em .1em 0px ${randomColor()})`;
-		}
-
-		function template(str) {
-
-			let tpl = str
-						.split('')
-						.map(letter => `<div class="animated-letter random-color" style="filter:${filterValue()};">${letter}</div>`)
-						.join('')
-						.replace(/\\n/g, '');
-
-			return `<div class="vertical-center">${tpl}</div>`;
-		}
-
-		function switchColors() {
-			Array.from(document.querySelectorAll('.random-color')).forEach(element => {
-				element.style.color = randomColor();
-			});
-
-			Array.from(document.querySelectorAll('.random-background')).forEach(element => {
-				element.style.backgroundColor = randomColor();
-			});
-		}
-
-		window.onclick = init;
-		window.ontouchend = init;
-
-		function init() {
-			document.querySelector('header').innerHTML = template('Forrest Almasi');
-			document.querySelector('section').innerHTML = template('i\'m a developer'); 
-			document.querySelectorAll('section')[1].innerHTML = template('what\'s up?');
-			document.querySelector('a').innerHTML = template('email me');
-
-			switchColors();
-
-			Array
-				.from(document.querySelectorAll('.animated-letter'))
-				.forEach(letter => letter.addEventListener('mouseover', event => {
-					event.originalTarget.style.color = randomColor();
-					event.originalTarget.style.filter = filterValue();
-				}));
-			Array
-				.from(document.querySelectorAll('.random-background'))
-				.forEach(letter => letter.addEventListener('mouseleave', event => {
-					if (event.target.className.includes('random-background')) {
-						event.target.style.backgroundColor = randomColor();
-					}
-				}));
-		}
-
-		init();
-
-		};
-	</script>
+	<link rel="stylesheet" href="./style.css?iojh"/>
+	<script src="./script.js?Fdsafa"></script>
 </head>
 
 <body>
-	<header class="random-background quarter-height"></header>
-	<section class="random-background quarter-height"></section>
-	<section class="random-background quarter-height"></section>
-	<footer class="random-background quarter-height">
-		<a href="mailto:_@forrestalmasi.com" class="random-color">email me</a>
-	</footer>
+	<div class="container">
+		<section class="random-background quarter-height"></section>
+		<section class="random-background quarter-height"></section>
+		<section class="random-background quarter-height"></section>
+		<section class="random-background quarter-height"></section>
+	</div>
 </body>
 
 </html>
