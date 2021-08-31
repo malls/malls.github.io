@@ -102,7 +102,10 @@
 
 			Array
 				.from(document.querySelectorAll('.animated-letter'))
-				.forEach(letter => letter.addEventListener('mouseover', event => event.originalTarget.style.color = randomColor()));
+				.forEach(letter => letter.addEventListener('mouseover', event => {
+					event.originalTarget.style.color = randomColor();
+					event.originalTarget.style.filter = filterValue();
+				}));
 			Array
 				.from(document.querySelectorAll('.random-background'))
 				.forEach(letter => letter.addEventListener('mouseleave', event => {
