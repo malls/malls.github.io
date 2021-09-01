@@ -41,8 +41,8 @@ window.onload = function() {
 		.addEventListener('click', () => window.open(`mailto:_@forrestalmasi.com`, `_self`));
 
 	function init() {
-		document.querySelectorAll('section')[0].innerHTML = template('Forrest') + '<br class="mobile-only">'  + template('Almasi');
-		document.querySelectorAll('section')[1].innerHTML = template('i\'m a') + '<br class="mobile-only">'  + template('developer'); 
+		document.querySelectorAll('section')[0].innerHTML = template('Forrest ') + '<br class="mobile-only">'  + template('Almasi');
+		document.querySelectorAll('section')[1].innerHTML = template('i\'m a ') + '<br class="mobile-only">'  + template('developer'); 
 		document.querySelectorAll('section')[2].innerHTML = template('what\'s up?');
 		document.querySelectorAll('section')[3].innerHTML = template('email me');
 
