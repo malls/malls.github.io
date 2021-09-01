@@ -34,33 +34,47 @@ window.onload = function() {
 		});
 	}
 
-	window.onclick = init;
-	window.ontouchend = init;
+	if ('onmouseover' in document.documentElement) window.onclick = init();
+
 	document
 		.querySelectorAll('section')[3]
 		.addEventListener('click', () => window.open(`mailto:_@forrestalmasi.com`, `_self`));
 
 	function init() {
-		document.querySelectorAll('section')[0].innerHTML = template('Forrest Almasi');
-		document.querySelectorAll('section')[1].innerHTML = template('i\'m a developer'); 
+		document.querySelectorAll('section')[0].innerHTML = template('Forrest') + '<br class="mobile-only">'  + template('Almasi');
+		document.querySelectorAll('section')[1].innerHTML = template('i\'m a') + '<br class="mobile-only">'  + template('developer'); 
 		document.querySelectorAll('section')[2].innerHTML = template('what\'s up?');
 		document.querySelectorAll('section')[3].innerHTML = template('email me');
 
 		switchColors();
 
-		Array
-			.from(document.querySelectorAll('.animated-letter'))
-			.forEach(letter => letter.addEventListener('mouseover', event => {
-				event.target.style.color = randomColor();
-				event.target.style.filter = filterValue();
-			}));
-		Array
-			.from(document.querySelectorAll('.random-background'))
-			.forEach(letter => letter.addEventListener('mouseleave', event => {
+		const letters = Array.from(document.querySelectorAll('.animated-letter'));
+
+		letters.forEach(letter => {
+				letter.addEventListener('mouseover', event => {
+					event.target.style.color = randomColor();
+					event.target.style.filter = filterValue();
+				});
+				letter.addEventListener('touchstart', event => {
+					event.target.style.color = randomColor();
+					event.target.style.filter = filterValue();
+				});
+		});
+
+		const backgrounds = Array.from(document.querySelectorAll('.random-background'));
+		backgrounds.forEach(box => { 
+			box.addEventListener('mouseleave', event => {
 				if (event.target.className.includes('random-background')) {
 					event.target.style.backgroundColor = randomColor();
 				}
-			}));
+			});
+			box.addEventListener('touchend', event => {
+				if (event.target.className.includes('random-background')) {
+					event.target.style.backgroundColor = randomColor();
+				}
+			});
+
+		});
 	}
 
 	init();
