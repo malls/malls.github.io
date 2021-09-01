@@ -21,7 +21,7 @@ window.onload = function() {
 					.join('')
 					.replace(/\\n/g, '');
 
-		return `<div class="vertical-center">${tpl}</div>`;
+		return tpl;
 	}
 
 	function switchColors() {
