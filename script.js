@@ -1,4 +1,3 @@
-
 window.onload = function() {
 
 	function randomNumberToMax(max = 256) {
@@ -41,10 +40,10 @@ window.onload = function() {
 		.addEventListener('click', () => window.open(`mailto:_@forrestalmasi.com`, `_self`));
 
 	function init() {
-		document.querySelectorAll('section')[0].innerHTML = template('Forrest ') + '<br class="mobile-only">'  + template('Almasi');
-		document.querySelectorAll('section')[1].innerHTML = template('i\'m a ') + '<br class="mobile-only">'  + template('developer'); 
-		document.querySelectorAll('section')[2].innerHTML = template('what\'s up?');
-		document.querySelectorAll('section')[3].innerHTML = template('email me');
+		document.querySelectorAll('section')[0].innerHTML = template('FORREST ') + '<br class="mobile-only">'  + template('ALMASI');
+		document.querySelectorAll('section')[1].innerHTML = template('I\'M A ') + '<br class="mobile-only">'  + template('DEVELOPER'); 
+		document.querySelectorAll('section')[2].innerHTML = template('WHAT\'S UP?');
+		document.querySelectorAll('section')[3].innerHTML = template('EMAIL ME');
 
 		switchColors();
 
