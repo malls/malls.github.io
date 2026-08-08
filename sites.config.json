@@ -1,0 +1,11 @@
+{
+	"bucketSize": 100,
+	"default": "random",
+	"mobile": {
+		"portrait": "random",
+		"landscape": "random"
+	},
+	"buckets": {
+		"800": "random"
+	}
+}

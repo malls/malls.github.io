@@ -1,5 +1,5 @@
 
-window.onload = function() {
+(window.SITES = window.SITES || {}).random = function (root) {
 
 	function randomNumberToMax(max = 256) {
 		return Math.floor(Math.random() * max);
@@ -25,30 +25,28 @@ window.onload = function() {
 	}
 
 	function switchColors() {
-		Array.from(document.querySelectorAll('.random-color')).forEach(element => {
+		Array.from(root.querySelectorAll('.random-color')).forEach(element => {
 			element.style.color = randomColor();
 		});
 
-		Array.from(document.querySelectorAll('.random-background')).forEach(element => {
+		Array.from(root.querySelectorAll('.random-background')).forEach(element => {
 			element.style.backgroundColor = randomColor();
 		});
 	}
 
-	if ('onmouseover' in document.documentElement) window.onclick = init();
-
-	document
+	root
 		.querySelectorAll('section')[3]
 		.addEventListener('click', () => window.open(`mailto:_@forrestalmasi.com`, `_self`));
 
 	function init() {
-		document.querySelectorAll('section')[0].innerHTML = template('Forrest ') + '<br class="mobile-only">'  + template('Almasi');
-		document.querySelectorAll('section')[1].innerHTML = template('i\'m a ') + '<br class="mobile-only">'  + template('developer'); 
-		document.querySelectorAll('section')[2].innerHTML = template('what\'s up?');
-		document.querySelectorAll('section')[3].innerHTML = template('email me');
+		root.querySelectorAll('section')[0].innerHTML = template('Forrest ') + '<br class="mobile-only">'  + template('Almasi');
+		root.querySelectorAll('section')[1].innerHTML = template('i\'m a ') + '<br class="mobile-only">'  + template('developer');
+		root.querySelectorAll('section')[2].innerHTML = template('what\'s up?');
+		root.querySelectorAll('section')[3].innerHTML = template('email me');
 
 		switchColors();
 
-		const letters = Array.from(document.querySelectorAll('.animated-letter'));
+		const letters = Array.from(root.querySelectorAll('.animated-letter'));
 
 		letters.forEach(letter => {
 				letter.addEventListener('mouseover', event => {
@@ -61,8 +59,8 @@ window.onload = function() {
 				});
 		});
 
-		const backgrounds = Array.from(document.querySelectorAll('.random-background'));
-		backgrounds.forEach(box => { 
+		const backgrounds = Array.from(root.querySelectorAll('.random-background'));
+		backgrounds.forEach(box => {
 			box.addEventListener('mouseleave', event => {
 				if (event.target.className.includes('random-background')) {
 					event.target.style.backgroundColor = randomColor();
