@@ -28,20 +28,54 @@
 
 
 	<link rel="canonical" href="https://www.forrestalmasi.com/" />
-	<link href="https://fonts.cdnfonts.com/css/maximum-impact" rel="stylesheet"/>
-	<link rel="stylesheet" href="./style.css?vbvcxb"/>
 
-	<script src="./script.js?fdasfadsfbvcxbdsa"></script>
+	<style>
+		html, body { margin: 0; padding: 0; height: 100%; overflow: hidden; }
+		#site-frame { position: fixed; inset: 0; width: 100%; height: 100%; border: 0; display: block; }
+	</style>
 </head>
 
 <body>
-	<div class="container">
-		<section class="random-background quarter-height"></section>
-		<section class="random-background quarter-height"></section>
-		<section class="random-background quarter-height"></section>
-		<section class="random-background quarter-height"></section>
-		<section class="random-background quarter-height"></section>
-	</div>
+	<iframe id="site-frame" src="./random/" title="Forrest Almasi"></iframe>
+
+	<script>
+		// Breakpoint router: serves a different sub-site per viewport bucket.
+		// To add a site: drop its folder in the repo root, then map it below.
+		var DEFAULT_SITE = 'random';                 // any width not mapped in BUCKET_SITES
+		var MOBILE_PORTRAIT_SITE = 'random';         // placeholder until built
+		var MOBILE_LANDSCAPE_SITE = 'random';        // placeholder until built
+		var BUCKET_SITES = {                         // key = lower bound of 100px-wide desktop bucket
+			800: 'random'                            // 800 <= width < 900
+			// 900: 'memphis',  1000: 'liquid',  ... add trivially here
+		};
+
+		var isMobile = window.matchMedia('(hover: none) and (pointer: coarse)');
+		var isPortrait = window.matchMedia('(orientation: portrait)');
+
+		function siteForViewport() {
+			if (isMobile.matches) return isPortrait.matches ? MOBILE_PORTRAIT_SITE : MOBILE_LANDSCAPE_SITE;
+			var bucket = Math.floor(window.innerWidth / 100) * 100;
+			return BUCKET_SITES[bucket] || DEFAULT_SITE;
+		}
+
+		var frame = document.getElementById('site-frame');
+		var currentSite = 'random'; // matches the static src above
+
+		function route() {
+			var site = siteForViewport();
+			if (site === currentSite) return;   // only reload the frame when the site actually changes
+			currentSite = site;
+			frame.src = './' + site + '/';
+		}
+
+		var resizeTimer;
+		window.addEventListener('resize', function () {
+			clearTimeout(resizeTimer);
+			resizeTimer = setTimeout(route, 100); // debounce so mid-drag widths don't thrash reloads
+		});
+		isPortrait.addEventListener('change', route);
+		route();
+	</script>
 </body>
 
 </html>
