@@ -53,9 +53,10 @@ worldwide. Two obligations follow:
   `AFTER EADWEARD MUYBRIDGE · "THE HORSE IN MOTION" · 1878`.
 - The image is **stored locally in `horse/` — never hotlinked**. GitHub Pages serves
   it; hotlinking Commons is unreliable and against their guidance. This is the repo's
-  first local-asset site: reference the file by **absolute path** (`/horse/frames.jpg`)
-  so the URL resolves both standalone at `/horse/` and inside the built root page at
-  `/` (see §10).
+  first local-asset site: reference the file **relatively** (`./frames.jpg`) — the
+  build rewrites relative `url()` targets to `horse/…`, so the one source resolves
+  standalone at `/horse/`, inside the built root page at `/`, and over `file://`
+  alike (see §10).
 
 ### The sprite strip
 
@@ -257,7 +258,7 @@ Every slide shows its frame by offsetting the one sprite:
 ```css
 .photo {
 	aspect-ratio: var(--frame-ar);          /* measured from the real crop, §2 */
-	background-image: url('/horse/frames.jpg');   /* absolute path — §10 */
+	background-image: url('./frames.jpg');   /* relative — the build rewrites it, §10 */
 	background-repeat: no-repeat;
 	background-size: calc(var(--n) * 100%) 100%;
 	/* frame i of N: */
@@ -464,10 +465,12 @@ and the `TAP · SWIPE` hint (§7).
 - **No commas inside functional pseudo-classes** — the `:has()` recipes in §5 are
   already comma-free; keep them that way, and write `a:hover` / `a:focus-visible`
   rules as separate selectors.
-- **The sprite URL is absolute**: `url('/horse/frames.jpg')`. A relative path
-  resolves against `/horse/` standalone but against `/` in the built root page and
-  breaks one of the two. (Prior sites hotlink external images; this is the repo's
-  first local asset — the absolute-path rule is new and non-negotiable.)
+- **The sprite URL is relative**: `url('./frames.jpg')`. `build.js` rewrites
+  relative `url()` targets in site CSS to `horse/…`, so the single source resolves
+  standalone at `/horse/`, in the built root page at `/`, and over `file://`. A
+  root-absolute path (`/horse/frames.jpg`) is **wrong** here: it only works when
+  the page is served from the domain root, and 404s when the file is opened
+  directly — that blank plate was FA-23's bug.
 - Never set `display` on `html`/`body`; no `position: fixed`; no literal `</style>`
   in CSS or `</script>` in JS (the caption text contains no markup, but the JS builds
   anchor selectors — keep string literals clean).

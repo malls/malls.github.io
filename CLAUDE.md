@@ -233,7 +233,22 @@ must keep their count and order.
   functional pseudo-classes (`:is(a, b)`) — write separate selectors; never set
   `display` on `html`/`body`; don't set the same property differently on `html`
   vs `body` (both map to the wrapper); no literal `</style>` in CSS or
-  `</script>` in JS.
+  `</script>` in JS. **No raw `;` inside an `@import` URL** — the statement
+  splitter is not string-aware and will cut the rule in half (percent-encode it
+  as `%3B`; e.g. Google Fonts `wght@500%3B800`).
+- **Local assets**: images and fonts a site owns live *in the site folder* and are
+  referenced **relatively** — `url('./frames.jpg')`, not `/site/frames.jpg` and not
+  a hotlink. The build rewrites relative `url()` targets in `style.css` to
+  `<name>/…`, so the one source works standalone at `/<name>/`, in the built root
+  page, and over both `http` and `file://`. Left untouched: `http(s):`,
+  protocol-relative `//`, `data:` URIs, any other `scheme:`, root-absolute `/…`,
+  and fragment refs (`filter: url(#<name>-goo)`) — so do **not** hand-write a
+  root-absolute path expecting it to survive `file://`. `@import` URLs are *not*
+  rewritten (they are for external resources only).
+- **Markup**: all sites share one document in the built page, so **every `id`
+  must be prefixed with the site name** — `filter: url(#goo)`,
+  `<use href="#x">`, `aria-labelledby` and friends resolve document-wide and
+  will silently bind to another site's element.
 - **JS**: the whole file is one registry function —
   `(window.SITES = window.SITES || {})['<name>'] = function (root) { ... };`
   Query only via `root.querySelector(All)`; listeners only on elements inside
@@ -241,6 +256,11 @@ must keep their count and order.
   Standalone boot at end of the site's own body:
   `<script src="./script.js"></script><script>SITES['<name>'](document);</script>`.
   In the combined page every site's JS runs on load, even while hidden.
+  `root` is the `document` standalone but the wrapper element in the build, so
+  never write styles to `root` itself (`Document` has no `.style`).
+- **Scrolling**: the built shell sets `html, body { height: 100%; overflow:
+  hidden }` and each wrapper to `height: 100%` — the combined page does not
+  scroll. A site taller than the viewport must own its own scroll container.
 
 **To add a sub-site**: build the folder to the contract, map it in
 `sites.config.json` (bucket key = lower bound of a 100px range, e.g. `"900":

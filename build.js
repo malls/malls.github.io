@@ -112,10 +112,61 @@ function scopeSelector(sel, site) {
 	return id + ' ' + sel;
 }
 
+// A url() target is rewritable only if it is a relative path inside the site
+// folder. Everything with its own resolution rule is left alone.
+function isRewritableUrl(u) {
+	if (u === '') return false;
+	if (u[0] === '#') return false;                          // SVG fragment: filter: url(#site-goo)
+	if (u[0] === '/') return false;                          // root-absolute /x AND protocol-relative //cdn
+	if (/^[a-zA-Z][a-zA-Z0-9+.\-]*:/.test(u)) return false;  // any scheme: http: https: data: mailto: …
+	return true;
+}
+
+// Rewrite relative url() targets in site CSS from site-folder-relative (how the
+// author writes them, so standalone /<site>/ works) to root-relative (how the
+// built index.html at the repo root needs them). String-aware: a url( token that
+// lives inside a quoted data: URI is part of that URI, not a nested url().
+function rewriteUrls(css, site) {
+	let out = '';
+	let i = 0;
+	for (;;) {
+		const at = css.indexOf('url(', i);
+		if (at === -1) { out += css.slice(i); return out; }
+		out += css.slice(i, at + 4);            // everything up to and including "url("
+		let j = at + 4;
+		while (j < css.length && /\s/.test(css[j])) j++;
+		const lead = css.slice(at + 4, j);      // whitespace after "url(", preserved
+		const q = css[j];
+		let value, tail, end;
+		if (q === '"' || q === "'") {
+			let k = j + 1;
+			while (k < css.length && css[k] !== q) { if (css[k] === '\\') k++; k++; }
+			if (k >= css.length) fail(site + '/style.css: unterminated string in url(');
+			value = css.slice(j + 1, k);        // verbatim between the quotes
+			tail = '';
+			end = k + 1;                        // just past the closing quote
+		} else {
+			let k = j;
+			while (k < css.length && css[k] !== ')') { if (css[k] === '\\') k++; k++; }
+			if (k >= css.length) fail(site + '/style.css: unterminated url(');
+			const raw = css.slice(j, k);
+			value = raw.trimEnd();              // CSS forbids unescaped WS inside an unquoted url token
+			tail = raw.slice(value.length);
+			end = k;                            // leave the ')' for the next slice
+		}
+		const next = isRewritableUrl(value) ? site + '/' + value.replace(/^\.\//, '') : value;
+		out += lead + (q === '"' || q === "'" ? q + next + q : next) + tail;
+		i = end;
+	}
+}
+
 function transformStatements(stmts, site, imports) {
 	const out = [];
 	for (const st of stmts) {
 		if (/^@import\b/i.test(st)) {
+			// not url-rewritten: by the authoring contract @import is for external
+			// resources only, and an imported sheet's own url()s never pass through
+			// this build anyway
 			imports.push(st); // hoisted to the top of the site's <style> block
 			continue;
 		}
@@ -124,12 +175,17 @@ function transformStatements(stmts, site, imports) {
 			if (open === -1) fail('CSS parse error in ' + site + '/style.css: at-rule without block: ' + st.slice(0, 60));
 			const prelude = st.slice(0, open).trim();
 			const inner = st.slice(open + 1, st.lastIndexOf('}'));
+			// no url rewriting here: the recursion below hands nested statements to
+			// the plain-rule / @keyframes branches, which do it (rewriting here too
+			// would double-prefix)
 			const innerOut = transformStatements(splitStatements(inner), site, imports);
 			out.push(prelude + ' {\n' + innerOut.join('\n') + '\n}');
 			continue;
 		}
 		if (/^@(keyframes|font-face)\b/i.test(st)) {
-			out.push(st); // convention: names are prefixed with the site name by the author
+			// whole statement: @font-face src and keyframed background-image both
+			// carry url()s, and the prelude never contains a "url(" token
+			out.push(rewriteUrls(st, site)); // convention: names are prefixed with the site name by the author
 			continue;
 		}
 		if (st[0] === '@') {
@@ -144,7 +200,8 @@ function transformStatements(stmts, site, imports) {
 			const s = scopeSelector(sel, site);
 			if (!scoped.includes(s)) scoped.push(s); // dedupe (html, body -> single #site-x)
 		}
-		out.push(scoped.join(', ') + ' {' + body + '}');
+		// declaration body only — selectors have no legitimate url()
+		out.push(scoped.join(', ') + ' {' + rewriteUrls(body, site) + '}');
 	}
 	return out;
 }
@@ -270,4 +327,6 @@ function build() {
 	console.log('build.js: wrote index.html (' + sites.length + ' site' + (sites.length === 1 ? '' : 's') + ': ' + sites.join(', ') + ')');
 }
 
-build();
+if (require.main === module) build();
+
+module.exports = { rewriteUrls, isRewritableUrl, transformCss };
