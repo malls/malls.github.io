@@ -171,7 +171,15 @@ html, body {
 	overflow-x: clip;
 }
 
+/* The combined shell pins the wrapper to 100% with no page scroll, and this site
+   is taller than the viewport — so it owns its own scroll container. Standalone
+   these two lines are inert: html has no height, so height:100% resolves to auto
+   and overflow-y:auto never engages. Note that overflow-x:clip above does NOT
+   force this axis to auto the way overflow-x:hidden would — clip + visible is a
+   legal pair, which is exactly how the content came to be silently clipped. */
 body {
+	height: 100%;
+	overflow-y: auto;
 	background: var(--paper);
 	color: var(--ink);
 	font-family: var(--font-body);
