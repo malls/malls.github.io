@@ -234,6 +234,11 @@ card's photo area. Visibility is CSS only:
 .stage:has(.frame:target) .frame:target        { visibility: visible; }
 ```
 
+One DOM-order footnote: `.frame:first-of-type` carries the default-frame duty, so
+the slides must be the first elements of their type inside `.stage` — the JS
+playback layer (§6) sits **after** the slides in the markup (or uses a different
+element type), or plate I never shows when there is no hash.
+
 Two contract points are load-bearing here. The `:has()` argument contains **no
 commas** (build.js's prefixer breaks on commas inside functional pseudo-classes —
 write separate selectors instead). And the `:has()` is **scoped to this stage's own
