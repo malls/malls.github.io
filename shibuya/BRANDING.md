@@ -103,7 +103,7 @@ three grounds (WCAG 2.1, computed):
 |---|---|---|---|
 | Paper Lantern `#F5F1E6` | **17.5** ✓ | **16.1** ✓ | **14.7** ✓ |
 | Beer Yellow `#FFC933` | **12.8** ✓ | **11.8** ✓ | **10.8** ✓ |
-| Pharmacy Green `#2EE58A` | **11.9** ✓ | **11.0** ✓ | **10.1** ✓ |
+| Pharmacy Green `#2EE58A` | **11.9** ✓ | **11.0** ✓ | **10.0** ✓ |
 | Konbini Cyan `#35D6FF` | **11.5** ✓ | **10.5** ✓ | **9.7** ✓ |
 | Izakaya Lantern `#FF5C33` | **6.4** ✓ | **5.9** ✓ | **5.4** ✓ |
 | Karaoke Magenta `#FF3D9E` | **6.0** ✓ | **5.5** ✓ | **5.1** ✓ |
@@ -204,7 +204,7 @@ fill**. Radii are in `em` so one class serves every size — glow scales with th
 .neon-nama    { color: #FFF9E8; --hue: #FFC933; --halo: rgb(255 201 51 / 0.40); }
 ```
 
-Every core measures above 17:1 on Night (computed — worst is `#FFEFE9` at 17.6), which
+Every core measures above 17:1 on Night (computed — worst is `#FFEDF6` at 17.6), which
 is why tube-glow type is legible in *any* hue, including Signal Blue: the letterform is
 the tube, and the tube is white. The contrast table in §2 governs type set flat in a
 neon hex — labels, links, anything without the tube treatment.
