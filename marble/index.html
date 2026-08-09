@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Forrest Almasi</title>
+
+	<meta charset="utf-8"/>
+	<meta name="viewport" content="width=device-width"/>
+	<meta name="description" content="Software developer Forrest Almasi's personal website">
+	<meta name="robots" content="noindex">
+
+	<style>
+		@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400%3B700&family=Cormorant+Garamond:ital,wght@0,500%3B0,600%3B1,500&display=swap');
+
+		:root {
+			/* grounds */
+			--paragone:   #12100C;
+			--basanite:   #1C1915;
+
+			/* stones */
+			--lapis:      #26428B;
+			--lapis-deep: #1B2F63;
+			--verde:      #1F5C45;
+			--rosso:      #71291D;
+			--giallo:     #C89B3C;
+
+			/* light stones — type only */
+			--alabaster:  #F2EBDA;
+			--calcite:    #FAF6EC;
+
+			/* gilt bronze */
+			--gilt:        #C9A34A;
+			--gilt-bright: #E6CC82;
+			--gilt-deep:   #7A6231;
+
+			/* joinery */
+			--kerf:   rgb(0 0 0 / 0.85);
+			--polish: rgb(255 245 220 / 0.07);
+
+			/* stones, quarried */
+			--tile-moulding: url('https://raw.githubusercontent.com/malls/forrest/master/public/images/marble/marb022.jpg');
+			--tile-frieze:   url('https://raw.githubusercontent.com/malls/forrest/master/public/images/marble/marb110.jpg');
+			--tile-reserve:  url('https://raw.githubusercontent.com/malls/forrest/master/public/images/marble/marb093.jpg');
+			--tile-corner:   url('https://raw.githubusercontent.com/malls/forrest/master/public/images/marble/marb144.jpg');
+			--tile-ground:   url('https://raw.githubusercontent.com/malls/forrest/master/public/images/marble/marb109.jpg');
+			--tile-agate:    url('https://raw.githubusercontent.com/malls/forrest/master/public/images/marble/marb044.jpg');
+			--tile-verde:    url('https://raw.githubusercontent.com/malls/forrest/master/public/images/marble/marb107.jpg');
+			--tile-lapis:    url('https://raw.githubusercontent.com/malls/forrest/master/public/images/marble/marb115.jpg');
+			--tile-rosso:    url('https://raw.githubusercontent.com/malls/forrest/master/public/images/marble/marb129.jpg');
+
+			--font-inscription: 'Cinzel', 'Trajan Pro', Georgia, serif;
+			--font-prose:       'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+
+			--t-label: clamp(0.66rem, 0.6rem + 0.15vw, 0.8rem);
+			--t-body:  clamp(1.06rem, 1rem + 0.2vw,   1.25rem);
+			--t-md:    clamp(1.3rem,  1.1rem + 0.5vw,  1.9rem);
+			--t-xl:    clamp(2rem,    1.1rem + 1.8vw,  4rem);
+
+			--moulding: clamp(12px, 1.4vw, 26px);
+			--frieze:   clamp(34px, 4.2vw, 68px);
+
+			--engraved: 0 1px 2px rgb(0 0 0 / 0.8);
+		}
+
+		html, body {
+			margin: 0;
+			padding: 0;
+			height: 100%;
+		}
+
+		body {
+			background: var(--paragone);
+			color: var(--alabaster);
+			font-family: var(--font-prose);
+			isolation: isolate;
+		}
+
+		.marble-defs {
+			position: absolute;
+			width: 0;
+			height: 0;
+		}
+
+		/* ── the slab, outside in ─────────────────────────────────────────── */
+
+		.moulding {
+			height: 100%;
+			box-sizing: border-box;
+			padding: var(--moulding);
+			background-image: var(--tile-moulding);
+			background-repeat: repeat;
+			box-shadow: inset 0 0 0 1px var(--kerf);
+		}
+
+		.frieze {
+			position: relative;
+			height: 100%;
+			box-sizing: border-box;
+			padding: var(--frieze);
+			background-image: var(--tile-frieze);
+			background-repeat: repeat;
+			box-shadow:
+				0 0 0 1px var(--kerf),
+				0 0 0 2px var(--gilt-deep),
+				0 0 0 3px var(--kerf),
+				inset 0 1px 0 rgb(255 245 220 / 0.10);
+		}
+
+		.corner {
+			position: absolute;
+			width: var(--frieze);
+			height: var(--frieze);
+			box-sizing: border-box;
+			background-image: var(--tile-corner);
+			background-repeat: repeat;
+			border: 1px solid var(--gilt-deep);
+			box-shadow:
+				0 0 0 1px var(--kerf),
+				inset 0 0 0 1px var(--kerf),
+				inset 0 1px 0 1px rgb(255 245 220 / 0.10);
+		}
+		.corner--tl { top: 0; left: 0; }
+		.corner--tr { top: 0; right: 0; }
+		.corner--bl { bottom: 0; left: 0; }
+		.corner--br { bottom: 0; right: 0; }
+
+		.reserve {
+			position: absolute;
+			width: clamp(64px, 6.5vw, 104px);
+			height: calc(var(--frieze) * 0.58);
+			border-radius: 50%;
+			background-image: var(--tile-reserve);
+			background-repeat: repeat;
+			box-shadow:
+				inset 0 0 0 1px var(--kerf),
+				inset 0 0 18px rgb(0 0 0 / 0.35),
+				0 0 0 1px var(--kerf),
+				0 0 0 2px var(--gilt-deep),
+				0 0 0 3px var(--kerf);
+		}
+		.reserve--tl { top: calc(var(--frieze) / 2); left: 25%; transform: translate(-50%, -50%); }
+		.reserve--tr { top: calc(var(--frieze) / 2); left: 75%; transform: translate(-50%, -50%); }
+		.reserve--bl { bottom: calc(var(--frieze) / 2); left: 25%; transform: translate(-50%, 50%); }
+		.reserve--br { bottom: calc(var(--frieze) / 2); left: 75%; transform: translate(-50%, 50%); }
+
+		.makers-mark {
+			position: absolute;
+			bottom: 0;
+			left: 50%;
+			transform: translateX(-50%);
+			height: var(--frieze);
+			margin: 0;
+			display: flex;
+			align-items: center;
+			font-family: var(--font-inscription);
+			font-size: max(var(--t-label), 11px);
+			font-weight: 400;
+			letter-spacing: 0.3em;
+			text-indent: 0.3em;
+			white-space: nowrap;
+			color: var(--gilt-bright);
+			text-shadow: var(--engraved);
+		}
+
+		.field {
+			position: relative;
+			height: 100%;
+			background-image: var(--tile-ground);
+			background-repeat: repeat;
+			box-shadow:
+				0 0 0 1px var(--kerf),
+				0 0 0 3px var(--gilt),
+				0 0 0 4px var(--kerf),
+				inset 0 1px 0 rgb(255 245 220 / 0.10);
+		}
+
+		.field::after {
+			content: "";
+			position: absolute;
+			inset: 0;
+			pointer-events: none;
+			box-shadow: inset 0 0 180px rgb(0 0 0 / 0.55);
+		}
+
+		/* ── the sheen ────────────────────────────────────────────────────── */
+
+		.sheen {
+			position: absolute;
+			inset: 0;
+			overflow: hidden;
+			pointer-events: none;
+			mix-blend-mode: screen;
+		}
+
+		.sheen::before {
+			content: "";
+			position: absolute;
+			top: -25%;
+			bottom: -25%;
+			left: -60%;
+			width: 45%;
+			background: linear-gradient(
+				90deg,
+				rgb(255 245 220 / 0) 0%,
+				var(--polish) 42%,
+				rgb(255 245 220 / 0.10) 50%,
+				var(--polish) 58%,
+				rgb(255 245 220 / 0) 100%
+			);
+			transform: translateX(0) skewX(-18deg);
+			animation: marble-sheen 45s ease-in-out infinite alternate;
+		}
+
+		@keyframes marble-sheen {
+			from { transform: translateX(0) skewX(-18deg); }
+			to   { transform: translateX(420%) skewX(-18deg); }
+		}
+
+		/* ── composition ──────────────────────────────────────────────────── */
+
+		.composition {
+			position: relative;
+			height: 100%;
+			box-sizing: border-box;
+			overflow-y: auto;
+			overflow-x: clip;
+			display: flex;
+			align-items: stretch;
+			justify-content: center;
+			gap: clamp(1rem, 3vw, 5rem);
+			padding: clamp(1.5rem, 3vh, 3rem) clamp(1rem, 3vw, 4rem);
+		}
+
+		.wing {
+			display: flex;
+			align-items: center;
+			flex: 0 1 clamp(150px, 16vw, 300px);
+			min-width: 0;
+		}
+
+		.wing svg {
+			width: 100%;
+			height: auto;
+			max-height: 86vh;
+		}
+
+		.wing--right {
+			transform: scaleX(-1);
+		}
+
+		.w-volute { fill: none; stroke: var(--gilt-deep); stroke-width: 2; }
+		.w-stem   { fill: none; stroke: var(--gilt-deep); stroke-width: 1.5; }
+		.w-leaf   { fill: url(#marble-p-verde);  stroke: var(--gilt-deep); stroke-width: 1; }
+		.w-husk   { fill: url(#marble-p-giallo); stroke: var(--gilt-deep); stroke-width: 1; }
+		.w-petals { fill: url(#marble-p-rosso);  stroke: var(--gilt-deep); stroke-width: 1; }
+		.w-heart  { fill: url(#marble-p-giallo); stroke: var(--gilt-deep); stroke-width: 1; }
+
+		.centre {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			gap: clamp(1.4rem, 3.2vh, 2.8rem);
+			margin: auto 0;
+			flex: 0 1 auto;
+			min-width: 0;
+		}
+
+		/* ── the cartouche ────────────────────────────────────────────────── */
+
+		.cartouche {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			box-sizing: border-box;
+			width: min(50rem, 100%);
+			aspect-ratio: 2.3 / 1;
+			border-radius: 50%;
+			background-image: var(--tile-agate);
+			background-repeat: repeat;
+			padding: 6% 9%;
+			box-shadow:
+				inset 0 0 0 1px var(--kerf),
+				inset 0 0 0 3px var(--gilt),
+				inset 0 0 0 4px var(--kerf),
+				inset 0 0 44px rgb(0 0 0 / 0.5),
+				0 0 0 1px var(--kerf),
+				0 0 0 3px var(--gilt-deep),
+				0 0 0 5px var(--gilt-bright),
+				0 0 0 6px var(--kerf);
+		}
+
+		.titulus {
+			box-sizing: border-box;
+			max-width: 100%;
+			padding: clamp(0.8rem, 2vh, 1.4rem) clamp(1.2rem, 2.6vw, 2.6rem);
+			background: var(--basanite);
+			border: 1px solid var(--gilt-deep);
+			box-shadow:
+				0 0 0 1px var(--kerf),
+				inset 0 0 0 1px var(--kerf),
+				inset 0 1px 0 1px rgb(255 245 220 / 0.10);
+			text-align: center;
+		}
+
+		.titulus h1 {
+			margin: 0;
+			font-family: var(--font-inscription);
+			font-size: var(--t-xl);
+			font-weight: 700;
+			letter-spacing: 0.18em;
+			text-indent: 0.18em;
+			text-transform: uppercase;
+			white-space: nowrap;
+			color: var(--gilt-bright);
+			text-shadow: var(--engraved);
+		}
+
+		.role {
+			margin: 0.6em 0 0;
+			font-family: var(--font-inscription);
+			font-size: max(var(--t-label), 11px);
+			font-weight: 400;
+			letter-spacing: 0.3em;
+			text-indent: 0.3em;
+			text-transform: uppercase;
+			color: var(--gilt);
+			text-shadow: var(--engraved);
+		}
+
+		/* ── the plaque ───────────────────────────────────────────────────── */
+
+		.plaque {
+			box-sizing: border-box;
+			width: min(40rem, 100%);
+			padding: clamp(1.1rem, 2.4vh, 1.8rem) clamp(1.4rem, 3vw, 2.6rem);
+			background: var(--basanite);
+			border: 1px solid var(--gilt-deep);
+			box-shadow:
+				0 0 0 1px var(--kerf),
+				inset 0 0 0 1px var(--kerf),
+				inset 0 1px 0 1px rgb(255 245 220 / 0.10);
+			text-align: center;
+		}
+
+		.plaque h2 {
+			margin: 0 0 0.35em;
+			font-family: var(--font-prose);
+			font-style: italic;
+			font-weight: 600;
+			font-size: var(--t-md);
+			color: var(--alabaster);
+		}
+
+		.plaque p {
+			margin: 0 auto;
+			max-width: 58ch;
+			font-size: max(var(--t-body), 17px);
+			font-weight: 500;
+			line-height: 1.65;
+			color: var(--alabaster);
+		}
+
+		/* ── link reserves ────────────────────────────────────────────────── */
+
+		.reserves {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			flex-wrap: wrap;
+			gap: clamp(0.9rem, 2vw, 1.8rem);
+		}
+
+		.pill {
+			position: relative;
+			display: inline-block;
+			box-sizing: border-box;
+			padding: 0.85rem 1.9rem;
+			border-radius: 999px;
+			background-color: rgb(0 0 0 / 0.45);
+			background-blend-mode: multiply;
+			background-repeat: repeat;
+			border: 1px solid var(--gilt-deep);
+			box-shadow:
+				0 0 0 1px var(--kerf),
+				inset 0 0 0 1px var(--kerf),
+				inset 0 1px 0 1px rgb(255 245 220 / 0.10),
+				inset 0 0 24px rgb(0 0 0 / 0.35);
+			font-family: var(--font-inscription);
+			font-size: max(var(--t-label), 11px);
+			font-weight: 400;
+			letter-spacing: 0.22em;
+			text-indent: 0.22em;
+			text-transform: uppercase;
+			text-decoration: none;
+			white-space: nowrap;
+			color: var(--alabaster);
+			text-shadow: var(--engraved);
+			transition: border-color 280ms ease-out;
+		}
+
+		.pill::after {
+			content: "";
+			position: absolute;
+			inset: 0;
+			border-radius: 999px;
+			background: var(--polish);
+			opacity: 0;
+			pointer-events: none;
+			transition: opacity 280ms ease-out;
+		}
+
+		.pill:hover { border-color: var(--gilt-bright); }
+		.pill:hover::after { opacity: 1; }
+
+		.pill:focus-visible {
+			outline: 1px solid var(--gilt-bright);
+			outline-offset: 3px;
+		}
+
+		.pill--github  { background-image: var(--tile-verde); }
+		.pill--twitter { background-image: var(--tile-lapis); }
+		.pill--email   { background-image: var(--tile-rosso); }
+
+		/* ── narrower tables ──────────────────────────────────────────────── */
+
+		@media (max-width: 1100px) {
+			.wing { display: none; }
+		}
+
+		@media (max-width: 700px) {
+			.reserve { display: none; }
+			.cartouche {
+				aspect-ratio: auto;
+				border-radius: 50% / 38%;
+				padding: 12% 7%;
+			}
+			.titulus h1 { white-space: normal; font-size: clamp(1.3rem, 7.5vw, 2rem); letter-spacing: 0.12em; text-indent: 0.12em; }
+			.reserves { flex-direction: column; align-items: stretch; }
+			.pill { white-space: normal; text-indent: 0; text-align: center; max-width: 100%; }
+			.makers-mark { font-size: 9px; letter-spacing: 0.22em; }
+		}
+
+		@media (prefers-reduced-motion: reduce) {
+			.sheen { display: none; }
+		}
+	</style>
+</head>
+<body>
+	<svg class="marble-defs" width="0" height="0" aria-hidden="true" focusable="false">
+		<defs>
+			<pattern id="marble-p-verde" patternUnits="userSpaceOnUse" width="320" height="256">
+				<image href="https://raw.githubusercontent.com/malls/forrest/master/public/images/marble/marb034.jpg" width="320" height="256"/>
+			</pattern>
+			<pattern id="marble-p-rosso" patternUnits="userSpaceOnUse" width="240" height="182">
+				<image href="https://raw.githubusercontent.com/malls/forrest/master/public/images/marble/marb133.jpg" width="240" height="182"/>
+			</pattern>
+			<pattern id="marble-p-giallo" patternUnits="userSpaceOnUse" width="150" height="150">
+				<image href="https://raw.githubusercontent.com/malls/forrest/master/public/images/marble/marb113.jpg" width="150" height="150"/>
+			</pattern>
+			<path id="marble-leaf" d="M0 0 C 14 -11 36 -13 52 0 C 36 13 14 11 0 0 Z"/>
+			<g id="marble-petals">
+				<ellipse cy="-13" rx="6.5" ry="13"/>
+				<ellipse cy="-13" rx="6.5" ry="13" transform="rotate(72)"/>
+				<ellipse cy="-13" rx="6.5" ry="13" transform="rotate(144)"/>
+				<ellipse cy="-13" rx="6.5" ry="13" transform="rotate(216)"/>
+				<ellipse cy="-13" rx="6.5" ry="13" transform="rotate(288)"/>
+			</g>
+		</defs>
+	</svg>
+
+	<main class="moulding">
+		<div class="frieze">
+			<span class="corner corner--tl"></span>
+			<span class="corner corner--tr"></span>
+			<span class="corner corner--bl"></span>
+			<span class="corner corner--br"></span>
+			<span class="reserve reserve--tl"></span>
+			<span class="reserve reserve--tr"></span>
+			<span class="reserve reserve--bl"></span>
+			<span class="reserve reserve--br"></span>
+			<p class="makers-mark">FORRESTALMASI.COM &middot; MMXXVI</p>
+
+			<div class="field">
+				<div class="sheen" aria-hidden="true"></div>
+				<div class="composition">
+					<div class="wing wing--left" aria-hidden="true">
+						<svg viewBox="0 0 240 620" role="presentation" focusable="false">
+							<path class="w-volute" d="M116 44 C 176 30 212 66 204 108 C 197 144 162 164 132 150 C 108 139 102 112 118 98 C 130 87 150 92 155 106 C 159 117 151 127 141 127"/>
+							<path class="w-stem" d="M139 130 C 98 240 94 332 122 420 C 136 468 138 520 114 588"/>
+							<use href="#marble-leaf" class="w-leaf" transform="translate(112 200) rotate(196) scale(1.05)"/>
+							<use href="#marble-leaf" class="w-leaf" transform="translate(108 236) rotate(-16) scale(0.9)"/>
+							<use href="#marble-leaf" class="w-leaf" transform="translate(102 282) rotate(202) scale(1.1)"/>
+							<use href="#marble-leaf" class="w-leaf" transform="translate(101 330) rotate(-8) scale(0.95)"/>
+							<use href="#marble-leaf" class="w-leaf" transform="translate(106 378) rotate(208) scale(1.05)"/>
+							<use href="#marble-leaf" class="w-leaf" transform="translate(115 424) rotate(4) scale(0.9)"/>
+							<use href="#marble-leaf" class="w-husk" transform="translate(130 462) rotate(214) scale(0.8)"/>
+							<use href="#marble-leaf" class="w-husk" transform="translate(132 502) rotate(16) scale(0.72)"/>
+							<use href="#marble-leaf" class="w-husk" transform="translate(126 542) rotate(222) scale(0.66)"/>
+							<g transform="translate(158 214)">
+								<use href="#marble-petals" class="w-petals"/>
+								<circle r="5.5" class="w-heart"/>
+							</g>
+							<g transform="translate(66 352) scale(0.85)">
+								<use href="#marble-petals" class="w-petals"/>
+								<circle r="5.5" class="w-heart"/>
+							</g>
+							<g transform="translate(160 470) scale(0.7)">
+								<use href="#marble-petals" class="w-petals"/>
+								<circle r="5.5" class="w-heart"/>
+							</g>
+						</svg>
+					</div>
+
+					<div class="centre">
+						<header class="cartouche">
+							<div class="titulus">
+								<h1>Forrest Almasi</h1>
+								<p class="role">Software &middot; Developer</p>
+							</div>
+						</header>
+
+						<section class="plaque">
+							<h2>What's up?</h2>
+							<p>I build software. I specialize in full-stack agentic development.</p>
+						</section>
+
+						<nav class="reserves" aria-label="Elsewhere">
+							<a class="pill pill--github" href="https://github.com/malls">GitHub &middot; @malls</a>
+							<a class="pill pill--twitter" href="https://twitter.com/forrestalmasi">Twitter &middot; @forrestalmasi</a>
+							<a class="pill pill--email" href="mailto:_@forrestalmasi.com">Email &middot; _@forrestalmasi.com</a>
+						</nav>
+					</div>
+
+					<div class="wing wing--right" aria-hidden="true">
+						<svg viewBox="0 0 240 620" role="presentation" focusable="false">
+							<path class="w-volute" d="M116 44 C 176 30 212 66 204 108 C 197 144 162 164 132 150 C 108 139 102 112 118 98 C 130 87 150 92 155 106 C 159 117 151 127 141 127"/>
+							<path class="w-stem" d="M139 130 C 98 240 94 332 122 420 C 136 468 138 520 114 588"/>
+							<use href="#marble-leaf" class="w-leaf" transform="translate(112 200) rotate(196) scale(1.05)"/>
+							<use href="#marble-leaf" class="w-leaf" transform="translate(108 236) rotate(-16) scale(0.9)"/>
+							<use href="#marble-leaf" class="w-leaf" transform="translate(102 282) rotate(202) scale(1.1)"/>
+							<use href="#marble-leaf" class="w-leaf" transform="translate(101 330) rotate(-8) scale(0.95)"/>
+							<use href="#marble-leaf" class="w-leaf" transform="translate(106 378) rotate(208) scale(1.05)"/>
+							<use href="#marble-leaf" class="w-leaf" transform="translate(115 424) rotate(4) scale(0.9)"/>
+							<use href="#marble-leaf" class="w-husk" transform="translate(130 462) rotate(214) scale(0.8)"/>
+							<use href="#marble-leaf" class="w-husk" transform="translate(132 502) rotate(16) scale(0.72)"/>
+							<use href="#marble-leaf" class="w-husk" transform="translate(126 542) rotate(222) scale(0.66)"/>
+							<g transform="translate(158 214)">
+								<use href="#marble-petals" class="w-petals"/>
+								<circle r="5.5" class="w-heart"/>
+							</g>
+							<g transform="translate(66 352) scale(0.85)">
+								<use href="#marble-petals" class="w-petals"/>
+								<circle r="5.5" class="w-heart"/>
+							</g>
+							<g transform="translate(160 470) scale(0.7)">
+								<use href="#marble-petals" class="w-petals"/>
+								<circle r="5.5" class="w-heart"/>
+							</g>
+						</svg>
+					</div>
+				</div>
+			</div>
+		</div>
+	</main>
+</body>
+</html>
