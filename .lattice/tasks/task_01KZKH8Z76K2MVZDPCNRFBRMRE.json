@@ -1,7 +1,7 @@
 {
   "assigned_to": null,
   "branch_links": [],
-  "comment_count": 1,
+  "comment_count": 2,
   "complexity": null,
   "created_at": "2026-08-09T15:11:47Z",
   "created_by": "agent:claude-fable-5",
@@ -10,7 +10,7 @@
   "done_at": null,
   "evidence_refs": [],
   "id": "task_01KZKH8Z76K2MVZDPCNRFBRMRE",
-  "last_event_id": "ev_01KZKH8ZARDB0P922XVJTR4QMJ",
+  "last_event_id": "ev_01KZKHT6JTKE11D3JRBPVXBZ34",
   "last_status_changed_at": "2026-08-09T15:11:47Z",
   "priority": "medium",
   "relationships_out": [],
@@ -21,6 +21,6 @@
   "tags": null,
   "title": "slop/: switch hardcoded /slop/*.png url() refs to relative now that build.js rewrites them",
   "type": "task",
-  "updated_at": "2026-08-09T15:11:47Z",
+  "updated_at": "2026-08-09T15:21:12Z",
   "urgency": null
 }

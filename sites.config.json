@@ -8,6 +8,7 @@
 	"buckets": {
 		"500": "slop",
 		"600": "liquid",
+		"700": "software",
 		"800": "random",
 		"900": "vhs",
 		"1000": "isomorphic",
