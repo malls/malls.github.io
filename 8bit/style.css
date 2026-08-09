@@ -163,9 +163,10 @@ body {
 	animation: eightbit-blink 1.06s steps(1, end) infinite;
 }
 
-/* ---- the room */
+/* ---- the rooms: three screens, one visible, swapped by data-level on the stage */
 
 .room {
+	display: none;
 	position: absolute;
 	top: calc(var(--px) * 48);
 	left: 0;
@@ -173,7 +174,43 @@ body {
 	height: calc(var(--px) * 176);
 	overflow: hidden;
 	background-size: var(--tile) var(--tile);
+}
+
+.room-1 {
 	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' shape-rendering='crispEdges'%3E%3Crect width='16' height='16' fill='%2300A844'/%3E%3Cpath fill='%23007028' d='M3 4h1v1H3zM11 2h1v1H11zM6 10h1v1H6zM13 12h1v1H13zM1 8h1v1H1zM9 6h1v1H9z'/%3E%3C/svg%3E");
+}
+
+.room-2 {
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' shape-rendering='crispEdges'%3E%3Crect width='16' height='16' fill='%2300A844'/%3E%3Cpath fill='%23007028' d='M3 4h1v1H3zM11 2h1v1H11zM6 10h1v1H6zM13 12h1v1H13zM1 8h1v1H1zM9 6h1v1H9z'/%3E%3C/svg%3E");
+}
+
+.room-3 {
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' shape-rendering='crispEdges'%3E%3Crect width='16' height='16' fill='%230A0A12'/%3E%3Cpath fill='%2314143C' d='M2 2h1v1H2zM12 5h1v1H12zM6 9h1v1H6zM14 10h1v1H14zM4 14h1v1H4zM10 13h1v1H10z'/%3E%3C/svg%3E");
+}
+
+.stage[data-level='1'] .room-1 {
+	display: block;
+}
+
+.stage[data-level='2'] .room-2 {
+	display: block;
+}
+
+.stage[data-level='3'] .room-3 {
+	display: block;
+}
+
+/* the hero's overlay: room geometry, above every room, clicks pass through */
+
+.field {
+	position: absolute;
+	top: calc(var(--px) * 48);
+	left: 0;
+	width: calc(var(--px) * 256);
+	height: calc(var(--px) * 176);
+	overflow: hidden;
+	z-index: 5;
+	pointer-events: none;
 }
 
 .strip,
@@ -235,6 +272,60 @@ body {
 	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' shape-rendering='crispEdges'%3E%3Crect width='16' height='16' fill='%2300A844'/%3E%3Cpath fill='%237C7C7C' d='M6 3h4v1H6zM4 4h8v1H4zM3 5h10v6H3z'/%3E%3Cpath fill='%2314143C' d='M7 6h1v2H7zM9 8h2v1H9z'/%3E%3Cpath fill='%23B85C14' d='M3 11h10v1H3z'/%3E%3C/svg%3E");
 }
 
+/* the cut ends of a wall: grass with a 2-pixel navy shade band top and bottom */
+
+.gap-e,
+.gap-w {
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' shape-rendering='crispEdges'%3E%3Crect width='16' height='16' fill='%2300A844'/%3E%3Cpath fill='%2314143C' d='M0 0h16v2H0zM0 14h16v2H0z'/%3E%3Cpath fill='%23007028' d='M4 5h1v1H4zM11 9h1v1H11z'/%3E%3C/svg%3E");
+}
+
+/* the stairs out of the dungeon: navy with void step bands */
+
+.gap-s {
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' shape-rendering='crispEdges'%3E%3Crect width='16' height='16' fill='%2314143C'/%3E%3Cpath fill='%230A0A12' d='M0 2h16v2H0zM0 7h16v2H0zM0 12h16v2H0z'/%3E%3C/svg%3E");
+}
+
+.rockface {
+	top: calc(var(--tile) * 3);
+	left: calc(var(--tile) * 9);
+	width: calc(var(--tile) * 5);
+	height: calc(var(--tile) * 2);
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' shape-rendering='crispEdges'%3E%3Crect width='16' height='16' fill='%23B85C14'/%3E%3Cpath fill='%237C7C7C' d='M2 2h5v5H2zM9 1h6v4H9zM1 9h6v6H1zM8 7h7v7H8z'/%3E%3Cpath fill='%230A0A12' d='M4 4h1v2H4zM11 2h1v2H11zM3 11h1v2H3zM10 9h1v3H10zM13 12h1v1H13z'/%3E%3C/svg%3E");
+}
+
+/* the cave mouth: scenery with door mechanics, never an anchor */
+
+.cave {
+	position: absolute;
+	width: var(--tile);
+	height: var(--tile);
+	background-size: var(--tile) var(--tile);
+	image-rendering: pixelated;
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' shape-rendering='crispEdges'%3E%3Crect width='16' height='16' fill='%237C7C7C'/%3E%3Cpath fill='%2314143C' d='M4 4h8v2H4zM3 6h10v10H3z'/%3E%3Cpath fill='%230A0A12' d='M5 7h6v9H5z'/%3E%3C/svg%3E");
+}
+
+.cave::after {
+	content: '';
+	position: absolute;
+	inset: 0;
+	display: none;
+	background-size: var(--tile) var(--tile);
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' shape-rendering='crispEdges'%3E%3Cpath fill='%23F8B800' d='M7 2h2v2H7zM3 5h1v1H3zM12 4h1v1H12z'/%3E%3C/svg%3E");
+}
+
+.cave.lit::after {
+	display: block;
+}
+
+.pond {
+	top: calc(var(--tile) * 6);
+	left: calc(var(--tile) * 5);
+	width: calc(var(--tile) * 4);
+	height: calc(var(--tile) * 2);
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' shape-rendering='crispEdges'%3E%3Crect width='16' height='16' fill='%230058F8'/%3E%3Cpath fill='%230000A8' d='M2 3h4v1H2zM9 6h4v1H9zM4 11h4v1H4zM11 13h3v1H11z'/%3E%3C/svg%3E");
+	animation: eightbit-shimmer 1s steps(1, end) infinite;
+}
+
 /* ---- structures: 3x2 tiles on the top wall, sign band over the top row, door at bottom centre */
 
 .gate {
@@ -256,6 +347,18 @@ body {
 
 .gate-email {
 	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 32' shape-rendering='crispEdges'%3E%3Crect width='48' height='32' fill='%23F0BC5C'/%3E%3Cpath fill='%23B85C14' d='M0 0h48v1H0zM0 31h48v1H0zM0 0h1v32H0zM47 0h1v32H47z'/%3E%3Cpath fill='%23F83800' d='M0 16h48v4H0z'/%3E%3Cpath fill='%23FCFCFC' d='M4 23h8v5H4zM36 23h8v5H36z'/%3E%3Cpath fill='%230A0A12' d='M4 23h8v1H4zM6 24h1v1H6zM9 24h1v1H9zM7 25h2v1H7zM36 23h8v1H36zM38 24h1v1H38zM41 24h1v1H41zM39 25h2v1H39z'/%3E%3C/svg%3E");
+}
+
+.gate-linkedin {
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 32' shape-rendering='crispEdges'%3E%3Crect width='48' height='32' fill='%237C7C7C'/%3E%3Cpath fill='%2314143C' d='M0 0h48v1H0zM0 15h48v1H0zM0 31h48v1H0zM0 0h1v32H0zM47 0h1v32H47zM11 1h1v14H11zM23 1h1v14H23zM35 1h1v14H35z'/%3E%3Cpath fill='%230058F8' d='M4 18h6v8H4zM38 18h6v8H38z'/%3E%3Cpath fill='%230000A8' d='M4 24h6v2H4zM38 24h6v2H38zM4 26h2v2H4zM8 26h2v2H8zM38 26h2v2H38zM42 26h2v2H42z'/%3E%3C/svg%3E");
+}
+
+.gate-random {
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 32' shape-rendering='crispEdges'%3E%3Crect width='48' height='32' fill='%23F0BC5C'/%3E%3Cpath fill='%23B85C14' d='M0 0h48v1H0zM0 15h48v1H0zM0 31h48v1H0zM0 0h1v32H0zM47 0h1v32H47z'/%3E%3Cpath fill='%23FCFCFC' d='M4 21h8v8H4zM36 21h8v8H36z'/%3E%3Cpath fill='%230A0A12' d='M5 22h1v1H5zM7 24h1v1H7zM9 26h1v1H9zM37 22h1v1H37zM41 22h1v1H41zM39 24h1v1H39zM37 26h1v1H37zM41 26h1v1H41z'/%3E%3C/svg%3E");
+}
+
+.gate-software {
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 32' shape-rendering='crispEdges'%3E%3Crect width='48' height='32' fill='%237C7C7C'/%3E%3Cpath fill='%2314143C' d='M0 0h48v1H0zM0 15h48v1H0zM0 31h48v1H0zM0 0h1v32H0zM47 0h1v32H47zM11 1h1v14H11zM23 1h1v14H23zM35 1h1v14H35z'/%3E%3Cpath fill='%230A0A12' d='M3 19h10v8H3zM35 19h10v8H35z'/%3E%3Cpath fill='%2300E8D8' d='M4 20h8v6H4zM36 20h8v6H36z'/%3E%3Cpath fill='%230A0A12' d='M5 21h2v1H5zM5 23h4v1H5zM37 21h2v1H37zM37 23h4v1H37z'/%3E%3C/svg%3E");
 }
 
 .plate {
@@ -368,6 +471,45 @@ body {
 	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' shape-rendering='crispEdges'%3E%3Cpath fill='%23E40058' d='M4 5h8v6H4zM3 7h1v4H3zM12 7h1v4H12zM5 11h2v2H5zM9 11h2v2H9z'/%3E%3Cpath fill='%23FCFCFC' d='M5 7h2v2H5zM9 7h2v2H9z'/%3E%3Cpath fill='%230A0A12' d='M6 8h1v1H6zM9 8h1v1H9z'/%3E%3C/svg%3E");
 }
 
+/* ---- dungeon props: fires flicker in 2 hard frames, the old man never moves */
+
+.fire {
+	position: absolute;
+	width: var(--tile);
+	height: var(--tile);
+	background-size: var(--tile) var(--tile);
+	image-rendering: pixelated;
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' shape-rendering='crispEdges'%3E%3Cpath fill='%23F83800' d='M7 2h2v2H7zM5 4h6v3H5zM4 7h8v4H4zM5 11h6v2H5z'/%3E%3Cpath fill='%23F8B800' d='M7 6h2v2H7zM6 8h4v3H6z'/%3E%3C/svg%3E");
+	animation: eightbit-flicker 0.5s steps(1, end) infinite;
+}
+
+.oldman {
+	position: absolute;
+	width: var(--tile);
+	height: var(--tile);
+	background-size: var(--tile) var(--tile);
+	image-rendering: pixelated;
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' shape-rendering='crispEdges'%3E%3Cpath fill='%230A0A12' d='M5 1h6v1H5z'/%3E%3Cpath fill='%23FCA860' d='M5 2h6v3H5z'/%3E%3Cpath fill='%230A0A12' d='M6 3h1v1H6zM9 3h1v1H9z'/%3E%3Cpath fill='%23FCFCFC' d='M4 5h8v2H4z'/%3E%3Cpath fill='%23B85C14' d='M4 7h8v6H4zM3 7h1v2H3zM12 7h1v2H12z'/%3E%3Cpath fill='%23FCA860' d='M3 9h1v1H3zM12 9h1v1H12z'/%3E%3Cpath fill='%230A0A12' d='M4 13h3v1H4zM9 13h3v1H9z'/%3E%3C/svg%3E");
+}
+
+/* the dialogue plate: 10x4 tiles, navy with a stone ring, phosphor 8px lines */
+
+.about {
+	position: absolute;
+	left: calc(var(--tile) * 3);
+	top: calc(var(--tile) * 5);
+	width: calc(var(--tile) * 10);
+	height: calc(var(--tile) * 4);
+	margin: 0;
+	background: var(--navy);
+	box-shadow: inset 0 0 0 var(--px) var(--stone);
+	color: var(--hud);
+	font-size: calc(var(--px) * 8);
+	line-height: calc(var(--px) * 16);
+	text-align: center;
+	z-index: 2;
+}
+
 /* ---- d-pad (coarse pointers) */
 
 .dpad {
@@ -417,6 +559,18 @@ body {
 	}
 	100% {
 		background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' shape-rendering='crispEdges'%3E%3Crect width='16' height='16' fill='%230058F8'/%3E%3Cpath fill='%230000A8' d='M4 3h4v1H4zM7 6h4v1H7zM2 11h4v1H2zM9 13h3v1H9z'/%3E%3C/svg%3E");
+	}
+}
+
+@keyframes eightbit-flicker {
+	0% {
+		background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' shape-rendering='crispEdges'%3E%3Cpath fill='%23F83800' d='M7 2h2v2H7zM5 4h6v3H5zM4 7h8v4H4zM5 11h6v2H5z'/%3E%3Cpath fill='%23F8B800' d='M7 6h2v2H7zM6 8h4v3H6z'/%3E%3C/svg%3E");
+	}
+	50% {
+		background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' shape-rendering='crispEdges'%3E%3Cpath fill='%23F83800' d='M6 2h2v2H6zM5 4h6v3H5zM4 7h8v4H4zM5 11h6v2H5z'/%3E%3Cpath fill='%23F8B800' d='M6 6h3v2H6zM6 8h4v3H6z'/%3E%3C/svg%3E");
+	}
+	100% {
+		background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' shape-rendering='crispEdges'%3E%3Cpath fill='%23F83800' d='M6 2h2v2H6zM5 4h6v3H5zM4 7h8v4H4zM5 11h6v2H5z'/%3E%3Cpath fill='%23F8B800' d='M6 6h3v2H6zM6 8h4v3H6z'/%3E%3C/svg%3E");
 	}
 }
 

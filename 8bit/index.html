@@ -13,12 +13,23 @@
 
 <body>
 	<div class="cabinet">
-		<p class="sr">Forrest Almasi, software developer. This page is a small game: click the
-			screen, move the hero with the arrow keys, walk to a door and press up to follow its
-			link. The three doors — GitHub, Twitter, and Email — are ordinary links you can also
-			click, tap, or reach with Tab.</p>
+		<nav class="sr" aria-label="Site links">
+			<p>Forrest Almasi, software developer. This page is a small game across three
+				screens: click the screen, move the hero with the arrow keys, walk to a door
+				and press up to follow its link. A gap in the right wall leads to a second
+				screen; the cave there leads to a room about Forrest; every doorway is an
+				ordinary link. All destinations:</p>
+			<ul>
+				<li><a href="https://github.com/malls">GitHub</a></li>
+				<li><a href="https://twitter.com/forrestalmasi">Twitter</a></li>
+				<li><a href="mailto:_@forrestalmasi.com">Email</a></li>
+				<li><a href="https://www.linkedin.com/in/forrestalmasi">LinkedIn</a></li>
+				<li><a href="/random/">Random — another version of this site</a></li>
+				<li><a href="/software/">Software — another version of this site</a></li>
+			</ul>
+		</nav>
 
-		<div class="stage" tabindex="0" aria-label="Playable level. Arrow keys move the hero; up at a door follows its link.">
+		<div class="stage" tabindex="0" data-level="1" aria-label="Playable level. Arrow keys move the hero; up at a door follows its link; gaps in the walls lead to more screens.">
 			<div class="hud" aria-hidden="true">
 				<p class="wordmark">FORREST ALMASI</p>
 				<p class="tagline">SOFTWARE DEVELOPER</p>
@@ -31,12 +42,14 @@
 				<p class="prompt blink">PRESS START - CLICK OR TAB</p>
 			</div>
 
-			<div class="room">
+			<div class="room room-1">
 				<span class="strip wall-top"></span>
 				<span class="strip wall-r1"></span>
 				<span class="strip wall-left"></span>
 				<span class="strip wall-right"></span>
 				<span class="strip wall-bottom"></span>
+
+				<span class="tile gap-e" style="left: calc(var(--tile) * 15); top: calc(var(--tile) * 4);"></span>
 
 				<span class="strip river"></span>
 				<span class="strip bridge"></span>
@@ -67,7 +80,61 @@
 				</div>
 
 				<span class="critter" data-frame="0" aria-hidden="true" style="left: calc(var(--tile) * 11); top: calc(var(--tile) * 9);"></span>
-				<span class="hero" data-face="down" data-frame="0" aria-hidden="true" style="left: calc(var(--tile) * 8); top: calc(var(--tile) * 9);"></span>
+			</div>
+
+			<div class="room room-2">
+				<span class="strip wall-top"></span>
+				<span class="strip wall-r1"></span>
+				<span class="strip wall-left"></span>
+				<span class="strip wall-right"></span>
+				<span class="strip wall-bottom"></span>
+
+				<span class="tile gap-w" style="left: calc(var(--tile) * 0); top: calc(var(--tile) * 4);"></span>
+
+				<span class="strip rockface"></span>
+				<span class="cave" style="left: calc(var(--tile) * 11); top: calc(var(--tile) * 4);"></span>
+				<span class="strip pond"></span>
+
+				<span class="tile bush" style="left: calc(var(--tile) * 2); top: calc(var(--tile) * 3);"></span>
+				<span class="tile bush" style="left: calc(var(--tile) * 3); top: calc(var(--tile) * 3);"></span>
+				<span class="tile bush" style="left: calc(var(--tile) * 3); top: calc(var(--tile) * 5);"></span>
+				<span class="tile bush" style="left: calc(var(--tile) * 11); top: calc(var(--tile) * 7);"></span>
+				<span class="tile bush" style="left: calc(var(--tile) * 12); top: calc(var(--tile) * 7);"></span>
+				<span class="tile bush" style="left: calc(var(--tile) * 11); top: calc(var(--tile) * 8);"></span>
+				<span class="tile rock" style="left: calc(var(--tile) * 3); top: calc(var(--tile) * 8);"></span>
+
+				<div class="gate gate-linkedin" style="left: calc(var(--tile) * 1);">
+					<span class="plate">LINKEDIN</span>
+					<a class="door" data-door="L" href="https://www.linkedin.com/in/forrestalmasi" aria-label="LinkedIn — linkedin.com/in/forrestalmasi"></a>
+				</div>
+				<div class="gate gate-random" style="left: calc(var(--tile) * 6);">
+					<span class="plate">RANDOM</span>
+					<a class="door" data-door="R" href="/random/" aria-label="Random — another version of this site"></a>
+				</div>
+				<div class="gate gate-software" style="left: calc(var(--tile) * 11);">
+					<span class="plate">SOFTWARE</span>
+					<a class="door" data-door="S" href="/software/" aria-label="Software — another version of this site"></a>
+				</div>
+			</div>
+
+			<div class="room room-3">
+				<span class="strip wall-top"></span>
+				<span class="strip wall-r1"></span>
+				<span class="strip wall-left"></span>
+				<span class="strip wall-right"></span>
+				<span class="strip wall-bottom"></span>
+
+				<span class="tile gap-s" style="left: calc(var(--tile) * 8); top: calc(var(--tile) * 10);"></span>
+
+				<span class="fire" aria-hidden="true" style="left: calc(var(--tile) * 4); top: calc(var(--tile) * 3);"></span>
+				<span class="oldman" aria-hidden="true" style="left: calc(var(--tile) * 7); top: calc(var(--tile) * 3);"></span>
+				<span class="fire" aria-hidden="true" style="left: calc(var(--tile) * 10); top: calc(var(--tile) * 3);"></span>
+
+				<p class="about">FORREST ALMASI<br>SOFTWARE DEVELOPER<br>HE WRITES CODE.<br>THIS IS HIS SITE.</p>
+			</div>
+
+			<div class="field" aria-hidden="true">
+				<span class="hero" data-face="down" data-frame="0" style="left: calc(var(--tile) * 8); top: calc(var(--tile) * 9);"></span>
 			</div>
 
 			<span class="scan" aria-hidden="true"></span>

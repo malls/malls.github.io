@@ -239,6 +239,14 @@ above or beside it — `--navy` plate, `--hud` 8px lettering:
 | Stone gate, `--stone` blocks, `--coin` keystone | `GITHUB` | `https://github.com/malls` |
 | Bird-statue shrine, `--water`/`--deep` statue | `TWITTER` | `https://twitter.com/forrestalmasi` |
 | Post office, `--heart` roof, `--hud` envelope sign | `EMAIL` | `mailto:_@forrestalmasi.com` |
+| Stone gate, `--water`/`--deep` banners | `LINKEDIN` | `https://www.linkedin.com/in/forrestalmasi` |
+| Dice hut, `--sand` walls, two `--hud` dice signs | `RANDOM` | `/random/` |
+| Terminal gate, `--stone` blocks, `--ghost` screens | `SOFTWARE` | `/software/` |
+
+The cave mouth — a dark opening in a rock face on the east screen — is an internal
+passage between rooms, **not a link**. New assets for the added rooms: the rock face
+tile, the cave mouth, the dungeon floor, the old-man sprite, the 2-frame fire, and
+the dialogue plate.
 
 **Hero:** one 16×16 sprite, `--hero` tunic, `--skin` face, `--void` outline pixels.
 Four facings (up/down/left/right), 2 walk frames each. Down-facing frame 1 is the
@@ -257,30 +265,78 @@ bad sprites).
 
 The interaction spec. This is what the direction exists to serve.
 
-### 6.1 The room
+### 6.1 The rooms
 
-One screen, no scrolling, no camera. The playfield is a 16×11 tile map authored as an
-ASCII grid in `script.js` — **one artifact drives both rendering and collision**:
+The world is three 16×11 rooms — an overworld west screen, an overworld east screen,
+and a dungeon — with exactly one on screen at a time. No scrolling, no camera: walking
+through a gap in a wall, or entering or leaving the cave, swaps the whole frame
+instantly (§7). Each room is a 16×11 tile map authored as an ASCII grid in
+`script.js` — **one artifact drives both rendering and collision**:
 
 ```
-################      #  wall (solid)          G  GitHub doorway (link)
-#.G....T....E..#      .  grass                 T  Twitter doorway (link)
-#..............#      %  bush (solid)          E  Email doorway (link)
-#.%%..~~~..%%..#      ~  water (solid)         =  path
-#.....~~~......#      B  bridge (walkable)     ^  hero spawn
-#..~~~~~~~~~%..#      r  rock (solid)
-#..~~~B~~~~....#
-#..r..=..r.....#
-#.....=....%%..#
-#..%..=^.......#
+Legend:  #  wall (solid)       G T E L R S  doorways (links)
+         .  grass/floor        =  path            %  bush (solid)
+         ~  water (solid)      B  bridge          r  rock (solid)
+         C  cave mouth (solid; Up enters, NOT a link)
+         X  wall-gap exit      D  dungeon exit    f  fire (solid)
+         O  old man (solid)    n  dialogue plate (solid)
+```
+
+**Room 1 — overworld west** (spawn 8,9; gap east):
+
+```
+################
+##G####T####E###
+#..............#
+#.%%..r....%%..#
+#..............X
+#~~~~~~B~~~~~~~#
+#~~~~~~B~~~~~~~#
+#......=....r..#
+#..%...=...%%..#
+#...%..=.......#
 ################
 ```
 
-The map above is normative in shape, not in every tile: the generator may rearrange
-scenery, but the room must keep a solid one-tile wall border, all three doorways on
-the top wall with clear thresholds, at least one water feature with a bridge, and
-enough solid tiles that reaching a door takes a few deliberate turns — it is a stroll,
-not a maze, and never a dead end.
+**Room 2 — overworld east** (three doors; cave mouth in the rock face; gap west):
+
+```
+################
+##L####R####S###
+#..............#
+#.%%.....rrrrr.#
+X........rrCrr.#
+#..%.......=...#
+#....~~~~......#
+#....~~~~..%%..#
+#..r.......%...#
+#..............#
+################
+```
+
+**Room 3 — the dungeon** (about-me plate; exit south):
+
+```
+################
+################
+#..............#
+#...f..O..f....#
+#..............#
+#..nnnnnnnnnn..#
+#..nnnnnnnnnn..#
+#..nnnnnnnnnn..#
+#..nnnnnnnnnn..#
+#..............#
+########D#######
+```
+
+The maps above are normative in shape, not in every tile: the generator may rearrange
+scenery, but each room must keep a solid one-tile wall border and enough solid tiles
+that reaching a door takes a few deliberate turns — a stroll, not a maze, and never a
+dead end. Room 1 keeps its three doorways on the top wall with clear thresholds, at
+least one water feature with a bridge, and its wall gap east. Room 2 keeps its three
+doorways, the cave mouth in a rock face, and its wall gap west. The dungeon keeps the
+dialogue plate, the fires and the old man, and its south exit.
 
 ### 6.2 Moving
 
@@ -309,6 +365,10 @@ not a maze, and never a dead end.
   `window.open`.
 - Walking off the threshold reverts prompt and doorway. Nothing auto-triggers on
   arrival; entering is always the explicit Up press.
+- The **cave mouth** uses the same threshold + Up mechanic as a door but is **not an
+  anchor** — a door is a link; the cave is a stairwell between rooms. Nothing
+  auto-triggers; Up is always explicit. The one exception is walk-through wall gaps
+  (`X`/`D`): an open gap is floor, not a door — stepping onto it swaps rooms.
 
 ### 6.4 Focus, and the build contract
 
@@ -341,12 +401,13 @@ The machine has 60 frames a second and uses about 8 of them.
 - **Text blinks square-wave:** the prompt toggles at 530ms via `steps(1)` on
   `visibility` — the NES cursor cadence. Never an opacity fade.
 - **No `transition` property anywhere on the page.** State changes (doorway
-  lighting, prompt swap, D-pad press) are instant frame swaps.
+  lighting, prompt swap, D-pad press, room swaps between the three screens) are
+  instant frame swaps.
 - **No easing curves, no parallax, no screen shake, no scroll effects, no cursor
   trails.** The camera does not exist; the screen does not move.
-- Idle animation budget: water, the critter, the blinking prompt, the coin counter
-  ticking up once per second while focused. That is all. An 8-bit screen is mostly
-  still — stillness is what makes the blink read.
+- Idle animation budget: water, the critter, the blinking prompt, the dungeon fires
+  (2-frame flicker), the coin counter ticking up once per second while focused. That
+  is all. An 8-bit screen is mostly still — stillness is what makes the blink read.
 
 ```css
 @media (prefers-reduced-motion: reduce) {
@@ -399,13 +460,16 @@ root `CLAUDE.md` (self-contained folder, wrapper `#site-8bit`, JS as a
   White 8px beneath it; right-aligned: three Heart Red hearts and a gold coin
   counter. Bottom HUD line: the context prompt in Ghost Cyan 8px
   (`PRESS START — CLICK OR TAB` → `ARROWS MOVE · ↑ ENTERS` → `↑ ENTER GITHUB`).
-- **Playfield** (256×176): the room from §6.1 — wall border, three labelled
-  structures on the top wall (GITHUB gate, TWITTER shrine, EMAIL post office),
-  water with a bridge, bushes and rocks, the hero spawned on the path near the
-  bottom, one magenta critter on a fixed loop.
+- **Playfield** (256×176): one of the three rooms from §6.1 at a time — the west
+  overworld (GITHUB gate, TWITTER shrine, EMAIL post office, water with a bridge,
+  the hero spawned on the path near the bottom, one magenta critter on a fixed
+  loop), the east overworld (LINKEDIN gate, RANDOM hut, SOFTWARE gate, the rock
+  face with the cave mouth), and the dungeon (the about-me dialogue plate, two
+  fires, the old man). Wall gaps and the cave swap between them.
 - **Doors** are real anchors with visible sign plates; `aria-label`s spell out the
-  destination (`GitHub — github.com/malls`). A visually-hidden one-line note before
-  the stage tells screen-reader and keyboard users the links are plain links.
+  destination (`GitHub — github.com/malls`). A visually-hidden `<nav>` before the
+  stage explains the game to screen-reader and keyboard users and lists all six
+  destinations as plain links.
 - **D-pad** for coarse pointers, in the bezel, drawn to the same pixel grid.
 
 **Build-contract specifics for this direction** — these bite harder here than for a
