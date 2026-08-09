@@ -55,6 +55,8 @@
 	}
 
 	function commit(i) {
+		// this click is ours — clear the scrub flag so the tap suppressor lets it through
+		moved = false;
 		var a = root.querySelector('a[href="#horse-f' + pad(i) + '"]');
 		if (a) a.click();
 		playback.style.visibility = 'hidden';
