@@ -1,0 +1,243 @@
+/* The ";" between weights is percent-encoded: build.js splits top-level statements on a
+   raw ";" without string awareness, and would cut this @import in half. */
+@import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400%3B0,500%3B1,400&display=swap');
+
+/* ── Tokens ──────────────────────────────────────────────────────────────── */
+
+:root {
+	/* the card */
+	--mount:       #AEA694;   /* warm album gray — the ground, largest area */
+	--mount-lit:   #BCB4A2;   /* paper catching light; vignette center */
+	--mount-shade: #9A927F;   /* paper falling off; vignette edge */
+
+	/* the photograph */
+	--albumen:     #3B2F23;   /* deep sepia brown — the print's darks and every ruled line */
+
+	/* letterpress */
+	--ink:         #26201A;   /* near-black warm ink — all type */
+
+	/* rare light */
+	--highlight:   #E8E0CE;   /* cream; sparingly, on dark grounds only */
+
+	--font-card: 'EB Garamond', Georgia, 'Times New Roman', serif;
+
+	--t-title:   clamp(1rem, 0.85rem + 1.2vw, 1.35rem);    /* the imprint */
+	--t-caption: clamp(0.75rem, 0.7rem + 0.4vw, 0.85rem);  /* caption lines, ≥ 12px */
+	--t-micro:   0.6875rem;                                /* 11px floor: hint line, credit */
+
+	/* the sprite: 12 frames of 352 × 224px each */
+	--n: 12;
+	--frame-ar: 352 / 224;
+}
+
+/* ── The mount ───────────────────────────────────────────────────────────── */
+
+html, body {
+	height: 100%;
+}
+
+body {
+	margin: 0;
+	font-family: var(--font-card);
+	color: var(--ink);
+	background-color: var(--mount);
+	/* grain tile over the vignette: albumen-era card stock, not a flat hex fill */
+	background-image:
+		url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='140'%20height='140'%3E%3Cfilter%20id='horse-grain'%3E%3CfeTurbulence%20type='fractalNoise'%20baseFrequency='0.8'%20numOctaves='2'%20stitchTiles='stitch'/%3E%3C/filter%3E%3Crect%20width='140'%20height='140'%20filter='url(%23horse-grain)'%20opacity='0.06'/%3E%3C/svg%3E"),
+		radial-gradient(ellipse at 50% 42%, var(--mount-lit) 0%, var(--mount) 55%, var(--mount-shade) 100%);
+	background-repeat: repeat, no-repeat;
+	background-size: 140px 140px, 100% 100%;
+}
+
+.card {
+	box-sizing: border-box;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: clamp(0.4rem, 2.2vh, 1rem);
+	padding: clamp(0.75rem, 3vh, 1.5rem) clamp(1rem, 4vw, 2rem);
+	text-align: center;
+}
+
+.card h1,
+.card p {
+	margin: 0;
+}
+
+/* ── The imprint ─────────────────────────────────────────────────────────── */
+
+.imprint h1 {
+	font-size: var(--t-title);
+	font-weight: 500;
+	letter-spacing: 0.18em;
+	text-transform: uppercase;
+}
+
+.imprint .role {
+	margin-top: 0.3em;
+	font-size: var(--t-caption);
+	font-weight: 400;
+	letter-spacing: 0.14em;
+}
+
+/* ── The photograph ──────────────────────────────────────────────────────── */
+
+/* Height-capped so the whole card fits any viewport; the mount absorbs the rest.
+   The width cap is the height cap through the frame ratio: 84vw × 224/352 ≈ 53.5vw. */
+.stage {
+	position: relative;
+	height: min(58vh, 53.45vw);
+	aspect-ratio: var(--frame-ar);
+	/* the mount's ruled border: 1px albumen, 2px mount gap, 1px albumen */
+	border: 1px solid var(--albumen);
+	outline: 1px solid var(--albumen);
+	outline-offset: 2px;
+	/* room beneath for the hanging plate numeral */
+	margin-bottom: 1.7rem;
+	touch-action: none;
+}
+
+.frame {
+	position: absolute;
+	inset: 0;
+	visibility: hidden;
+}
+
+/* no hash, or a foreign site's hash: plate I shows */
+.frame:first-of-type {
+	visibility: visible;
+}
+
+/* one of OUR frames is targeted: it alone shows */
+.stage:has(.frame:target) .frame:first-of-type {
+	visibility: hidden;
+}
+
+.stage:has(.frame:target) .frame:target {
+	visibility: visible;
+}
+
+.photo {
+	position: absolute;
+	inset: 0;
+	background-image: url('/horse/frames.jpg');
+	background-repeat: no-repeat;
+	background-size: calc(var(--n) * 100%) 100%;
+	/* frame i of n */
+	background-position-x: calc((var(--i) - 1) / (var(--n) - 1) * 100%);
+	background-position-y: 0;
+	/* the scan is neutral gray; warm it to albumen here, not in the JPEG */
+	filter: sepia(0.28) contrast(1.04);
+}
+
+/* per-slide plate numeral — hangs below the ruled border, ink on mount */
+.plate {
+	position: absolute;
+	top: calc(100% + 0.55rem);
+	left: 0;
+	right: 0;
+	font-size: var(--t-caption);
+	font-weight: 400;
+	letter-spacing: 0.14em;
+}
+
+/* tap left / right = previous / next; the slide's own anchors are the controls */
+.tap {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	width: 50%;
+	z-index: 2;
+}
+
+.tap-prev {
+	left: 0;
+}
+
+.tap-next {
+	right: 0;
+}
+
+.tap:focus-visible {
+	outline: 1px solid var(--ink);
+	outline-offset: 2px;
+}
+
+/* the JS flipbook layer — same sprite, stepped by the thumb; after the slides in
+   DOM order so .frame:first-of-type keeps the default-frame duty */
+.playback {
+	position: absolute;
+	inset: 0;
+	visibility: hidden;
+	z-index: 3;
+}
+
+.playback .photo {
+	--i: 1;
+}
+
+/* ── The caption band ────────────────────────────────────────────────────── */
+
+.colophon {
+	display: flex;
+	flex-direction: column;
+	gap: 0.45em;
+	align-items: center;
+}
+
+.desc {
+	font-style: italic;
+	font-size: var(--t-caption);
+	max-width: 36em;
+}
+
+.elsewhere {
+	font-size: var(--t-caption);
+	letter-spacing: 0.14em;
+}
+
+.elsewhere a {
+	color: var(--ink);
+	text-decoration: none;
+}
+
+.elsewhere a:hover {
+	text-decoration: underline;
+}
+
+.elsewhere a:focus-visible {
+	text-decoration: underline;
+	outline: 1px solid var(--ink);
+	outline-offset: 2px;
+}
+
+.credit {
+	font-size: var(--t-micro);
+	letter-spacing: 0.14em;
+}
+
+.hint {
+	font-size: var(--t-micro);
+	letter-spacing: 0.18em;
+}
+
+/* very short landscape viewports: tighten, drop the hint line — never scroll */
+@media (max-height: 360px) {
+	.card {
+		gap: 0.3rem;
+	}
+
+	.stage {
+		margin-bottom: 1.4rem;
+	}
+
+	.colophon {
+		gap: 0.3em;
+	}
+
+	.hint {
+		display: none;
+	}
+}

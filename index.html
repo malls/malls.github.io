@@ -34,6 +34,197 @@
 html, body { margin: 0; padding: 0; height: 100%; overflow: hidden; overscroll-behavior: none; }
 body > [data-site] { display: none; height: 100%; position: relative; }
 </style>
+<style data-site="horse">
+@import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400%3B0,500%3B1,400&display=swap');
+#site-horse {
+	
+	--mount:       #AEA694;   
+	--mount-lit:   #BCB4A2;   
+	--mount-shade: #9A927F;   
+
+	
+	--albumen:     #3B2F23;   
+
+	
+	--ink:         #26201A;   
+
+	
+	--highlight:   #E8E0CE;   
+
+	--font-card: 'EB Garamond', Georgia, 'Times New Roman', serif;
+
+	--t-title:   clamp(1rem, 0.85rem + 1.2vw, 1.35rem);    
+	--t-caption: clamp(0.75rem, 0.7rem + 0.4vw, 0.85rem);  
+	--t-micro:   0.6875rem;                                
+
+	
+	--n: 12;
+	--frame-ar: 352 / 224;
+}
+#site-horse {
+	height: 100%;
+}
+#site-horse {
+	margin: 0;
+	font-family: var(--font-card);
+	color: var(--ink);
+	background-color: var(--mount);
+	
+	background-image:
+		url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='140'%20height='140'%3E%3Cfilter%20id='horse-grain'%3E%3CfeTurbulence%20type='fractalNoise'%20baseFrequency='0.8'%20numOctaves='2'%20stitchTiles='stitch'/%3E%3C/filter%3E%3Crect%20width='140'%20height='140'%20filter='url(%23horse-grain)'%20opacity='0.06'/%3E%3C/svg%3E"),
+		radial-gradient(ellipse at 50% 42%, var(--mount-lit) 0%, var(--mount) 55%, var(--mount-shade) 100%);
+	background-repeat: repeat, no-repeat;
+	background-size: 140px 140px, 100% 100%;
+}
+#site-horse .card {
+	box-sizing: border-box;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: clamp(0.4rem, 2.2vh, 1rem);
+	padding: clamp(0.75rem, 3vh, 1.5rem) clamp(1rem, 4vw, 2rem);
+	text-align: center;
+}
+#site-horse .card h1, #site-horse .card p {
+	margin: 0;
+}
+#site-horse .imprint h1 {
+	font-size: var(--t-title);
+	font-weight: 500;
+	letter-spacing: 0.18em;
+	text-transform: uppercase;
+}
+#site-horse .imprint .role {
+	margin-top: 0.3em;
+	font-size: var(--t-caption);
+	font-weight: 400;
+	letter-spacing: 0.14em;
+}
+#site-horse .stage {
+	position: relative;
+	height: min(58vh, 53.45vw);
+	aspect-ratio: var(--frame-ar);
+	
+	border: 1px solid var(--albumen);
+	outline: 1px solid var(--albumen);
+	outline-offset: 2px;
+	
+	margin-bottom: 1.7rem;
+	touch-action: none;
+}
+#site-horse .frame {
+	position: absolute;
+	inset: 0;
+	visibility: hidden;
+}
+#site-horse .frame:first-of-type {
+	visibility: visible;
+}
+#site-horse .stage:has(.frame:target) .frame:first-of-type {
+	visibility: hidden;
+}
+#site-horse .stage:has(.frame:target) .frame:target {
+	visibility: visible;
+}
+#site-horse .photo {
+	position: absolute;
+	inset: 0;
+	background-image: url('/horse/frames.jpg');
+	background-repeat: no-repeat;
+	background-size: calc(var(--n) * 100%) 100%;
+	
+	background-position-x: calc((var(--i) - 1) / (var(--n) - 1) * 100%);
+	background-position-y: 0;
+	
+	filter: sepia(0.28) contrast(1.04);
+}
+#site-horse .plate {
+	position: absolute;
+	top: calc(100% + 0.55rem);
+	left: 0;
+	right: 0;
+	font-size: var(--t-caption);
+	font-weight: 400;
+	letter-spacing: 0.14em;
+}
+#site-horse .tap {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	width: 50%;
+	z-index: 2;
+}
+#site-horse .tap-prev {
+	left: 0;
+}
+#site-horse .tap-next {
+	right: 0;
+}
+#site-horse .tap:focus-visible {
+	outline: 1px solid var(--ink);
+	outline-offset: 2px;
+}
+#site-horse .playback {
+	position: absolute;
+	inset: 0;
+	visibility: hidden;
+	z-index: 3;
+}
+#site-horse .playback .photo {
+	--i: 1;
+}
+#site-horse .colophon {
+	display: flex;
+	flex-direction: column;
+	gap: 0.45em;
+	align-items: center;
+}
+#site-horse .desc {
+	font-style: italic;
+	font-size: var(--t-caption);
+	max-width: 36em;
+}
+#site-horse .elsewhere {
+	font-size: var(--t-caption);
+	letter-spacing: 0.14em;
+}
+#site-horse .elsewhere a {
+	color: var(--ink);
+	text-decoration: none;
+}
+#site-horse .elsewhere a:hover {
+	text-decoration: underline;
+}
+#site-horse .elsewhere a:focus-visible {
+	text-decoration: underline;
+	outline: 1px solid var(--ink);
+	outline-offset: 2px;
+}
+#site-horse .credit {
+	font-size: var(--t-micro);
+	letter-spacing: 0.14em;
+}
+#site-horse .hint {
+	font-size: var(--t-micro);
+	letter-spacing: 0.18em;
+}
+@media (max-height: 360px) {
+#site-horse .card {
+		gap: 0.3rem;
+	}
+#site-horse .stage {
+		margin-bottom: 1.4rem;
+	}
+#site-horse .colophon {
+		gap: 0.3em;
+	}
+#site-horse .hint {
+		display: none;
+	}
+}
+</style>
 <style data-site="random">
 @import url('https://fonts.cdnfonts.com/css/maximum-impact');
 #site-random {
@@ -97,17 +288,114 @@ body > [data-site] { display: none; height: 100%; position: relative; }
 </style>
 <style>
 /* generated visibility rules — exactly one site visible at any viewport */
-#site-random { display: none; }
+#site-horse, #site-random { display: none; }
 #site-random { display: block; }
 @media (hover: none) and (pointer: coarse) and (orientation: portrait) {
+	#site-horse { display: none; }
 	#site-random { display: block; }
 }
 @media (hover: none) and (pointer: coarse) and (orientation: landscape) {
-	#site-random { display: block; }
+	#site-random { display: none; }
+	#site-horse { display: block; }
 }
 </style>
 </head>
 <body>
+<div id="site-horse" data-site="horse">
+<div class="card">
+		<header class="imprint">
+			<h1>FORREST ALMASI</h1>
+			<p class="role">SOFTWARE · DEVELOPER</p>
+		</header>
+
+		<div class="stage">
+			<div class="frame" id="horse-f01" style="--i: 1">
+				<div class="photo"></div>
+				<p class="plate">PLATE · I of XII</p>
+				<a class="tap tap-prev" href="#horse-f12" aria-label="Previous frame"></a>
+				<a class="tap tap-next" href="#horse-f02" aria-label="Next frame"></a>
+			</div>
+			<div class="frame" id="horse-f02" style="--i: 2">
+				<div class="photo"></div>
+				<p class="plate">PLATE · II of XII</p>
+				<a class="tap tap-prev" href="#horse-f01" aria-label="Previous frame"></a>
+				<a class="tap tap-next" href="#horse-f03" aria-label="Next frame"></a>
+			</div>
+			<div class="frame" id="horse-f03" style="--i: 3">
+				<div class="photo"></div>
+				<p class="plate">PLATE · III of XII</p>
+				<a class="tap tap-prev" href="#horse-f02" aria-label="Previous frame"></a>
+				<a class="tap tap-next" href="#horse-f04" aria-label="Next frame"></a>
+			</div>
+			<div class="frame" id="horse-f04" style="--i: 4">
+				<div class="photo"></div>
+				<p class="plate">PLATE · IV of XII</p>
+				<a class="tap tap-prev" href="#horse-f03" aria-label="Previous frame"></a>
+				<a class="tap tap-next" href="#horse-f05" aria-label="Next frame"></a>
+			</div>
+			<div class="frame" id="horse-f05" style="--i: 5">
+				<div class="photo"></div>
+				<p class="plate">PLATE · V of XII</p>
+				<a class="tap tap-prev" href="#horse-f04" aria-label="Previous frame"></a>
+				<a class="tap tap-next" href="#horse-f06" aria-label="Next frame"></a>
+			</div>
+			<div class="frame" id="horse-f06" style="--i: 6">
+				<div class="photo"></div>
+				<p class="plate">PLATE · VI of XII</p>
+				<a class="tap tap-prev" href="#horse-f05" aria-label="Previous frame"></a>
+				<a class="tap tap-next" href="#horse-f07" aria-label="Next frame"></a>
+			</div>
+			<div class="frame" id="horse-f07" style="--i: 7">
+				<div class="photo"></div>
+				<p class="plate">PLATE · VII of XII</p>
+				<a class="tap tap-prev" href="#horse-f06" aria-label="Previous frame"></a>
+				<a class="tap tap-next" href="#horse-f08" aria-label="Next frame"></a>
+			</div>
+			<div class="frame" id="horse-f08" style="--i: 8">
+				<div class="photo"></div>
+				<p class="plate">PLATE · VIII of XII</p>
+				<a class="tap tap-prev" href="#horse-f07" aria-label="Previous frame"></a>
+				<a class="tap tap-next" href="#horse-f09" aria-label="Next frame"></a>
+			</div>
+			<div class="frame" id="horse-f09" style="--i: 9">
+				<div class="photo"></div>
+				<p class="plate">PLATE · IX of XII</p>
+				<a class="tap tap-prev" href="#horse-f08" aria-label="Previous frame"></a>
+				<a class="tap tap-next" href="#horse-f10" aria-label="Next frame"></a>
+			</div>
+			<div class="frame" id="horse-f10" style="--i: 10">
+				<div class="photo"></div>
+				<p class="plate">PLATE · X of XII</p>
+				<a class="tap tap-prev" href="#horse-f09" aria-label="Previous frame"></a>
+				<a class="tap tap-next" href="#horse-f11" aria-label="Next frame"></a>
+			</div>
+			<div class="frame" id="horse-f11" style="--i: 11">
+				<div class="photo"></div>
+				<p class="plate">PLATE · XI of XII</p>
+				<a class="tap tap-prev" href="#horse-f10" aria-label="Previous frame"></a>
+				<a class="tap tap-next" href="#horse-f12" aria-label="Next frame"></a>
+			</div>
+			<div class="frame" id="horse-f12" style="--i: 12">
+				<div class="photo"></div>
+				<p class="plate">PLATE · XII of XII</p>
+				<a class="tap tap-prev" href="#horse-f11" aria-label="Previous frame"></a>
+				<a class="tap tap-next" href="#horse-f01" aria-label="Next frame"></a>
+			</div>
+			<div class="playback" aria-hidden="true">
+				<div class="photo"></div>
+			</div>
+		</div>
+
+		<footer class="colophon">
+			<p class="desc">&ldquo;Sallie Gardner,&rdquo; owned by Leland Stanford; running at a 1:40 gait over the Palo Alto track, 19th June 1878.</p>
+			<nav class="elsewhere" aria-label="Elsewhere">
+				<a href="https://github.com/malls">GITHUB&nbsp;@MALLS</a> · <a href="https://twitter.com/forrestalmasi">TWITTER&nbsp;@FORRESTALMASI</a> · <a href="mailto:_@forrestalmasi.com">_@FORRESTALMASI.COM</a>
+			</nav>
+			<p class="credit">AFTER EADWEARD MUYBRIDGE · &ldquo;THE HORSE IN MOTION&rdquo; · 1878</p>
+			<p class="hint">TAP · SWIPE</p>
+		</footer>
+	</div>
+</div>
 <div id="site-random" data-site="random">
 <div class="container">
 		<section class="random-background quarter-height"></section>
@@ -117,6 +405,153 @@ body > [data-site] { display: none; height: 100%; position: relative; }
 		<section class="random-background quarter-height"></section>
 	</div>
 </div>
+<script data-site="horse">
+// horse — the flipbook thumb.
+//
+// Navigation, URLs and captions are pure CSS (:target); this file adds exactly one
+// behavior: dragging the photograph scrubs the frames, and a flick lets the gallop
+// coast to a stop. When playback settles, the landing frame is committed by clicking
+// that frame's existing anchor — no location handling anywhere.
+//
+// Contract: listeners attach only to elements inside `root` (never document/window) —
+// every site's script runs in the combined page even while its site is hidden. `root`
+// is the document standalone and the site wrapper in the build, so it is never used
+// as the target of style writes.
+(window.SITES = window.SITES || {})['horse'] = function (root) {
+	var stage = root.querySelector('.stage');
+	if (!stage) return;
+	var playback = stage.querySelector('.playback');
+	var playPhoto = playback ? playback.querySelector('.photo') : null;
+	var frames = stage.querySelectorAll('.frame');
+	var n = frames.length;
+	if (!playback || !playPhoto || n < 2) return;
+
+	var reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+	var PX_PER_FRAME = 26;   // finger travel per frame step
+	var TAP_SLOP = 10;       // movement below this is a tap; beyond it, a scrub
+	var MIN_FLICK = 0.004;   // frames per ms; slower releases settle immediately
+	var FRICTION = 260;      // ms time-constant of the momentum deceleration
+	var STALE_MS = 90;       // a finger resting this long before release has no velocity
+
+	var down = false;        // a pointer is down on the stage
+	var scrubbing = false;   // the gesture crossed TAP_SLOP and owns the playback layer
+	var moved = false;       // suppresses the click that would end a scrub
+	var pointerId = null;
+	var startX = 0;
+	var startPos = 1;        // frame position (1-based float) at gesture start
+	var pos = 1;             // current frame position (float)
+	var lastX = 0;
+	var lastT = 0;
+	var velocity = 0;        // frames per ms; positive runs the horse forward
+	var coastId = 0;         // requestAnimationFrame handle while coasting
+
+	function pad(i) { return (i < 10 ? '0' : '') + i; }
+
+	function wrap(p) { return ((Math.round(p) - 1) % n + n) % n + 1; }
+
+	function currentIndex() {
+		var t = stage.querySelector('.frame:target');
+		for (var k = 0; k < n; k++) {
+			if (frames[k] === t) return k + 1;
+		}
+		return 1;
+	}
+
+	function show(i) {
+		playPhoto.style.backgroundPositionX = ((i - 1) / (n - 1) * 100) + '%';
+	}
+
+	function commit(i) {
+		var a = root.querySelector('a[href="#horse-f' + pad(i) + '"]');
+		if (a) a.click();
+		playback.style.visibility = 'hidden';
+		scrubbing = false;
+	}
+
+	stage.addEventListener('pointerdown', function (e) {
+		if (down) return;
+		down = true;
+		pointerId = e.pointerId;
+		startX = lastX = e.clientX;
+		lastT = e.timeStamp;
+		velocity = 0;
+		moved = false;
+		if (coastId) {
+			// the hand catches a coasting gallop mid-flight and resumes the scrub
+			cancelAnimationFrame(coastId);
+			coastId = 0;
+			startPos = pos;
+			scrubbing = true;
+			moved = true;
+		} else {
+			startPos = pos = currentIndex();
+		}
+	});
+
+	stage.addEventListener('pointermove', function (e) {
+		if (!down || e.pointerId !== pointerId) return;
+		var dx = e.clientX - startX;
+		if (!scrubbing) {
+			if (Math.abs(dx) <= TAP_SLOP) return;
+			scrubbing = true;
+			moved = true;
+			if (stage.setPointerCapture) {
+				try { stage.setPointerCapture(pointerId); } catch (err) {}
+			}
+			show(wrap(startPos));
+			playback.style.visibility = 'visible';
+		}
+		// swipe left runs the horse forward, right runs it backward
+		pos = startPos - dx / PX_PER_FRAME;
+		var dt = e.timeStamp - lastT;
+		if (dt > 0) {
+			velocity = (lastX - e.clientX) / PX_PER_FRAME / dt;
+			lastX = e.clientX;
+			lastT = e.timeStamp;
+		}
+		show(wrap(pos));
+	});
+
+	function release(e) {
+		if (!down || e.pointerId !== pointerId) return;
+		down = false;
+		pointerId = null;
+		if (!scrubbing) return; // a tap: the anchor's own click navigates
+		if (e.timeStamp - lastT > STALE_MS) velocity = 0;
+		if (reduced || e.type === 'pointercancel' || Math.abs(velocity) < MIN_FLICK) {
+			commit(wrap(pos));
+			return;
+		}
+		var prev = 0;
+		coastId = requestAnimationFrame(function step(t) {
+			if (!prev) prev = t;
+			var dt = t - prev;
+			prev = t;
+			pos += velocity * dt;
+			velocity *= Math.exp(-dt / FRICTION);
+			show(wrap(pos));
+			if (Math.abs(velocity) < 0.0008) {
+				coastId = 0;
+				commit(wrap(pos));
+				return;
+			}
+			coastId = requestAnimationFrame(step);
+		});
+	}
+
+	stage.addEventListener('pointerup', release);
+	stage.addEventListener('pointercancel', release);
+
+	// a scrub must not fall through as a tap on the anchor underneath
+	stage.addEventListener('click', function (e) {
+		if (!moved) return;
+		e.preventDefault();
+		e.stopPropagation();
+		moved = false;
+	});
+};
+</script>
 <script data-site="random">
 (window.SITES = window.SITES || {}).random = function (root) {
 
@@ -199,6 +634,7 @@ body > [data-site] { display: none; height: 100%; position: relative; }
 };
 </script>
 <script>
+try { SITES['horse'](document.getElementById('site-horse')); } catch (e) { console.error('horse init failed', e); }
 try { SITES['random'](document.getElementById('site-random')); } catch (e) { console.error('random init failed', e); }
 </script>
 </body>

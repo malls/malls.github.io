@@ -3,7 +3,7 @@
 	"default": "random",
 	"mobile": {
 		"portrait": "random",
-		"landscape": "random"
+		"landscape": "horse"
 	},
 	"buckets": {
 		"800": "random"
