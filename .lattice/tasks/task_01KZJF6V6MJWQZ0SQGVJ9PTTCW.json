@@ -1,0 +1,32 @@
+{
+  "assigned_to": null,
+  "branch_links": [],
+  "comment_count": 3,
+  "complexity": null,
+  "created_at": "2026-08-09T05:16:26Z",
+  "created_by": "agent:fable-5",
+  "custom_fields": {},
+  "description": null,
+  "done_at": "2026-08-09T05:31:11Z",
+  "evidence_refs": [
+    {
+      "id": "ev_01KZJG1VAG66Z0YAKSGFJNNMJC",
+      "role": "review",
+      "source_type": "comment"
+    }
+  ],
+  "id": "task_01KZJF6V6MJWQZ0SQGVJ9PTTCW",
+  "last_event_id": "ev_01KZJG1VE2PJWKZWX9N0NF22C2",
+  "last_status_changed_at": "2026-08-09T05:31:11Z",
+  "priority": "medium",
+  "relationships_out": [],
+  "reopened_count": 0,
+  "schema_version": 1,
+  "short_id": "FA-19",
+  "status": "done",
+  "tags": null,
+  "title": "shibuya/BRANDING.md: add street-canyon perspective + 3 depth layers vanishing to center",
+  "type": "task",
+  "updated_at": "2026-08-09T05:31:11Z",
+  "urgency": null
+}

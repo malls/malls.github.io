@@ -1,0 +1,32 @@
+{
+  "assigned_to": null,
+  "branch_links": [],
+  "comment_count": 3,
+  "complexity": null,
+  "created_at": "2026-08-09T00:00:11Z",
+  "created_by": "agent:fable-5",
+  "custom_fields": {},
+  "description": null,
+  "done_at": "2026-08-09T00:13:43Z",
+  "evidence_refs": [
+    {
+      "id": "ev_01KZHXWJFKGPSV08GW35J7SHD2",
+      "role": "review",
+      "source_type": "comment"
+    }
+  ],
+  "id": "task_01KZHX3RVCW6ZG58ABV8704S5Y",
+  "last_event_id": "ev_01KZHXWJKMH6HYS1QS0JCCMN39",
+  "last_status_changed_at": "2026-08-09T00:13:43Z",
+  "priority": "medium",
+  "relationships_out": [],
+  "reopened_count": 0,
+  "schema_version": 1,
+  "short_id": "FA-13",
+  "status": "done",
+  "tags": null,
+  "title": "Write shibuya/BRANDING.md: neon dense vertical signage direction (Shibuya at night)",
+  "type": "task",
+  "updated_at": "2026-08-09T00:13:43Z",
+  "urgency": null
+}

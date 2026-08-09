@@ -1,0 +1,32 @@
+{
+  "assigned_to": null,
+  "branch_links": [],
+  "comment_count": 1,
+  "complexity": null,
+  "created_at": "2026-08-08T16:28:48Z",
+  "created_by": "agent:claude-opus-5",
+  "custom_fields": {},
+  "description": null,
+  "done_at": "2026-08-08T16:34:41Z",
+  "evidence_refs": [
+    {
+      "id": "ev_01KZH3M1FJ5CQ2N4BPB5BZ0EE1",
+      "role": "review",
+      "source_type": "comment"
+    }
+  ],
+  "id": "task_01KZH398N1A63M725SC80ZHEAR",
+  "last_event_id": "ev_01KZH3M1JMFPTFNJVSB5QCC737",
+  "last_status_changed_at": "2026-08-08T16:34:41Z",
+  "priority": "medium",
+  "relationships_out": [],
+  "reopened_count": 0,
+  "schema_version": 1,
+  "short_id": "FA-5",
+  "status": "done",
+  "tags": null,
+  "title": "Write liquid/BRANDING.md: Y2K aqua design direction (blur, transparency, no hard edges)",
+  "type": "task",
+  "updated_at": "2026-08-08T16:34:41Z",
+  "urgency": null
+}

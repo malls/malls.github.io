@@ -1,0 +1,32 @@
+{
+  "assigned_to": null,
+  "branch_links": [],
+  "comment_count": 1,
+  "complexity": null,
+  "created_at": "2026-08-08T16:34:49Z",
+  "created_by": "agent:claude-opus-5",
+  "custom_fields": {},
+  "description": null,
+  "done_at": "2026-08-08T16:46:17Z",
+  "evidence_refs": [
+    {
+      "id": "ev_01KZH499EPPRQWHNB32JWXRGAF",
+      "role": "review",
+      "source_type": "comment"
+    }
+  ],
+  "id": "task_01KZH3M9HWM9Q5M1MRGJCSMZFA",
+  "last_event_id": "ev_01KZH499JE4WE9QV44352GWPQQ",
+  "last_status_changed_at": "2026-08-08T16:46:17Z",
+  "priority": "medium",
+  "relationships_out": [],
+  "reopened_count": 0,
+  "schema_version": 1,
+  "short_id": "FA-6",
+  "status": "done",
+  "tags": null,
+  "title": "Generate liquid/index.html from liquid/BRANDING.md (brand-page)",
+  "type": "task",
+  "updated_at": "2026-08-08T16:46:17Z",
+  "urgency": null
+}

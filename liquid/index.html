@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Forrest Almasi</title>
+
+	<meta charset="utf-8"/>
+	<meta name="viewport" content="width=device-width"/>
+	<meta name="description" content="Software developer Forrest Almasi's personal website">
+	<meta name="robots" content="noindex">
+
+	<link rel="stylesheet" href="./style.css"/>
+</head>
+
+<body>
+	<div class="field" aria-hidden="true">
+		<div class="bloom"></div>
+		<div class="caustics"></div>
+		<div class="slick"></div>
+		<div class="pool">
+			<span class="blob blob-a"></span>
+			<span class="blob blob-b"></span>
+			<span class="blob blob-c"></span>
+			<span class="blob blob-d"></span>
+			<span class="blob blob-e"></span>
+		</div>
+		<div class="contour contour-a"></div>
+		<div class="contour contour-b"></div>
+	</div>
+
+	<div class="scroll">
+		<main class="content">
+			<span class="serial" aria-hidden="true">04034506346034060 / liquid</span>
+
+			<header class="hero">
+				<h1 class="display"><span class="line-a">forrest</span><span class="line-b">almasi</span></h1>
+				<p class="role">software developer</p>
+			</header>
+
+			<section class="panel">
+				<h2>what&rsquo;s up?</h2>
+				<p>I build software. I specialize in full-stack agentic development.</p>
+			</section>
+
+			<nav class="elsewhere" aria-label="Elsewhere">
+				<span class="micro-label" aria-hidden="true">elsewhere</span>
+				<a class="chip" href="https://github.com/malls">
+					<span class="chip-k">GitHub</span>
+					<span class="chip-v">@malls</span>
+				</a>
+				<a class="chip" href="https://twitter.com/forrestalmasi">
+					<span class="chip-k">Twitter</span>
+					<span class="chip-v">@forrestalmasi</span>
+				</a>
+				<a class="chip" href="mailto:_@forrestalmasi.com">
+					<span class="chip-k">Email</span>
+					<span class="chip-v">_@forrestalmasi.com</span>
+				</a>
+			</nav>
+
+			<footer class="foot">
+				<p class="micro-fill" aria-hidden="true">FORREST ALMASI, SOFTWARE DEVELOPER. FULL-STACK AGENTIC DEVELOPMENT. FORREST ALMASI, SOFTWARE DEVELOPER. FULL-STACK AGENTIC DEVELOPMENT. FORREST ALMASI, SOFTWARE DEVELOPER. FULL-STACK AGENTIC DEVELOPMENT. FORREST ALMASI, SOFTWARE DEVELOPER. FULL-STACK AGENTIC DEVELOPMENT.</p>
+				<p class="contact"><a href="mailto:_@forrestalmasi.com">_@forrestalmasi.com</a></p>
+			</footer>
+		</main>
+	</div>
+
+	<div class="grain" aria-hidden="true"></div>
+
+	<svg class="defs" width="0" height="0" aria-hidden="true" focusable="false">
+		<defs>
+			<filter id="liquid-goo" x="-30%" y="-30%" width="160%" height="160%">
+				<feGaussianBlur in="SourceGraphic" stdDeviation="14" result="liquid-goo-blur"/>
+				<feColorMatrix in="liquid-goo-blur" type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 20 -9"/>
+			</filter>
+		</defs>
+	</svg>
+
+	<script src="./script.js"></script>
+	<script>SITES['liquid'](document);</script>
+</body>
+
+</html>

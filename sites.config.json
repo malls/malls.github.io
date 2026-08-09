@@ -2,10 +2,17 @@
 	"bucketSize": 100,
 	"default": "random",
 	"mobile": {
-		"portrait": "random",
+		"portrait": "iphone",
 		"landscape": "horse"
 	},
 	"buckets": {
-		"800": "random"
+		"600": "slop",
+		"700": "liquid",
+		"800": "random",
+		"900": "vhs",
+		"1000": "isomorphic",
+		"1200": "marble",
+		"1400": "memphis",
+		"1500": "shibuya"
 	}
 }

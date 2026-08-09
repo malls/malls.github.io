@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Forrest Almasi</title>
+
+	<meta charset="utf-8"/>
+	<meta name="viewport" content="width=device-width"/>
+	<meta name="description" content="Software developer Forrest Almasi's personal website">
+	<meta name="robots" content="noindex">
+
+	<link rel="stylesheet" href="./style.css"/>
+</head>
+
+<body>
+	<div class="cabinet">
+		<p class="sr">Forrest Almasi, software developer. This page is a small game: click the
+			screen, move the hero with the arrow keys, walk to a door and press up to follow its
+			link. The three doors — GitHub, Twitter, and Email — are ordinary links you can also
+			click, tap, or reach with Tab.</p>
+
+		<div class="stage" tabindex="0" aria-label="Playable level. Arrow keys move the hero; up at a door follows its link.">
+			<div class="hud" aria-hidden="true">
+				<p class="wordmark">FORREST ALMASI</p>
+				<p class="tagline">SOFTWARE DEVELOPER</p>
+				<div class="meter">
+					<span class="heart"></span>
+					<span class="heart"></span>
+					<span class="heart"></span>
+					<span class="coins">0000</span>
+				</div>
+				<p class="prompt blink">PRESS START - CLICK OR TAB</p>
+			</div>
+
+			<div class="room">
+				<span class="strip wall-top"></span>
+				<span class="strip wall-r1"></span>
+				<span class="strip wall-left"></span>
+				<span class="strip wall-right"></span>
+				<span class="strip wall-bottom"></span>
+
+				<span class="strip river"></span>
+				<span class="strip bridge"></span>
+				<span class="strip path-col"></span>
+
+				<span class="tile bush" style="left: calc(var(--tile) * 2); top: calc(var(--tile) * 3);"></span>
+				<span class="tile bush" style="left: calc(var(--tile) * 3); top: calc(var(--tile) * 3);"></span>
+				<span class="tile bush" style="left: calc(var(--tile) * 11); top: calc(var(--tile) * 3);"></span>
+				<span class="tile bush" style="left: calc(var(--tile) * 12); top: calc(var(--tile) * 3);"></span>
+				<span class="tile bush" style="left: calc(var(--tile) * 3); top: calc(var(--tile) * 8);"></span>
+				<span class="tile bush" style="left: calc(var(--tile) * 11); top: calc(var(--tile) * 8);"></span>
+				<span class="tile bush" style="left: calc(var(--tile) * 12); top: calc(var(--tile) * 8);"></span>
+				<span class="tile bush" style="left: calc(var(--tile) * 4); top: calc(var(--tile) * 9);"></span>
+				<span class="tile rock" style="left: calc(var(--tile) * 6); top: calc(var(--tile) * 3);"></span>
+				<span class="tile rock" style="left: calc(var(--tile) * 12); top: calc(var(--tile) * 7);"></span>
+
+				<div class="gate gate-github" style="left: calc(var(--tile) * 1);">
+					<span class="plate">GITHUB</span>
+					<a class="door" data-door="G" href="https://github.com/malls" aria-label="GitHub — github.com/malls"></a>
+				</div>
+				<div class="gate gate-twitter" style="left: calc(var(--tile) * 6);">
+					<span class="plate">TWITTER</span>
+					<a class="door" data-door="T" href="https://twitter.com/forrestalmasi" aria-label="Twitter — @forrestalmasi"></a>
+				</div>
+				<div class="gate gate-email" style="left: calc(var(--tile) * 11);">
+					<span class="plate">EMAIL</span>
+					<a class="door" data-door="E" href="mailto:_@forrestalmasi.com" aria-label="Email — _@forrestalmasi.com"></a>
+				</div>
+
+				<span class="critter" data-frame="0" aria-hidden="true" style="left: calc(var(--tile) * 11); top: calc(var(--tile) * 9);"></span>
+				<span class="hero" data-face="down" data-frame="0" aria-hidden="true" style="left: calc(var(--tile) * 8); top: calc(var(--tile) * 9);"></span>
+			</div>
+
+			<span class="scan" aria-hidden="true"></span>
+			<span class="ring" aria-hidden="true"></span>
+		</div>
+
+		<div class="dpad" aria-hidden="true">
+			<button type="button" tabindex="-1" class="d-up" data-dir="up">^</button>
+			<button type="button" tabindex="-1" class="d-left" data-dir="left">&lt;</button>
+			<button type="button" tabindex="-1" class="d-right" data-dir="right">&gt;</button>
+			<button type="button" tabindex="-1" class="d-down" data-dir="down">v</button>
+		</div>
+	</div>
+
+	<script src="./script.js"></script>
+	<script>SITES['8bit'](document);</script>
+</body>
+
+</html>

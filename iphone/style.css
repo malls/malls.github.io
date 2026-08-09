@@ -1,0 +1,557 @@
+/* ── Palette — names from iphone/BRANDING.md ─────────────── */
+:root {
+	--lcd: #0A0C10;
+	--cell: #FFFFFF;
+	--ink: #000000;
+	--chrome-hi: #F8F9FA;
+	--chrome-lo: #8E9299;
+
+	--bar-hi: #B2BCCC;
+	--bar-lo: #6D84A2;
+	--pinstripe: #C6CCD4;
+	--groove: #4C566C;
+	--hairline: #A9ABAE;
+	--seam: #E0E0E0;
+
+	--select-hi: #0B88EE;
+	--select-lo: #0353C4;
+	--detail: #385487;
+	--badge: #C8261B;
+	--gel-green-hi: #8CD156;
+	--gel-green-lo: #2F7A16;
+
+	--pad: #F8F5A9;
+	--pad-line: #C9C48D;
+	--pad-ink: #3B3A25;
+
+	/* engraving — every letterform carries exactly one of these */
+	--letterpress: rgb(255 255 255 / 0.75);
+	--engrave: rgb(0 0 0 / 0.45);
+
+	/* molding */
+	--edge: rgb(0 0 0 / 0.40);
+	--shine: rgb(255 255 255 / 0.60);
+
+	/* type — Helvetica, never system-ui: that resolves to the flat era */
+	--font-ui: Helvetica, Arial, 'Liberation Sans', sans-serif;
+	--font-pad: 'Marker Felt', 'Segoe Print', 'Comic Sans MS', cursive;
+
+	--t-label: 11px;
+	--t-status: 12px;
+	--t-caption: 14px;
+	--t-body: 17px;
+	--t-cell: 20px;
+	--t-clock: 58px;
+
+	/* metrics — the 320-point world */
+	--h-status: 20px;
+	--h-bar: 44px;
+	--h-cell: 44px;
+	--h-dock: 92px;
+	--icon: 57px;
+	--gutter: 10px;
+
+	--r-key: 5px;
+	--r-btn: 8px;
+	--r-cell: 10px;
+	--r-pill: 999px;
+}
+
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+html,
+body {
+	height: 100%;
+	overflow: hidden;
+	background: var(--lcd);
+	font-family: var(--font-ui);
+	-webkit-tap-highlight-color: transparent;
+}
+
+/* ── The screen ──────────────────────────────────────────── */
+/* The viewport IS the screen: status bar above, dock below,
+	one scroll container between them. No drawn hardware bezel. */
+.screen {
+	position: relative;
+	height: 100%;
+	overflow: hidden;
+	background: var(--lcd);
+}
+
+/* ── Status bar ──────────────────────────────────────────── */
+.status {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	height: var(--h-status);
+	z-index: 3;
+	display: flex;
+	align-items: center;
+	gap: 5px;
+	padding: 0 6px;
+	background-image: linear-gradient(#484848, #000 45%);
+	color: #FFF;
+	font-size: var(--t-status);
+	font-weight: bold;
+	text-shadow: 0 -1px 0 var(--engrave);
+}
+
+.signal {
+	display: flex;
+	align-items: flex-end;
+	gap: 1px;
+}
+
+.signal span {
+	width: 3px;
+	background: #FFF;
+}
+
+.signal span:nth-child(1) {
+	height: 3px;
+}
+
+.signal span:nth-child(2) {
+	height: 5px;
+}
+
+.signal span:nth-child(3) {
+	height: 7px;
+}
+
+.signal span:nth-child(4) {
+	height: 9px;
+}
+
+.signal span:nth-child(5) {
+	height: 11px;
+}
+
+.time {
+	position: absolute;
+	left: 0;
+	right: 0;
+	text-align: center;
+	pointer-events: none;
+}
+
+.battery {
+	position: relative;
+	margin-left: auto;
+	width: 21px;
+	height: 10px;
+	border: 1px solid rgb(255 255 255 / 0.9);
+}
+
+.battery::before {
+	content: '';
+	position: absolute;
+	inset: 1px 30% 1px 1px;
+	background-image: linear-gradient(var(--gel-green-hi), var(--gel-green-lo));
+}
+
+.battery::after {
+	content: '';
+	position: absolute;
+	right: -3px;
+	top: 2px;
+	width: 2px;
+	height: 4px;
+	background: rgb(255 255 255 / 0.9);
+}
+
+/* ── Content — the one scroll container ──────────────────── */
+.content {
+	position: absolute;
+	top: var(--h-status);
+	bottom: var(--h-dock);
+	left: 0;
+	right: 0;
+	overflow-y: auto;
+}
+
+/* ── Lock plate hero ─────────────────────────────────────── */
+/* One of the three sanctioned translucents. */
+.plate {
+	padding: 16px var(--gutter) 18px;
+	background-image: linear-gradient(rgb(0 0 0 / 0.30), rgb(0 0 0 / 0.55));
+	border-top: 1px solid rgb(255 255 255 / 0.18);
+	border-bottom: 1px solid rgb(255 255 255 / 0.18);
+	text-align: center;
+	color: #FFF;
+}
+
+.plate h1 {
+	font-size: var(--t-clock);
+	font-weight: 300;
+	line-height: 1.02;
+	text-shadow: 0 -1px 0 var(--engrave);
+}
+
+.plate .role {
+	margin-top: 7px;
+	font-size: var(--t-caption);
+	color: rgb(255 255 255 / 0.8);
+	text-shadow: 0 -1px 0 var(--engrave);
+}
+
+/* ── SpringBoard ─────────────────────────────────────────── */
+.springboard {
+	display: grid;
+	grid-template-columns: repeat(4, 70px);
+	justify-content: center;
+	gap: 18px 4px;
+	margin: 28px auto 30px;
+	padding: 0 var(--gutter);
+	list-style: none;
+}
+
+.app {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 4px;
+	text-decoration: none;
+	border: 0;
+	background: none;
+	font-family: var(--font-ui);
+	cursor: pointer;
+}
+
+.icon-holder {
+	position: relative;
+	width: var(--icon);
+	height: var(--icon);
+}
+
+/* The four-layer sandwich: edge, top highlight, gloss, label. */
+.icon {
+	position: relative;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: var(--icon);
+	height: var(--icon);
+	border: 1px solid var(--edge);
+	border-radius: var(--r-cell);
+	box-shadow: 0 1px 2px rgb(0 0 0 / 0.5);
+	overflow: hidden;
+}
+
+.icon::after {
+	content: '';
+	position: absolute;
+	inset: 0;
+	border-radius: inherit;
+	background-image: radial-gradient(140% 105% at 50% -50%,
+			rgb(255 255 255 / 0.70) 0%,
+			rgb(255 255 255 / 0.18) 99%,
+			rgb(255 255 255 / 0) 100%);
+	pointer-events: none;
+}
+
+.app:active .icon {
+	filter: brightness(0.6);
+}
+
+.icon-github {
+	background-image: linear-gradient(var(--bar-hi), var(--bar-lo));
+}
+
+.icon-twitter {
+	background-image: linear-gradient(var(--select-hi), var(--select-lo));
+}
+
+.icon-mail {
+	background-image: linear-gradient(var(--chrome-hi), var(--chrome-lo));
+}
+
+.icon-notes {
+	background-color: var(--pad);
+	background-image:
+		linear-gradient(#8A6D48, #A98A5F),
+		repeating-linear-gradient(to bottom, transparent 0 7px, var(--pad-line) 7px 8px);
+	background-size: 100% 13px, 100% 100%;
+	background-position: 0 0, 0 13px;
+	background-repeat: no-repeat;
+}
+
+.icon svg {
+	width: 30px;
+	height: 30px;
+}
+
+.icon .at {
+	color: #FFF;
+	font-size: 34px;
+	font-weight: bold;
+	text-shadow: 0 -1px 0 var(--engrave);
+}
+
+.app-label {
+	font-size: var(--t-label);
+	font-weight: bold;
+	color: #FFF;
+	text-shadow: 0 1px 1px rgb(0 0 0 / 0.8);
+}
+
+.iphone-badge {
+	position: absolute;
+	top: -7px;
+	right: -7px;
+	z-index: 2;
+	min-width: 14px;
+	padding: 2px 5px;
+	border: 2px solid #FFF;
+	border-radius: var(--r-pill);
+	background-image:
+		radial-gradient(130% 100% at 50% -40%, rgb(255 255 255 / 0.55), rgb(255 255 255 / 0) 60%),
+		linear-gradient(#EF7160, var(--badge));
+	box-shadow: 0 1px 2px rgb(0 0 0 / 0.5);
+	color: #FFF;
+	font-size: 13px;
+	font-weight: bold;
+	line-height: 1;
+	text-align: center;
+	text-shadow: 0 -1px 0 rgb(0 0 0 / 0.30);
+}
+
+/* ── The pad (Notes) ─────────────────────────────────────── */
+/* Without JS it renders open, in flow — content is never trapped. */
+.pad-sheet {
+	margin: 0 var(--gutter) 26px;
+	border: 1px solid var(--edge);
+	border-radius: var(--r-cell);
+	overflow: hidden;
+}
+
+.pad-bar {
+	position: relative;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: var(--h-bar);
+	background-image: linear-gradient(var(--bar-hi), var(--bar-lo));
+	box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.55);
+	border-bottom: 1px solid #2D3642;
+}
+
+.pad-bar h2 {
+	font-size: var(--t-cell);
+	font-weight: bold;
+	color: #FFF;
+	text-shadow: 0 -1px 0 var(--engrave);
+}
+
+.iphone-gel {
+	border: 1px solid var(--edge);
+	border-radius: var(--r-btn);
+	background-image:
+		linear-gradient(rgb(255 255 255 / 0.55) 0%,
+			rgb(255 255 255 / 0.18) 50%,
+			rgb(255 255 255 / 0) 50%),
+		linear-gradient(var(--select-hi), var(--select-lo));
+	box-shadow:
+		inset 0 1px 0 rgb(255 255 255 / 0.40),
+		0 1px 0 rgb(255 255 255 / 0.15);
+	color: #FFF;
+	font-family: var(--font-ui);
+	font-size: 13px;
+	font-weight: bold;
+	text-shadow: 0 -1px 0 var(--engrave);
+	cursor: pointer;
+}
+
+.iphone-gel:active {
+	background-image:
+		linear-gradient(rgb(0 0 0 / 0.18), rgb(0 0 0 / 0.06)),
+		linear-gradient(rgb(255 255 255 / 0.55) 0%,
+			rgb(255 255 255 / 0.18) 50%,
+			rgb(255 255 255 / 0) 50%),
+		linear-gradient(var(--select-hi), var(--select-lo));
+}
+
+.pad-done {
+	position: absolute;
+	right: 6px;
+	height: 30px;
+	padding: 0 10px;
+	display: none;
+	/* only useful once JS makes the pad a sheet */
+}
+
+.iphone-pad {
+	background-color: var(--pad);
+	background-image: repeating-linear-gradient(to bottom,
+			transparent 0 27px,
+			var(--pad-line) 27px 28px);
+	color: var(--pad-ink);
+	font-family: var(--font-pad);
+	font-size: var(--t-body);
+	line-height: 28px;
+	padding: 0 12px 28px;
+}
+
+.iphone-pad h3 {
+	font-size: var(--t-cell);
+	line-height: 28px;
+	font-weight: bold;
+}
+
+.iphone-pad p {
+	margin: 0;
+}
+
+.iphone-pad a {
+	color: var(--detail);
+}
+
+/* JS converts the pad into a slide-up sheet. */
+.has-js .pad-sheet {
+	position: absolute;
+	top: var(--h-status);
+	left: 0;
+	right: 0;
+	bottom: 0;
+	z-index: 6;
+	margin: 0;
+	border: 0;
+	border-radius: 0;
+	display: flex;
+	flex-direction: column;
+	transform: translateY(105%);
+	transition: transform 300ms ease-in-out;
+}
+
+.has-js .pad-sheet.is-open {
+	transform: translateY(0);
+}
+
+.has-js .pad-done {
+	display: block;
+}
+
+.has-js .iphone-pad {
+	flex: 1;
+	overflow-y: auto;
+}
+
+/* ── Slide to unlock ─────────────────────────────────────── */
+.unlock {
+	margin: 0 auto 26px;
+	padding: 0 var(--gutter);
+	max-width: 320px;
+}
+
+.well {
+	position: relative;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: var(--h-cell);
+	border-radius: var(--r-pill);
+	background-image: linear-gradient(rgb(0 0 0 / 0.85), rgb(0 0 0 / 0.6));
+	box-shadow:
+		inset 0 1px 2px rgb(0 0 0 / 0.9),
+		0 1px 0 rgb(255 255 255 / 0.12);
+	/* the lit bottom lip */
+}
+
+.iphone-slide-label {
+	padding-left: 44px;
+	font-size: var(--t-body);
+	color: #7B7B7B;
+	/* fallback when clip fails */
+	background-image: linear-gradient(100deg,
+			#7B7B7B 40%, #FFFFFF 50%, #7B7B7B 60%);
+	background-size: 200% 100%;
+	-webkit-background-clip: text;
+	background-clip: text;
+	-webkit-text-fill-color: transparent;
+	animation: iphone-shimmer 2.6s linear infinite;
+}
+
+@keyframes iphone-shimmer {
+	from {
+		background-position: 180% 0;
+	}
+
+	to {
+		background-position: -80% 0;
+	}
+}
+
+.thumb {
+	position: absolute;
+	left: 4px;
+	top: 4px;
+	bottom: 4px;
+	width: 68px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border: 1px solid var(--edge);
+	border-radius: var(--r-pill);
+	background-image:
+		linear-gradient(rgb(255 255 255 / 0.55) 0%,
+			rgb(255 255 255 / 0.18) 50%,
+			rgb(255 255 255 / 0) 50%),
+		linear-gradient(var(--chrome-hi), var(--chrome-lo));
+	box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.6);
+	transition: transform 300ms ease-in-out;
+	touch-action: none;
+}
+
+.iphone-chevron {
+	width: 8px;
+	height: 8px;
+	border-top: 3px solid #7A7A7E;
+	border-right: 3px solid #7A7A7E;
+	transform: rotate(45deg);
+}
+
+/* ── The dock ────────────────────────────────────────────── */
+.dock {
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	height: var(--h-dock);
+	z-index: 2;
+	display: flex;
+	justify-content: center;
+	gap: 26px;
+	padding-top: 7px;
+	background-image:
+		radial-gradient(140% 160% at 50% -40%, rgb(255 255 255 / 0.28), rgb(255 255 255 / 0) 60%),
+		linear-gradient(rgb(126 138 154 / 0.75), rgb(36 42 50 / 0.92));
+	border-top: 1px solid rgb(255 255 255 / 0.25);
+}
+
+.dock .app {
+	gap: 1px;
+}
+
+.iphone-reflection {
+	transform: scaleY(-1);
+	opacity: 0.28;
+	-webkit-mask-image: linear-gradient(to top, rgb(0 0 0 / 0.7) 0%, transparent 55%);
+	mask-image: linear-gradient(to top, rgb(0 0 0 / 0.7) 0%, transparent 55%);
+	pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+	*,
+	*::before,
+	*::after {
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0.01ms !important;
+	}
+}

@@ -1,0 +1,39 @@
+{
+  "assigned_to": null,
+  "branch_links": [
+    {
+      "branch": "liquid",
+      "linked_at": "2026-08-09T00:31:39Z",
+      "linked_by": "agent:claude-fable-5",
+      "repo": null
+    }
+  ],
+  "comment_count": 2,
+  "complexity": "medium",
+  "created_at": "2026-08-09T00:31:33Z",
+  "created_by": "agent:claude-fable-5",
+  "custom_fields": {},
+  "description": "Render slop/BRANDING.md into slop/index.html using the brand-page skill (procedure at .claude/skills/brand-page/SKILL.md \u2014 read it in full; it is the authoritative workflow). Human invoked /brand-page on 2026-08-08 immediately after FA-14 landed the brief (commits 1d7cd4e, c967aaf). Scope: slop/index.html only (self-contained inline style/script, standalone page). The brief's \u00a711 'Page application' describes the target page concretely and \u00a711 'Build-contract constraints' restates the sub-site authoring contract \u2014 both must be honored, along with the brief's every-word law, gold-ramp recipe, garble lexicon, SVG clip-art data URIs, raster degradation rule (the three /slop/*.png images do NOT exist yet \u2014 the gradient stand-ins must carry the page), and own scroll container. Per the skill: do NOT commit (leave in working tree), do NOT touch root index.html/style.css/script.js, no external requests except the brief's named Google Fonts import. Out of scope: sites.config.json mapping, node build.js, generating raster images.",
+  "done_at": "2026-08-09T05:06:14Z",
+  "evidence_refs": [
+    {
+      "id": "ev_01KZJEM1QG572DWYHEDAGHAWWB",
+      "role": "review",
+      "source_type": "comment"
+    }
+  ],
+  "id": "task_01KZHYX7D9AG15VAGMBJVRERTH",
+  "last_event_id": "ev_01KZJEM66S233BT6NVMFCMY9HR",
+  "last_status_changed_at": "2026-08-09T05:06:14Z",
+  "priority": "medium",
+  "relationships_out": [],
+  "reopened_count": 0,
+  "schema_version": 1,
+  "short_id": "FA-16",
+  "status": "done",
+  "tags": null,
+  "title": "Generate slop/index.html from BRANDING.md via brand-page skill",
+  "type": "task",
+  "updated_at": "2026-08-09T05:06:14Z",
+  "urgency": null
+}

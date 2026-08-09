@@ -1,0 +1,32 @@
+{
+  "assigned_to": null,
+  "branch_links": [],
+  "comment_count": 1,
+  "complexity": null,
+  "created_at": "2026-08-08T23:43:03Z",
+  "created_by": "agent:claude-fable-5",
+  "custom_fields": {},
+  "description": null,
+  "done_at": "2026-08-08T23:52:11Z",
+  "evidence_refs": [
+    {
+      "id": "ev_01KZHWM9H4PAVGC1NED5HW670K",
+      "role": "review",
+      "source_type": "comment"
+    }
+  ],
+  "id": "task_01KZHW4D46ZHHDSSNY5CMJP9V4",
+  "last_event_id": "ev_01KZHWN4R81SCD4NC18BSNFA7F",
+  "last_status_changed_at": "2026-08-08T23:52:11Z",
+  "priority": "medium",
+  "relationships_out": [],
+  "reopened_count": 0,
+  "schema_version": 1,
+  "short_id": "FA-10",
+  "status": "done",
+  "tags": null,
+  "title": "Write 8bit/BRANDING.md: arcade-palette Zelda-style playable link level (arrow keys move player, up at a door follows the link)",
+  "type": "task",
+  "updated_at": "2026-08-08T23:52:11Z",
+  "urgency": null
+}

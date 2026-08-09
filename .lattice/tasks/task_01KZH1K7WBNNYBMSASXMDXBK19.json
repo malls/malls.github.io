@@ -1,0 +1,39 @@
+{
+  "assigned_to": null,
+  "branch_links": [
+    {
+      "branch": "liquid",
+      "linked_at": "2026-08-08T15:59:18Z",
+      "linked_by": "agent:fable-5-orchestrator",
+      "repo": null
+    }
+  ],
+  "comment_count": 2,
+  "complexity": null,
+  "created_at": "2026-08-08T15:59:17Z",
+  "created_by": "agent:fable-5-orchestrator",
+  "custom_fields": {},
+  "description": null,
+  "done_at": "2026-08-08T16:05:49Z",
+  "evidence_refs": [
+    {
+      "id": "ev_01KZH1Z65VMZVH7XG0WY63WW0S",
+      "role": "review",
+      "source_type": "comment"
+    }
+  ],
+  "id": "task_01KZH1K7WBNNYBMSASXMDXBK19",
+  "last_event_id": "ev_01KZH1Z695D7HR9VGC87PYCAVX",
+  "last_status_changed_at": "2026-08-08T16:05:49Z",
+  "priority": "medium",
+  "relationships_out": [],
+  "reopened_count": 0,
+  "schema_version": 1,
+  "short_id": "FA-1",
+  "status": "done",
+  "tags": null,
+  "title": "Move current site into random/ and turn index.html into a breakpoint router (random at 800-900px)",
+  "type": "task",
+  "updated_at": "2026-08-08T16:05:49Z",
+  "urgency": null
+}

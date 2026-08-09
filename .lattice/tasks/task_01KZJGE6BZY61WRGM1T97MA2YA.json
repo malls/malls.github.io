@@ -1,0 +1,32 @@
+{
+  "assigned_to": null,
+  "branch_links": [],
+  "comment_count": 2,
+  "complexity": null,
+  "created_at": "2026-08-09T05:37:55Z",
+  "created_by": "agent:fable-5",
+  "custom_fields": {},
+  "description": null,
+  "done_at": "2026-08-09T14:46:31Z",
+  "evidence_refs": [
+    {
+      "id": "ev_01KZKFTPEDGMJ5H500590AGJ5F",
+      "role": "review",
+      "source_type": "comment"
+    }
+  ],
+  "id": "task_01KZJGE6BZY61WRGM1T97MA2YA",
+  "last_event_id": "ev_01KZKFTPHVBJC8EVBSRKVKNPV3",
+  "last_status_changed_at": "2026-08-09T14:46:31Z",
+  "priority": "medium",
+  "relationships_out": [],
+  "reopened_count": 0,
+  "schema_version": 1,
+  "short_id": "FA-22",
+  "status": "done",
+  "tags": null,
+  "title": "Generate shibuya/index.html from shibuya/BRANDING.md (brand-page)",
+  "type": "task",
+  "updated_at": "2026-08-09T14:46:31Z",
+  "urgency": null
+}
