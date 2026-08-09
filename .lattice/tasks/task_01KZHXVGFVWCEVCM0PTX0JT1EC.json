@@ -1,0 +1,33 @@
+{
+  "assigned_to": null,
+  "branch_links": [
+    {
+      "branch": "liquid",
+      "linked_at": "2026-08-09T00:13:13Z",
+      "linked_by": "agent:claude-fable-5",
+      "repo": null
+    }
+  ],
+  "comment_count": 0,
+  "complexity": "medium",
+  "created_at": "2026-08-09T00:13:08Z",
+  "created_by": "agent:claude-fable-5",
+  "custom_fields": {},
+  "description": "Write slop/BRANDING.md, the design brief for a new sub-site 'slop' whose aesthetic parodies low-effort AI-generated event fliers (reference: a 'TEEN TAKE OVER' park-party flier \u2014 purple/black/gold, graffiti-brush display type, every word styled differently, gold gradient numerals with a random superscript TH, layered hard drop shadows and white outlines, spray-splatter texture, clip-art crowns/stars/peace-signs/arrows, mushy AI-rendered crowd silhouettes and melting city skyline, semi-garbled text like 'BRING YO WHOLE CREW' and '4:30 UNTIL 8:00'). DECISION (human-approved, 2026-08-08): the page will be built in CSS/HTML, NOT as a raster image with an image map \u2014 image maps don't survive responsive scaling, and a code brief lets the brand-page skill regenerate the page. AI-generated raster images are licensed ONLY as decorative background layers (the pseudo-photographic parts CSS can't fake: crowd silhouettes, skyline, garbled park sign), referenced by absolute path /slop/\u2026 because relative CSS URLs break in the root build. Deliverable: slop/BRANDING.md only (folder may need creating); the index.html generation is a separate follow-up task. Format/quality bar: match the structure and rigor of memphis/BRANDING.md \u2014 named palette with tokens and contrast rules, type stack, texture/pattern recipes (SVG data URIs), text-treatment rules, composition rules, a 'what this is not' section (not vaporwave, not real graffiti design, not actual competent street-party design \u2014 it is AI's confused idea of one), and a page-application section. Must respect the sub-site authoring contract in project CLAUDE.md (Google Fonts @import with %3B-encoded semicolons, site-name-prefixed ids/keyframes/font names, etc.).",
+  "done_at": null,
+  "evidence_refs": [],
+  "id": "task_01KZHXVGFVWCEVCM0PTX0JT1EC",
+  "last_event_id": "ev_01KZHXYZYXGJMQPRZV642ZBKD5",
+  "last_status_changed_at": "2026-08-09T00:15:03Z",
+  "priority": "medium",
+  "relationships_out": [],
+  "reopened_count": 0,
+  "schema_version": 1,
+  "short_id": "FA-14",
+  "status": "in_progress",
+  "tags": null,
+  "title": "slop/ BRANDING.md \u2014 AI-slop flier design direction",
+  "type": "task",
+  "updated_at": "2026-08-09T00:15:03Z",
+  "urgency": null
+}
