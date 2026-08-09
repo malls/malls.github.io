@@ -122,6 +122,11 @@ function isRewritableUrl(u) {
 	return true;
 }
 
+// The url() function name is case-insensitive in CSS (URL(…) is legal), and the
+// lookbehind keeps the scanner off identifiers that merely end in "url" — no
+// real url token is ever preceded by a word character.
+const URL_TOKEN = /(?<![\w-])url\(/gi;
+
 // Rewrite relative url() targets in site CSS from site-folder-relative (how the
 // author writes them, so standalone /<site>/ works) to root-relative (how the
 // built index.html at the repo root needs them). String-aware: a url( token that
@@ -130,7 +135,9 @@ function rewriteUrls(css, site) {
 	let out = '';
 	let i = 0;
 	for (;;) {
-		const at = css.indexOf('url(', i);
+		URL_TOKEN.lastIndex = i;
+		const m = URL_TOKEN.exec(css);
+		const at = m ? m.index : -1;
 		if (at === -1) { out += css.slice(i); return out; }
 		out += css.slice(i, at + 4);            // everything up to and including "url("
 		let j = at + 4;
