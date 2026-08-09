@@ -200,11 +200,13 @@ sized in container-query units against the flier canvas, not the viewport:
 ```
 
 ```css
---t-shout: 16cqi;               /* the biggest word on the page — one per page */
---t-big:   11cqi;               /* headline row words */
---t-mid:   7cqi;                /* dates, times, secondary shouts */
---t-small: 4.4cqi;              /* garble lines, labels */
---t-fine:  max(2.9cqi, 11px);   /* fine print — floored, because even slop is read */
+:root {
+	--t-shout: 16cqi;               /* the biggest word on the page — one per page */
+	--t-big:   11cqi;               /* headline row words */
+	--t-mid:   7cqi;                /* dates, times, secondary shouts */
+	--t-small: 4.4cqi;              /* garble lines, labels */
+	--t-fine:  max(2.9cqi, 11px);   /* fine print — floored, because even slop is read */
+}
 ```
 
 At any canvas width the proportions hold, which is the flier behaving like a flier: you
@@ -250,7 +252,7 @@ turn, a false reflection line, shadow. The extrusion and glow come from **chaine
 > then the — here transparent — fill. So a hard `text-shadow` extrusion renders *over*
 > the gold and the numeral becomes a dark silhouette. `drop-shadow()` filters run after
 > the element is rendered and land behind it; chaining them compounds each shadow onto
-> the last, which is exactly what a beveled extrusion wants. This was caught by a 6.
+> the last, which is exactly what a beveled extrusion wants.
 
 > **Gotcha: the ramp spans the element's box, not each glyph run.** A two-line block with
 > one gradient gives the top line all glint and the bottom line all shadow. Apply
@@ -647,11 +649,13 @@ what fliers look like from phone photos of fliers:
 ### Rotation and misalignment
 
 ```css
---tilt-1: -6deg;
---tilt-2: 3.5deg;
---tilt-3: -2deg;
---tilt-4: 5deg;
---tilt-5: -3.5deg;
+:root {
+	--tilt-1: -6deg;
+	--tilt-2: 3.5deg;
+	--tilt-3: -2deg;
+	--tilt-4: 5deg;
+	--tilt-5: -3.5deg;
+}
 ```
 
 - Every display row is rotated; adjacent rows alternate sign; no two adjacent rows share
