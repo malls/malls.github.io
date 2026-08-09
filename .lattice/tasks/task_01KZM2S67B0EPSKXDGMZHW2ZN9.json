@@ -1,26 +1,32 @@
 {
   "assigned_to": null,
   "branch_links": [],
-  "comment_count": 1,
+  "comment_count": 3,
   "complexity": null,
   "created_at": "2026-08-09T20:17:44Z",
   "created_by": "agent:claude-fable-5",
   "custom_fields": {},
   "description": null,
-  "done_at": null,
-  "evidence_refs": [],
+  "done_at": "2026-08-09T20:48:08Z",
+  "evidence_refs": [
+    {
+      "id": "ev_01KZM4GP70CAXJ0XXAM88C2JA3",
+      "role": "review",
+      "source_type": "comment"
+    }
+  ],
   "id": "task_01KZM2S67B0EPSKXDGMZHW2ZN9",
-  "last_event_id": "ev_01KZM384DCQBXS95RNN66PKWH7",
-  "last_status_changed_at": "2026-08-09T20:25:54Z",
+  "last_event_id": "ev_01KZM4GVDBXZPJCWJ8JDBWXJ3Z",
+  "last_status_changed_at": "2026-08-09T20:48:08Z",
   "priority": "medium",
   "relationships_out": [],
   "reopened_count": 0,
   "schema_version": 1,
   "short_id": "FA-28",
-  "status": "in_progress",
+  "status": "done",
   "tags": null,
   "title": "8bit: add level 2 (east screen, more link-doors) + cave dungeon with about-me",
   "type": "task",
-  "updated_at": "2026-08-09T20:25:54Z",
+  "updated_at": "2026-08-09T20:48:08Z",
   "urgency": null
 }
