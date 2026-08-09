@@ -179,8 +179,8 @@ var CAVE_DEST = { level: 3, x: 8, y: 9, face: 'up' };
   (3,8); three gates reusing the `.gate`/`.plate`/`.door` pattern at left tile*1,
   tile*6, tile*11:
   - `gate-linkedin`, plate `LINKEDIN`, `<a class="door" data-door="L"
-    href="https://www.linkedin.com/in/forrestalmasi"
-    aria-label="LinkedIn — linkedin.com/in/forrestalmasi">`
+    href="https://www.linkedin.com/in/forrest-almasi"
+    aria-label="LinkedIn — linkedin.com/in/forrest-almasi">`
   - `gate-random`, plate `RANDOM`, `<a class="door" data-door="R" href="/random/"
     aria-label="Random — another version of this site">`
   - `gate-software`, plate `SOFTWARE`, `<a class="door" data-door="S"
@@ -213,7 +213,7 @@ var CAVE_DEST = { level: 3, x: 8, y: 9, face: 'up' };
 		<li><a href="https://github.com/malls">GitHub</a></li>
 		<li><a href="https://twitter.com/forrestalmasi">Twitter</a></li>
 		<li><a href="mailto:_@forrestalmasi.com">Email</a></li>
-		<li><a href="https://www.linkedin.com/in/forrestalmasi">LinkedIn</a></li>
+		<li><a href="https://www.linkedin.com/in/forrest-almasi">LinkedIn</a></li>
 		<li><a href="/random/">Random — another version of this site</a></li>
 		<li><a href="/software/">Software — another version of this site</a></li>
 	</ul>
@@ -274,7 +274,7 @@ regeneration — ignore the suggestion; never wholesale-regenerate or overwrite 
 existing hand-built page.
 
 - **§5, structures table:** add three rows — LINKEDIN →
-  `https://www.linkedin.com/in/forrestalmasi`, RANDOM → `/random/`, SOFTWARE →
+  `https://www.linkedin.com/in/forrest-almasi`, RANDOM → `/random/`, SOFTWARE →
   `/software/` — and a short paragraph after the table: the cave mouth (dark
   opening in a rock face) is an internal passage, not a link; new assets: rock
   face, cave mouth, dungeon floor, old-man sprite, 2-frame fire, dialog plate.

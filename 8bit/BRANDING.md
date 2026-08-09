@@ -239,7 +239,7 @@ above or beside it — `--navy` plate, `--hud` 8px lettering:
 | Stone gate, `--stone` blocks, `--coin` keystone | `GITHUB` | `https://github.com/malls` |
 | Bird-statue shrine, `--water`/`--deep` statue | `TWITTER` | `https://twitter.com/forrestalmasi` |
 | Post office, `--heart` roof, `--hud` envelope sign | `EMAIL` | `mailto:_@forrestalmasi.com` |
-| Stone gate, `--water`/`--deep` banners | `LINKEDIN` | `https://www.linkedin.com/in/forrestalmasi` |
+| Stone gate, `--water`/`--deep` banners | `LINKEDIN` | `https://www.linkedin.com/in/forrest-almasi` |
 | Dice hut, `--sand` walls, two `--hud` dice signs | `RANDOM` | `/random/` |
 | Terminal gate, `--stone` blocks, `--ghost` screens | `SOFTWARE` | `/software/` |
 
