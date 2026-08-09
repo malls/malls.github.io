@@ -3,8 +3,8 @@
 > Design direction: **Shibuya at night** — street level, Tokyo, some hour after the last
 > Yamanote train. A near-black sky, wet asphalt, and every building face tiled floor to
 > roof with independently lit signs, each one a different business shouting in its own
-> colour. Not "neon city" as a mood — the specific optical fact of standing in the canyon
-> and looking up.
+> colour. Not "neon city" as a mood — the specific optical fact of standing in the canyon,
+> looking up — and straight down the street.
 
 ## 1. The direction
 
@@ -59,7 +59,7 @@ two of the same hue side by side (§3.5).
 |---|---|---|---|
 | `--izakaya` | Izakaya Lantern | `#FF5C33` | Red-orange. Chōchin lantern, yakitori smoke. |
 | `--kusuri` | Pharmacy Green | `#2EE58A` | The green cross; discount-drugstore fascia. |
-| `--karaoke` | Karaoke Magenta | `#FF3D9E` | Karaoke-box pink. Gets the one hue-cycling sign (§7). |
+| `--karaoke` | Karaoke Magenta | `#FF3D9E` | Karaoke-box pink. Gets the one hue-cycling sign (§8). |
 | `--konbini` | Konbini Cyan | `#35D6FF` | Convenience-store cool. Open all night. |
 | `--densha` | Signal Blue | `#3D7BFF` | Transit and vending-machine blue. **The one weak neon** — see the rule. |
 | `--nama` | Beer Yellow | `#FFC933` | 生ビール and taxi lamps. Highest-luminance neon. |
@@ -309,7 +309,7 @@ effect.
   signs touching means one business bought two signs, and that is not this street.
 - **A stack mixes species** — three to five signs, at least three of the species in
   §3.3, sizes unequal.
-- **At most one animated sign per stack** (§7). A stack where everything moves is a
+- **At most one animated sign per stack** (§8). A stack where everything moves is a
   slot machine.
 - **The dark stays between things.** Gaps are thin (`--s-1`–`--s-2`); the night reads
   through as mortar lines, never as empty field.
@@ -408,9 +408,10 @@ vacuum. The full stack is what §3.3's recipes encode.
 
 ## 6. Layout and composition
 
-The page is a street, not a document. Composition is **2–4 vertical sign-stack columns
-of unequal width plus one horizontal marquee band** — building edges around an
-intersection.
+The page is a street, not a document. Composition is **the canyon — two walls of
+scenery converging on the centre (§7) — behind 2–4 near-layer readable sign-stack
+columns of unequal width plus one horizontal marquee band** — building edges around an
+intersection, seen from the middle of the road.
 
 - **Asymmetric always.** Stacks reach different heights; no two stacks align to the
   same top edge; the marquee crosses at neither the top nor the middle.
@@ -431,8 +432,10 @@ intersection.
   }
   ```
 
-  The street-glow wash lives on a non-scrolling sibling layer behind `.street`, or
-  `position: sticky` inside it — **never `position: fixed`** (§9).
+  The street-glow wash *and the canyon scene* (§7) live on non-scrolling sibling
+  layers behind `.street` — canyon behind, wash above it. The wash may instead ride
+  `position: sticky` inside the scroll container; the canyon may not (§7.3) — and
+  neither is ever **`position: fixed`** (§10).
 
 Spacing scale — signs use the small end, the prose panel the large:
 
@@ -447,7 +450,158 @@ clipped.
 
 ---
 
-## 7. Motion
+## 7. Depth — the canyon
+
+The street has an *ahead*. Left and right, two building faces packed with signage run
+away from you and converge on a single point, dead centre of the viewport, where the
+light of every far sign smears into haze. This section is the geometry of that shot,
+and the three distances it is drawn at.
+
+### 7.1 The scene — one point, two walls
+
+Two walls, one point. The request for this construction says "two-point perspective";
+the street disagrees. Two vanishing points is what you get standing on a *corner*,
+watching a building's edge with each face receding its own way. This page stands in
+the middle of the road and looks straight down it — a **one-point** construction:
+both walls converge on the *same* central vanishing point. The "two" the eye counts
+are walls, not points.
+
+One parent owns `perspective`, with `perspective-origin` at viewport centre. Both
+walls are its direct children, so they share that single vanishing point — the shared
+parent is what makes the convergence geometrically true. Two separate `perspective`
+values would mean two vanishing points: the corner shot, banned. Each wall is a plane
+hinged on its own viewport edge and rotated toward the other.
+
+```css
+.canyon {
+	position: absolute;
+	inset: 0;
+	overflow: clip;                /* rotated walls overhang the box — clip, never scroll */
+	perspective: 900px;            /* tune 700–1200px: shorter = deeper street */
+	perspective-origin: 50% 50%;   /* THE vanishing point: dead centre of the viewport */
+	pointer-events: none;          /* scenery takes no clicks */
+}
+
+.canyon-wall {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	width: 62%;                    /* wall run before rotation; overlap at centre is fine — it converges */
+}
+.canyon-wall-left  { left: 0;  transform-origin: left center;  transform: rotateY(58deg); }
+.canyon-wall-right { right: 0; transform-origin: right center; transform: rotateY(-58deg); }
+
+.canyon-end {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 38vmin;
+	height: 30vmin;
+	transform: translate(-50%, -50%);
+	background-image: radial-gradient(closest-side, rgb(150 160 210 / 0.10), transparent 70%);
+}
+```
+
+- **`transform-origin` on the outer edge** pins the near end of each wall to the
+  viewport edge; the far end recedes toward the centre on its own. No positioning
+  arithmetic — the hinge does the work.
+- **No `transform-style: preserve-3d`, anywhere.** The 3D tree is exactly one level
+  deep — perspective parent → rotated plane — and it stops there. Everything on a
+  wall is flat paint *on* the plane; perspective foreshortens it automatically along
+  the wall's run. This is a decision, not an omission: §7.3 lists the properties
+  that silently flatten deeper trees.
+- **`.canyon-end` is the terminus.** A small low-alpha radial haze centred on the
+  perspective-origin — the mixed light of every far sign, which averages out to a
+  desaturated blue-violet. The street ends in sign-haze, never in sky.
+
+### 7.2 The three depth layers
+
+Three named distances carry the falloff. Near has no class — it is the unfiltered,
+unrotated default, and that is the point: the layer you read is the layer nothing has
+been done to.
+
+```css
+/* near — the kerb. Where you stand; everything readable. No class: near is the
+   unfiltered, unrotated default. */
+
+.depth-mid {  /* across the street — the walls' main run */
+	filter: brightness(0.78) saturate(0.85);
+}
+
+.depth-far {  /* down the block — the last stretch before the haze */
+	filter: brightness(0.55) saturate(0.7) blur(1.5px);
+}
+```
+
+| Layer | Where | Scale | Light | Blur | Density |
+|---|---|---|---|---|---|
+| **near** — the kerb | flat, in `.street` | 1 — real size | full §3.2 glow | none | sparse — the few signs you stand under |
+| **mid** — across the street | on the walls, nearer half | foreshortened by the geometry | dimmed ~0.78, desaturated | none | the bulk of the signage |
+| **far** — down the block | on the walls, far half, plus faked-scale flats | geometry, plus `scale()` for extra distance | dimmed ~0.55 | 1.5px | densest — micro signs packed toward the haze |
+
+- **Glow attenuation is free.** `filter: brightness()` dims the letterform *and* its
+  `text-shadow` halo together — which is exactly what air does to a distant sign. No
+  per-layer re-derivation of the §3.2 recipes: far neon is the same recipe seen
+  through more air. Far signs may also swap the full recipe for a cheap
+  approximation — a glowing dash, a lit rectangle — because at that distance a sign
+  is a light, not a message.
+- **Density inverts with distance.** Near is sparse, far is packed: a real street
+  shows more signs per degree the further down it you look. Far texture can be tiny
+  `--film`/hue marks, not full boards.
+- **Real 3D vs faked scale — the decision.** The walls are real 3D — `rotateY` under
+  the shared perspective is what buys true convergence — and depth *along* a wall is
+  free: foreshortening from the geometry plus the atmospheric filters above.
+  Anything deeper than the walls — extra distant blocks, the haze — is **faked with
+  `scale()` on flat elements**, never `translateZ` chains. The reason: a
+  `preserve-3d` chain is flattened by `overflow` other than `visible`, by `filter`,
+  by `opacity` below 1, by `clip-path`, `mask`, `mix-blend-mode`, and
+  `isolation: isolate` — and this brief load-bearingly uses three of those
+  (`.street` scrolls, depth needs `filter`, §10 allows `body { isolation: isolate }`).
+  A one-level 3D tree cannot be flattened by accident; a deep one will be.
+
+### 7.3 Rules and gotchas
+
+1. **Depth is scenery. Readable stays near.** Everything on a wall or behind a depth
+   filter is `aria-hidden="true"` set dressing, exempt from §2 only because nobody
+   is asked to read it — the brightness filter will drag it below 4.5:1, and that is
+   the point: far light is dim. Anything a reader needs lives on the near layer,
+   unrotated and unfiltered, measured against §2 with glows off. A readable sign on
+   a rotated wall is a failure, not a flourish. One more reason the readable layer
+   is flat: browsers rasterise 3D-transformed text, so wall type is slightly soft
+   even before the blur.
+2. **Bare tube type still needs night behind it.** Near-layer `.neon` type set
+   directly on the ground now has scenery behind it. The depth dimming keeps the
+   walls near Board luminance, but check: if a wall's glow creeps behind readable
+   bare type, dim the wall or mount the type on a board — never move the reading to
+   the wall.
+3. **The scene does not scroll and does not move.** It is a non-scrolling sibling
+   *behind* `.street`, exactly like the §3.4 wash — order, back to front: night →
+   canyon → street-glow → `.street`. Put the scene inside the scroll container and
+   the buildings scroll past you; you are standing still — the street scrolls its
+   signs, not its architecture. The §8 bans stand: no parallax, no scroll-driven
+   camera, no dolly. A static scene is reduced-motion-safe by construction, and the
+   blur+rotate rasterisation is paid once.
+4. **Animated signs stay near.** Flicker, buzz, chase and the hue cycle (§8) never
+   sit on a depth-filtered layer — animating inside a filtered, 3D-transformed
+   subtree re-rasterises the whole plane every frame.
+5. **The flattening list.** `preserve-3d` is silently defeated by `overflow` other
+   than `visible`, `filter`, `opacity < 1`, `clip-path`, `mask`, `mix-blend-mode`,
+   `isolation: isolate`, and `contain: paint`. Resolution: this system never needs
+   `preserve-3d`, so §10's `body { isolation: isolate }` and the walls coexist —
+   isolation sits on the site root, the perspective is established *inside* it on
+   `.canyon`, and flattening only bites between a `preserve-3d` parent and its
+   grandchildren, which this construction does not have. Corollary: never put a
+   depth `filter` on `.canyon` itself — a filter on the perspective parent
+   rasterises the whole scene through one filter and kills the per-layer falloff.
+6. **`overflow: clip` on `.canyon`.** A rotated plane's bounding box overhangs the
+   viewport; clip it at the scene, or the 320px no-horizontal-scroll test fails.
+7. **Responsive.** Below ~700px the canyon simplifies: the walls narrow their run
+   and/or the far band collapses into the terminal haze. The vanishing point stays
+   centred, and the scene never causes horizontal scroll — the clip guarantees it.
+
+---
+
+## 8. Motion
 
 Electric, not organic — the anti-liquid again. Everything here is on/off, PWM, mains
 hum. Nothing eases, nothing drifts, nothing breathes.
@@ -563,7 +717,7 @@ trails.
 
 ---
 
-## 8. What this is not
+## 9. What this is not
 
 The failure mode is rendering something adjacent and calling it Shibuya:
 
@@ -571,17 +725,19 @@ The failure mode is rendering something adjacent and calling it Shibuya:
 |---|---|
 | Cyberpunk / Blade Runner | Rain-soaked dystopia, holograms, teal-orange grading, decay as aesthetic. Shibuya at night is *cheerful commerce* — the signs sell beer and karaoke, not existential dread. No smog gradients, no glitch. |
 | Vaporwave | Pink-teal sunsets, perspective grids, Roman busts, irony. This is a real place photographed straight, not a mood about a fake one. |
-| Synthwave / outrun | Horizon grids, chrome script, a sun with scanlines. No horizon exists here — you are inside the canyon looking up. |
+| Synthwave / outrun | Horizon grids, chrome script, a sun with scanlines. Synthwave's vanishing point sits on an open horizon line under a chrome sun, on a glowing grid; ours is buried in sign-haze — the buildings converge, ground and sky never meet, and nothing here is a grid. |
 | Generic neon UI / gamer RGB | A dark dashboard with one accent glow and rounded cards. Shibuya has seven competing light sources and zero soft chrome. |
 | Tokyo-kitsch orientalism | Torii gates, cherry blossoms, faux-brush "wonton" Latin type. The Japanese here is real signage vocabulary in real gothic faces, or it is absent. |
 
 Also out: pure `#000` ground, coloured type on coloured grounds, uniform sign sizes,
 symmetric layouts, glassmorphism blur panels, grey drop shadows, gradients as
-decoration — light glows, surfaces do not.
+decoration — light glows, surfaces do not. And now that the street has depth: no Star
+Wars crawl (`rotateX` prose receding to a point), no tunnel or vortex fly-throughs,
+no scroll-driven camera moves, and no readable text on rotated planes.
 
 ---
 
-## 9. Page application
+## 10. Page application
 
 `shibuya/index.html` renders this brief, built to the sub-site authoring contract in
 the root `CLAUDE.md` (self-contained folder, wrapper `#site-shibuya`, JS as a
@@ -589,14 +745,19 @@ the root `CLAUDE.md` (self-contained folder, wrapper `#site-shibuya`, JS as a
 
 **Structure**, back to front:
 
-- **Night.** Full-bleed `--night` ground with the street-glow wash (§3.4) on a
-  non-scrolling layer. The scrolling `.street` container (§6) sits over it — the
-  built shell does not scroll, so shibuya scrolls itself.
+- **Night.** Full-bleed `--night` ground. The bottom of everything.
+- **Canyon scene (§7).** `aria-hidden` scenery on a non-scrolling layer: two walls
+  carrying the mid and far depth bands of decorative signage, `.canyon-end` haze at
+  the centre.
+- **Street-glow wash (§3.4).** Its own non-scrolling layer, above the canyon.
+- **The street — the near layer.** The scrolling `.street` container (§6) over all of
+  it — the built shell does not scroll, so shibuya scrolls itself. Every item below
+  rides in it: flat, unfiltered, near.
 - **Hero stack.** The tallest column: `forrest almasi` running vertically in
   `.neon-karaoke` tube glow at `--t-sign`, with decorative signs above and below —
   渋谷 upright in `.neon-konbini`, a small 営業中 lantern — all decorative JP marked
   `aria-hidden="true" lang="ja"`.
-- **Marquee band.** `software developer` on the ticker (§7), micro mono, crossing the
+- **Marquee band.** `software developer` on the ticker (§8), micro mono, crossing the
   street off-centre.
 - **The letter home.** One Beer Yellow `.board-panel` holding *What's up?* and the
   blurb in Night ink at `--t-md` — the calm readable panel, 12.8:1 without a single
@@ -620,9 +781,14 @@ the root `CLAUDE.md` (self-contained folder, wrapper `#site-shibuya`, JS as a
   `#site-shibuya` and prefixes everything else. Never set `display` on `html`/`body`;
   no literal `</style>` in CSS or `</script>` in JS.
 - **No commas inside functional pseudo-classes** — `:is(a, b)` is banned by the
-  build; write separate selectors, as §7's hover pair does.
-- **No `position: fixed`** — the wash layer is an absolutely positioned sibling of
-  the scroll container, or `sticky` inside it.
+  build; write separate selectors, as §8's hover pair does.
+- **No `position: fixed`** — the wash and canyon layers are absolutely positioned
+  siblings of the scroll container (the wash may alternatively be `sticky` inside
+  it), with `pointer-events: none` — scenery takes no clicks.
+- **The canyon scene adds no new `@keyframes` and no ids.** It is entirely
+  class-based (`.canyon`, `.canyon-wall`, `.canyon-wall-left`, `.canyon-wall-right`,
+  `.canyon-end`, `.depth-mid`, `.depth-far`) — there is nothing to prefix. That is
+  by construction, not by oversight; do not "fix" it.
 - If any `mix-blend-mode` is used (it should not be needed — the glow system is
   plain paint), the site root sets `isolation: isolate`, written as
   `body { isolation: isolate }` for the build to rewrite.
@@ -648,5 +814,9 @@ the root `CLAUDE.md` (self-contained folder, wrapper `#site-shibuya`, JS as a
 **The test.** All seven neons present; at least four distinct sign species; at least
 three vertical-writing runs; exactly one flickering element and it never dips below
 `0.55` opacity; no colour-on-colour type anywhere; every text/ground pairing passes
-the §2 table **with glows disabled**; reduced motion leaves every sign steady-lit;
-and nothing scrolls horizontally at 320px.
+the §2 table **with glows disabled**; exactly one vanishing point, dead centre, both
+walls converging on it; everything on a wall or behind a depth filter is
+`aria-hidden`; every *readable* element is flat, unfiltered, near-layer, and passes
+§2 with glows off; the scene is static — no parallax — and unchanged under reduced
+motion, which also leaves every sign steady-lit; and nothing scrolls horizontally at
+320px, the rotated walls included.
