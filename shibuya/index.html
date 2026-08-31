@@ -12,86 +12,193 @@
 </head>
 
 <body>
-	<!-- z0 · the canyon — scenery only. Two walls, one vanishing point, dead centre. -->
+	<!-- z0 · the canyon — scenery only. Two walls, one vanishing point, dead centre.
+	     The road is the FIRST child on purpose: painting is DOM order (no preserve-3d,
+	     no depth sort), so the walls paint over the road's side spill and the road shows
+	     in the central wedge between them — correct occlusion for free. -->
 	<div class="canyon" aria-hidden="true">
+		<!-- the wet road — same perspective parent, same single vanishing point -->
+		<div class="canyon-road"></div>
+
 		<div class="canyon-wall canyon-wall-left">
+			<div class="wall-windows"></div>
 			<div class="wall-band band-mid depth-mid">
 				<div class="wallstack">
 					<span class="wsign neon-izakaya" lang="ja">居酒屋</span>
 					<span class="wsign neon-kusuri" lang="ja">薬局</span>
+					<span class="wtube neon-karaoke" lang="ja">ラーメン</span>
 					<span class="wpanel neon-konbini">24</span>
+					<span class="wsign neon-densha" lang="ja">ホテル</span>
 				</div>
 				<div class="wallstack">
-					<span class="wpanel neon-nama" lang="ja">生</span>
 					<span class="wsign neon-karaoke" lang="ja">カラオケ</span>
-					<span class="wsign neon-densha" lang="ja">ホテル</span>
+					<span class="wtube neon-konbini" lang="ja">金券</span>
+					<span class="wpanel neon-densha">B2</span>
+					<span class="wsign neon-nama" lang="ja">焼肉</span>
+					<span class="wlantern"></span>
+				</div>
+				<div class="wallstack wallstack-x">
+					<span class="wsign neon-densha" lang="ja">麻雀</span>
+					<span class="wpanel neon-nama">3F</span>
+					<span class="wtube neon-izakaya" lang="ja">食堂</span>
+					<span class="wsign neon-kusuri" lang="ja">銭湯</span>
+				</div>
+				<div class="wallstack wallstack-x">
+					<span class="wsign neon-izakaya" lang="ja">不動産</span>
+					<span class="wpanel neon-kusuri" lang="ja">薬</span>
+					<span class="wsign neon-karaoke" lang="ja">スナック</span>
+					<span class="wtube neon-konbini" lang="ja">喫茶</span>
+					<span class="wsign neon-densha" lang="ja">渋谷ビル</span>
+					<span class="wpanel neon-nama">4F</span>
 				</div>
 			</div>
 			<div class="wall-band band-far depth-far">
 				<div class="wallstack">
-					<span class="bulb neon-karaoke"></span>
-					<span class="bulb neon-nama"></span>
-					<span class="bulb bulb-wide neon-konbini"></span>
 					<span class="bulb neon-izakaya"></span>
-					<span class="bulb neon-kusuri"></span>
-					<span class="bulb bulb-wide neon-densha"></span>
-				</div>
-				<div class="wallstack">
-					<span class="bulb bulb-wide neon-izakaya"></span>
+					<span class="bulb-dot neon-kusuri"></span>
+					<span class="bulb bulb-wide neon-karaoke"></span>
 					<span class="bulb neon-konbini"></span>
-					<span class="bulb neon-karaoke"></span>
-					<span class="bulb bulb-wide neon-nama"></span>
-					<span class="bulb neon-densha"></span>
-					<span class="bulb neon-kusuri"></span>
+					<span class="bulb-col neon-densha"></span>
+					<span class="bulb-dot neon-nama"></span>
+					<span class="bulb neon-izakaya"></span>
+					<span class="bulb bulb-wide neon-kusuri"></span>
 				</div>
 				<div class="wallstack">
+					<span class="bulb bulb-wide neon-konbini"></span>
+					<span class="bulb neon-densha"></span>
+					<span class="bulb-dot neon-nama"></span>
+					<span class="bulb-col neon-izakaya"></span>
+					<span class="bulb neon-kusuri"></span>
+					<span class="bulb-dot neon-karaoke"></span>
+					<span class="bulb neon-konbini"></span>
+				</div>
+				<div class="wallstack">
+					<span class="bulb neon-kusuri"></span>
+					<span class="bulb-col neon-karaoke"></span>
+					<span class="bulb-dot neon-konbini"></span>
+					<span class="bulb bulb-wide neon-densha"></span>
+					<span class="bulb neon-nama"></span>
+					<span class="bulb-dot neon-izakaya"></span>
 					<span class="bulb neon-kusuri"></span>
 					<span class="bulb bulb-wide neon-karaoke"></span>
-					<span class="bulb neon-izakaya"></span>
-					<span class="bulb neon-densha"></span>
-					<span class="bulb bulb-wide neon-konbini"></span>
+				</div>
+				<div class="wallstack">
+					<span class="bulb-dot neon-densha"></span>
 					<span class="bulb neon-nama"></span>
+					<span class="bulb bulb-wide neon-izakaya"></span>
+					<span class="bulb-dot neon-kusuri"></span>
+					<span class="bulb neon-karaoke"></span>
+					<span class="bulb-col neon-konbini"></span>
+					<span class="bulb-dot neon-densha"></span>
+				</div>
+				<!-- the last clutter before the haze — extra distance faked with scale() -->
+				<div class="band-deep">
+					<div class="wallstack">
+						<span class="bulb-dot neon-kusuri"></span>
+						<span class="bulb-dot neon-karaoke"></span>
+						<span class="bulb neon-konbini"></span>
+						<span class="bulb-dot neon-densha"></span>
+						<span class="bulb-dot neon-nama"></span>
+					</div>
+					<div class="wallstack">
+						<span class="bulb-dot neon-densha"></span>
+						<span class="bulb-dot neon-nama"></span>
+						<span class="bulb-dot neon-izakaya"></span>
+						<span class="bulb neon-kusuri"></span>
+						<span class="bulb-dot neon-karaoke"></span>
+						<span class="bulb-dot neon-konbini"></span>
+					</div>
 				</div>
 			</div>
 		</div>
 
 		<div class="canyon-wall canyon-wall-right">
+			<div class="wall-windows"></div>
 			<div class="wall-band band-mid depth-mid">
-				<div class="wallstack">
-					<span class="wsign neon-karaoke" lang="ja">スナック</span>
-					<span class="wsign neon-nama" lang="ja">喫茶</span>
-					<span class="wsign neon-densha" lang="ja">質屋</span>
-				</div>
 				<div class="wallstack">
 					<span class="wsign neon-izakaya" lang="ja">寿司</span>
 					<span class="wpanel neon-kusuri" lang="ja">ゲーム</span>
+					<span class="wtube neon-karaoke" lang="ja">ダーツ</span>
 					<span class="wsign neon-konbini" lang="ja">タバコ</span>
+					<span class="wsign neon-densha" lang="ja">質屋</span>
+				</div>
+				<div class="wallstack">
+					<span class="wsign neon-karaoke" lang="ja">中華</span>
+					<span class="wtube neon-konbini" lang="ja">ネット</span>
+					<span class="wsign neon-densha" lang="ja">占い</span>
+					<span class="wpanel neon-nama" lang="ja">酒</span>
+					<span class="wlantern"></span>
+				</div>
+				<div class="wallstack wallstack-x">
+					<span class="wsign neon-densha" lang="ja">クリーニング</span>
+					<span class="wtube neon-nama" lang="ja">定食</span>
+					<span class="wsign neon-izakaya" lang="ja">うどん</span>
+					<span class="wpanel neon-kusuri">2F</span>
+				</div>
+				<div class="wallstack wallstack-x">
+					<span class="wtube neon-izakaya" lang="ja">串かつ</span>
+					<span class="wsign neon-kusuri" lang="ja">理容</span>
+					<span class="wpanel neon-karaoke">5F</span>
+					<span class="wsign neon-konbini" lang="ja">パチンコ</span>
+					<span class="wsign neon-densha" lang="ja">道玄坂ビル</span>
+					<span class="wtube neon-nama" lang="ja">カレー</span>
 				</div>
 			</div>
 			<div class="wall-band band-far depth-far">
 				<div class="wallstack">
-					<span class="bulb neon-nama"></span>
-					<span class="bulb bulb-wide neon-karaoke"></span>
-					<span class="bulb neon-densha"></span>
-					<span class="bulb neon-izakaya"></span>
-					<span class="bulb bulb-wide neon-kusuri"></span>
-					<span class="bulb neon-konbini"></span>
-				</div>
-				<div class="wallstack">
-					<span class="bulb neon-densha"></span>
-					<span class="bulb neon-izakaya"></span>
-					<span class="bulb bulb-wide neon-nama"></span>
-					<span class="bulb neon-kusuri"></span>
-					<span class="bulb bulb-wide neon-karaoke"></span>
-					<span class="bulb neon-konbini"></span>
-				</div>
-				<div class="wallstack">
-					<span class="bulb bulb-wide neon-konbini"></span>
-					<span class="bulb neon-nama"></span>
 					<span class="bulb neon-karaoke"></span>
-					<span class="bulb bulb-wide neon-izakaya"></span>
+					<span class="bulb-dot neon-konbini"></span>
+					<span class="bulb bulb-wide neon-densha"></span>
+					<span class="bulb neon-nama"></span>
+					<span class="bulb-col neon-izakaya"></span>
+					<span class="bulb-dot neon-kusuri"></span>
+					<span class="bulb neon-karaoke"></span>
+					<span class="bulb bulb-wide neon-konbini"></span>
+				</div>
+				<div class="wallstack">
+					<span class="bulb bulb-wide neon-nama"></span>
+					<span class="bulb neon-izakaya"></span>
+					<span class="bulb-dot neon-kusuri"></span>
+					<span class="bulb-col neon-karaoke"></span>
+					<span class="bulb neon-konbini"></span>
+					<span class="bulb-dot neon-densha"></span>
+					<span class="bulb neon-nama"></span>
+				</div>
+				<div class="wallstack">
 					<span class="bulb neon-kusuri"></span>
-					<span class="bulb neon-densha"></span>
+					<span class="bulb-dot neon-karaoke"></span>
+					<span class="bulb-col neon-konbini"></span>
+					<span class="bulb bulb-wide neon-densha"></span>
+					<span class="bulb neon-nama"></span>
+					<span class="bulb-dot neon-izakaya"></span>
+					<span class="bulb neon-kusuri"></span>
+					<span class="bulb bulb-wide neon-karaoke"></span>
+				</div>
+				<div class="wallstack">
+					<span class="bulb-dot neon-densha"></span>
+					<span class="bulb neon-nama"></span>
+					<span class="bulb bulb-wide neon-izakaya"></span>
+					<span class="bulb-dot neon-kusuri"></span>
+					<span class="bulb neon-karaoke"></span>
+					<span class="bulb-col neon-konbini"></span>
+					<span class="bulb-dot neon-densha"></span>
+				</div>
+				<div class="band-deep">
+					<div class="wallstack">
+						<span class="bulb-dot neon-kusuri"></span>
+						<span class="bulb-dot neon-karaoke"></span>
+						<span class="bulb neon-konbini"></span>
+						<span class="bulb-dot neon-densha"></span>
+						<span class="bulb-dot neon-nama"></span>
+					</div>
+					<div class="wallstack">
+						<span class="bulb-dot neon-densha"></span>
+						<span class="bulb-dot neon-nama"></span>
+						<span class="bulb-dot neon-izakaya"></span>
+						<span class="bulb neon-kusuri"></span>
+						<span class="bulb-dot neon-karaoke"></span>
+						<span class="bulb-dot neon-konbini"></span>
+					</div>
 				</div>
 			</div>
 		</div>

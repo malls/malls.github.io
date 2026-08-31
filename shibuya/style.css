@@ -110,13 +110,17 @@ body {
 	background-color: var(--asphalt);
 }
 
+/* wall fabric: depth fade on top, then floor slabs (~9vh rhythm) and vertical
+   mullions — together they imply a window grid at --film-1 alpha. Building
+   structure the signs bolt onto, not a glowing grid: 4% white on asphalt. */
 .canyon-wall-left {
 	left: 0;
 	transform-origin: left center;
 	transform: rotateY(58deg);
 	background-image:
 		linear-gradient(to right, rgb(10 10 18 / 0) 0%, rgb(10 10 18 / 0.55) 60%, rgb(10 10 18 / 0.92) 100%),
-		repeating-linear-gradient(to bottom, var(--film-1) 0 2px, rgb(255 255 255 / 0) 2px 11vh);
+		repeating-linear-gradient(to bottom, var(--film-1) 0 2px, rgb(255 255 255 / 0) 2px 9vh),
+		repeating-linear-gradient(to right, var(--film-1) 0 1px, rgb(255 255 255 / 0) 1px 6vw);
 }
 
 .canyon-wall-right {
@@ -126,18 +130,102 @@ body {
 	flex-direction: row-reverse;
 	background-image:
 		linear-gradient(to left, rgb(10 10 18 / 0) 0%, rgb(10 10 18 / 0.55) 60%, rgb(10 10 18 / 0.92) 100%),
-		repeating-linear-gradient(to bottom, var(--film-1) 0 2px, rgb(255 255 255 / 0) 2px 11vh);
+		repeating-linear-gradient(to bottom, var(--film-1) 0 2px, rgb(255 255 255 / 0) 2px 9vh),
+		repeating-linear-gradient(to right, var(--film-1) 0 1px, rgb(255 255 255 / 0) 1px 6vw);
 }
 
-/* the terminus — the mixed light of every far sign, never sky */
+/* a few lit windows — interior light, someone still up — plus storefront spill
+   pooling at the wall base. One element, one paint: every "window" is a tiny
+   no-repeat gradient layer; the spill is 2–3 low-alpha hue pools rising from
+   the base. Light glows, the surface does not. */
+.wall-windows {
+	position: absolute;
+	inset: 0;
+	background-repeat: no-repeat;
+}
+
+.canyon-wall-left .wall-windows {
+	background-image:
+		linear-gradient(rgb(255 200 140 / 0.16), rgb(255 200 140 / 0.10)),
+		linear-gradient(rgb(255 200 140 / 0.12), rgb(255 200 140 / 0.08)),
+		linear-gradient(rgb(255 210 160 / 0.14), rgb(255 210 160 / 0.09)),
+		linear-gradient(rgb(255 200 140 / 0.10), rgb(255 200 140 / 0.07)),
+		linear-gradient(rgb(255 210 160 / 0.17), rgb(255 210 160 / 0.11)),
+		linear-gradient(to top, rgb(255 92 51 / 0.12), rgb(255 92 51 / 0) 100%),
+		linear-gradient(to top, rgb(255 201 51 / 0.08), rgb(255 201 51 / 0) 100%),
+		linear-gradient(to top, rgb(255 61 158 / 0.07), rgb(255 61 158 / 0) 100%);
+	background-size:
+		2.6% 3.4%, 2.2% 3%, 2.8% 3.2%, 2% 2.8%, 2.4% 3.6%,
+		30% 15%, 22% 12%, 18% 13%;
+	background-position:
+		9% 14%, 27% 31%, 44% 9%, 62% 24%, 81% 17%,
+		6% 100%, 45% 100%, 76% 100%;
+}
+
+.canyon-wall-right .wall-windows {
+	background-image:
+		linear-gradient(rgb(255 200 140 / 0.15), rgb(255 200 140 / 0.10)),
+		linear-gradient(rgb(255 210 160 / 0.11), rgb(255 210 160 / 0.08)),
+		linear-gradient(rgb(255 200 140 / 0.17), rgb(255 200 140 / 0.10)),
+		linear-gradient(rgb(255 210 160 / 0.12), rgb(255 210 160 / 0.08)),
+		linear-gradient(rgb(255 200 140 / 0.10), rgb(255 200 140 / 0.07)),
+		linear-gradient(to top, rgb(53 214 255 / 0.11), rgb(53 214 255 / 0) 100%),
+		linear-gradient(to top, rgb(46 229 138 / 0.07), rgb(46 229 138 / 0) 100%),
+		linear-gradient(to top, rgb(61 123 255 / 0.08), rgb(61 123 255 / 0) 100%);
+	background-size:
+		2.4% 3.2%, 2.8% 3%, 2.2% 3.6%, 2.6% 2.8%, 2% 3.2%,
+		28% 14%, 20% 12%, 19% 13%;
+	background-position:
+		13% 21%, 31% 8%, 52% 27%, 70% 12%, 88% 30%,
+		12% 100%, 52% 100%, 83% 100%;
+}
+
+/* the wet road (§2 --wet: "asphalt reflection streaks") — a ground plane hinged
+   on the viewport bottom edge, same perspective parent as the walls, so it
+   converges on the same single central vanishing point. Painted, back to front:
+   asphalt, hue smears roughly under the sign clusters (magenta/orange left,
+   cyan/blue right), irregular vertical wet streaks — the perspective
+   foreshortens the streaks toward the centre for free. No cross lines, ever:
+   a lit ground grid is synthwave (§9); wet asphalt streaks are the optical
+   fact. First layer in the list paints on top: the dark "air" gradient dims
+   the far edge into the haze. */
+.canyon-road {
+	position: absolute;
+	left: -20%;
+	right: -20%;
+	bottom: 0;
+	height: 55%;
+	transform-origin: center bottom;
+	transform: rotateX(62deg);
+	background-color: var(--asphalt);
+	background-image:
+		linear-gradient(to top, rgb(10 10 18 / 0) 48%, rgb(10 10 18 / 0.8) 88%, rgb(10 10 18 / 0.97) 100%),
+		linear-gradient(to top, rgb(255 61 158 / 0.11), rgb(255 61 158 / 0) 100%),
+		linear-gradient(to top, rgb(255 92 51 / 0.10), rgb(255 92 51 / 0) 100%),
+		linear-gradient(to top, rgb(255 201 51 / 0.08), rgb(255 201 51 / 0) 100%),
+		linear-gradient(to top, rgb(46 229 138 / 0.07), rgb(46 229 138 / 0) 100%),
+		linear-gradient(to top, rgb(53 214 255 / 0.10), rgb(53 214 255 / 0) 100%),
+		linear-gradient(to top, rgb(61 123 255 / 0.08), rgb(61 123 255 / 0) 100%),
+		repeating-linear-gradient(90deg,
+			var(--wet) 0 2px, rgb(255 255 255 / 0) 2px 23px,
+			rgb(255 255 255 / 0.03) 23px 26px, rgb(255 255 255 / 0) 26px 61px,
+			var(--wet) 61px 63px, rgb(255 255 255 / 0) 63px 97px);
+	background-repeat: no-repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat, repeat;
+	background-size: 100% 100%, 8% 76%, 7% 62%, 6% 54%, 5% 48%, 8% 72%, 6% 58%, auto;
+	background-position: 0 0, 14% 100%, 25% 100%, 38% 100%, 58% 100%, 76% 100%, 88% 100%, 0 0;
+	filter: brightness(0.92);
+}
+
+/* the terminus — the mixed light of every far sign, never sky. Slightly wide
+   and warm: the denser far clutter plausibly feeds it. */
 .canyon-end {
 	position: absolute;
 	top: 50%;
 	left: 50%;
-	width: 38vmin;
-	height: 30vmin;
+	width: 44vmin;
+	height: 34vmin;
 	transform: translate(-50%, -50%);
-	background-image: radial-gradient(closest-side, rgb(150 160 210 / 0.10), transparent 70%);
+	background-image: radial-gradient(closest-side, rgb(172 164 206 / 0.12), transparent 72%);
 }
 
 /* the three distances — near has no class; near is the unfiltered default */
@@ -156,13 +244,13 @@ body {
 
 .band-mid {
 	flex: 1 1 55%;
-	gap: 2.4vw;
+	gap: 1.8vw;
 }
 
 /* extra distance is faked with scale() on flat elements — never translateZ chains */
 .band-far {
 	flex: 1 1 45%;
-	gap: 1.4vw;
+	gap: 1.2vw;
 	justify-content: space-evenly;
 	transform: scale(0.82);
 }
@@ -174,10 +262,15 @@ body {
 	gap: 2vh;
 }
 
-/* no two stacks align to the same top edge — scenery included */
-.band-mid .wallstack:nth-child(2) { margin-top: 9vh; }
-.band-far .wallstack:nth-child(2) { margin-top: 12vh; }
-.band-far .wallstack:nth-child(3) { margin-top: 5vh; }
+/* no two stacks align to the same top edge — scenery included. Child combinator
+   on purpose: the band-deep stacks stagger themselves. */
+.band-mid > .wallstack:nth-child(2) { margin-top: 9vh; }
+.band-mid > .wallstack:nth-child(3) { margin-top: 3.5vh; }
+.band-mid > .wallstack:nth-child(4) { margin-top: 12vh; }
+.band-far > .wallstack:nth-child(1) { margin-top: 2vh; }
+.band-far > .wallstack:nth-child(2) { margin-top: 12vh; }
+.band-far > .wallstack:nth-child(3) { margin-top: 5vh; }
+.band-far > .wallstack:nth-child(4) { margin-top: 9vh; }
 
 /* mid-distance signage — the cheap half of the §3.2 recipe; air does the rest */
 .wsign {
@@ -211,6 +304,39 @@ body {
 		0 0 1.2vmin var(--halo);
 }
 
+/* mid-distance tube-outline mini board — the cheap half of the §3.3 workhorse:
+   board fill, tube border, small halo. No wash, no inset white edge — §7.2
+   allows approximations at this distance. */
+.wtube {
+	writing-mode: vertical-rl;
+	text-orientation: mixed;
+	line-height: 1.5;
+	padding: 0.5em 0.3em;
+	font-family: var(--font-sign);
+	font-weight: 800;
+	font-size: clamp(0.85rem, 2.2vmin, 1.5rem);
+	background-color: var(--board);
+	border: 2px solid var(--hue);
+	border-radius: var(--r-tube);
+	box-shadow:
+		0 0 0 2px var(--night),
+		0 0 1.6vmin var(--halo);
+	text-shadow: 0 0 0.3em var(--halo);
+}
+
+/* a tiny chōchin at mid distance — the one soft rounded element, scarce even
+   as scenery: one or two per wall, no more */
+.wlantern {
+	width: 2vmin;
+	height: 2.4vmin;
+	border-radius: var(--r-full);
+	background-color: var(--paper);
+	background-image: linear-gradient(to bottom, rgb(255 255 255 / 0.5) 0%, rgb(255 160 80 / 0.2) 100%);
+	box-shadow:
+		0 0 1.6vmin rgb(255 180 90 / 0.5),
+		0 0 4vmin rgb(255 160 80 / 0.16);
+}
+
 /* down the block a sign is a light, not a message */
 .bulb {
 	display: block;
@@ -228,8 +354,50 @@ body {
 	height: 1.2vmin;
 }
 
+/* a small square lamp */
+.bulb-dot {
+	display: block;
+	width: 1.2vmin;
+	height: 1.2vmin;
+	border-radius: 1px;
+	background-color: var(--hue);
+	box-shadow:
+		0 0 0.9vmin var(--halo),
+		0 0 2.2vmin var(--halo);
+}
+
+/* a distant edge-sign stack read as one light */
+.bulb-col {
+	display: block;
+	width: 0.8vmin;
+	height: 6.5vmin;
+	border-radius: 1px;
+	background-color: var(--hue);
+	box-shadow:
+		0 0 1vmin var(--halo),
+		0 0 3vmin var(--halo);
+}
+
+/* one deeper faked band per wall — extra distance is scale() on flat elements,
+   never translateZ (§7.2). Lives inside the .depth-far subtree, so it inherits
+   dim+blur without a fourth named depth tier. */
+.band-deep {
+	display: flex;
+	align-items: flex-start;
+	gap: 1vw;
+	margin-top: 16vh;
+	transform: scale(0.6);
+	transform-origin: center top;
+}
+
+.band-deep .wallstack { gap: 1.2vh; }
+.band-deep .wallstack:nth-child(2) { margin-top: 4vh; }
+
 /* ── z1 · Street glow wash (§3.4) — painted air, not an effect ───────────── */
 
+/* three radials (the §3.4 cap), a strengthened wet wash at the feet, and thin
+   up-fading hue streaks (linear gradients only) tying the near layer to the
+   wet road behind it */
 .street-glow {
 	position: absolute;
 	inset: 0;
@@ -238,7 +406,19 @@ body {
 		radial-gradient(42% 30% at 16% 90%, rgb(255 61 158 / 0.10), transparent 70%),
 		radial-gradient(50% 34% at 82% 94%, rgb(53 214 255 / 0.08), transparent 72%),
 		radial-gradient(34% 26% at 52% 82%, rgb(255 201 51 / 0.07), transparent 68%),
-		linear-gradient(to top, var(--wet) 0%, rgb(255 255 255 / 0) 14%);
+		linear-gradient(to top, rgb(255 255 255 / 0.09) 0%, rgb(255 255 255 / 0) 18%),
+		linear-gradient(to top, rgb(255 61 158 / 0.09), rgb(255 61 158 / 0) 100%),
+		linear-gradient(to top, rgb(255 201 51 / 0.07), rgb(255 201 51 / 0) 100%),
+		linear-gradient(to top, rgb(255 92 51 / 0.06), rgb(255 92 51 / 0) 100%),
+		linear-gradient(to top, rgb(53 214 255 / 0.08), rgb(53 214 255 / 0) 100%),
+		linear-gradient(to top, rgb(61 123 255 / 0.06), rgb(61 123 255 / 0) 100%);
+	background-repeat: no-repeat;
+	background-size:
+		auto, auto, auto, 100% 100%,
+		3% 24%, 2.5% 19%, 2% 16%, 3% 22%, 2.5% 17%;
+	background-position:
+		0 0, 0 0, 0 0, 0 0,
+		11% 100%, 30% 100%, 47% 100%, 71% 100%, 89% 100%;
 	pointer-events: none;
 }
 
@@ -700,8 +880,17 @@ body {
 		display: none;
 	}
 
+	/* mid drops back to two stacks per wall on a narrow street */
+	.wallstack-x {
+		display: none;
+	}
+
 	.band-mid {
 		flex: 1 1 auto;
+	}
+
+	.canyon-road {
+		height: 45%;
 	}
 
 	.canyon-end {
