@@ -96,6 +96,11 @@ body {
 	pointer-events: none;
 }
 
+/* the wall box itself is transparent: night air shows above the stepped
+   rooflines, and the buildings below own every square metre of paint. No
+   overflow clip — sign halos spill across the parcel seams, which is what
+   light does; the 320px no-horizontal-scroll guarantee lives on .canyon's
+   clip. The 3px gap is the night joint between the two bands. */
 .canyon-wall {
 	position: absolute;
 	top: 0;
@@ -104,23 +109,13 @@ body {
 	box-sizing: border-box;
 	display: flex;
 	align-items: stretch;
-	gap: 2vw;
-	padding: 5vh 2vw 7vh;
-	overflow: clip;
-	background-color: var(--asphalt);
+	gap: 3px;
 }
 
-/* wall fabric: depth fade on top, then floor slabs (~9vh rhythm) and vertical
-   mullions — together they imply a window grid at --film-1 alpha. Building
-   structure the signs bolt onto, not a glowing grid: 4% white on asphalt. */
 .canyon-wall-left {
 	left: 0;
 	transform-origin: left center;
 	transform: rotateY(58deg);
-	background-image:
-		linear-gradient(to right, rgb(10 10 18 / 0) 0%, rgb(10 10 18 / 0.55) 60%, rgb(10 10 18 / 0.92) 100%),
-		repeating-linear-gradient(to bottom, var(--film-1) 0 2px, rgb(255 255 255 / 0) 2px 9vh),
-		repeating-linear-gradient(to right, var(--film-1) 0 1px, rgb(255 255 255 / 0) 1px 6vw);
 }
 
 .canyon-wall-right {
@@ -128,56 +123,6 @@ body {
 	transform-origin: right center;
 	transform: rotateY(-58deg);
 	flex-direction: row-reverse;
-	background-image:
-		linear-gradient(to left, rgb(10 10 18 / 0) 0%, rgb(10 10 18 / 0.55) 60%, rgb(10 10 18 / 0.92) 100%),
-		repeating-linear-gradient(to bottom, var(--film-1) 0 2px, rgb(255 255 255 / 0) 2px 9vh),
-		repeating-linear-gradient(to right, var(--film-1) 0 1px, rgb(255 255 255 / 0) 1px 6vw);
-}
-
-/* a few lit windows — interior light, someone still up — plus storefront spill
-   pooling at the wall base. One element, one paint: every "window" is a tiny
-   no-repeat gradient layer; the spill is 2–3 low-alpha hue pools rising from
-   the base. Light glows, the surface does not. */
-.wall-windows {
-	position: absolute;
-	inset: 0;
-	background-repeat: no-repeat;
-}
-
-.canyon-wall-left .wall-windows {
-	background-image:
-		linear-gradient(rgb(255 200 140 / 0.16), rgb(255 200 140 / 0.10)),
-		linear-gradient(rgb(255 200 140 / 0.12), rgb(255 200 140 / 0.08)),
-		linear-gradient(rgb(255 210 160 / 0.14), rgb(255 210 160 / 0.09)),
-		linear-gradient(rgb(255 200 140 / 0.10), rgb(255 200 140 / 0.07)),
-		linear-gradient(rgb(255 210 160 / 0.17), rgb(255 210 160 / 0.11)),
-		linear-gradient(to top, rgb(255 92 51 / 0.12), rgb(255 92 51 / 0) 100%),
-		linear-gradient(to top, rgb(255 201 51 / 0.08), rgb(255 201 51 / 0) 100%),
-		linear-gradient(to top, rgb(255 61 158 / 0.07), rgb(255 61 158 / 0) 100%);
-	background-size:
-		2.6% 3.4%, 2.2% 3%, 2.8% 3.2%, 2% 2.8%, 2.4% 3.6%,
-		30% 15%, 22% 12%, 18% 13%;
-	background-position:
-		9% 14%, 27% 31%, 44% 9%, 62% 24%, 81% 17%,
-		6% 100%, 45% 100%, 76% 100%;
-}
-
-.canyon-wall-right .wall-windows {
-	background-image:
-		linear-gradient(rgb(255 200 140 / 0.15), rgb(255 200 140 / 0.10)),
-		linear-gradient(rgb(255 210 160 / 0.11), rgb(255 210 160 / 0.08)),
-		linear-gradient(rgb(255 200 140 / 0.17), rgb(255 200 140 / 0.10)),
-		linear-gradient(rgb(255 210 160 / 0.12), rgb(255 210 160 / 0.08)),
-		linear-gradient(rgb(255 200 140 / 0.10), rgb(255 200 140 / 0.07)),
-		linear-gradient(to top, rgb(53 214 255 / 0.11), rgb(53 214 255 / 0) 100%),
-		linear-gradient(to top, rgb(46 229 138 / 0.07), rgb(46 229 138 / 0) 100%),
-		linear-gradient(to top, rgb(61 123 255 / 0.08), rgb(61 123 255 / 0) 100%);
-	background-size:
-		2.4% 3.2%, 2.8% 3%, 2.2% 3.6%, 2.6% 2.8%, 2% 3.2%,
-		28% 14%, 20% 12%, 19% 13%;
-	background-position:
-		13% 21%, 31% 8%, 52% 27%, 70% 12%, 88% 30%,
-		12% 100%, 52% 100%, 83% 100%;
 }
 
 /* the wet road (§2 --wet: "asphalt reflection streaks") — a ground plane hinged
@@ -237,23 +182,163 @@ body {
 	filter: brightness(0.55) saturate(0.7) blur(1.5px);
 }
 
+/* a band is a flex row of buildings: bottoms on the ground (flex-end),
+   rooflines stepping against the night, and a 3px gap as the hard seam —
+   with the wall transparent, night reads through the joint, foreshortened
+   narrower toward the far end by the geometry for free */
 .wall-band {
 	display: flex;
-	align-items: flex-start;
+	align-items: flex-end;
+	gap: 3px;
+}
+
+/* within-band child order runs near→far on both walls, so the model
+   dressing (tones, drops) reads the same direction on each side */
+.canyon-wall-right .wall-band {
+	flex-direction: row-reverse;
 }
 
 .band-mid {
 	flex: 1 1 55%;
-	gap: 1.8vw;
 }
 
-/* extra distance is faked with scale() on flat elements — never translateZ chains */
+/* extra distance is faked with scale() on flat elements — never translateZ
+   chains. Origin on the far bottom corner: the buildings stay flush with the
+   wall's far edge (§7.1 — the terminus stays walled) and keep their feet on
+   the ground; the slack reads as a wider alley at the band boundary. */
 .band-far {
 	flex: 1 1 45%;
-	gap: 1.2vw;
-	justify-content: space-evenly;
 	transform: scale(0.82);
 }
+
+.canyon-wall-left .band-far { transform-origin: right bottom; }
+.canyon-wall-right .band-far { transform-origin: left bottom; }
+
+/* ── Buildings — the organizing unit of a wall ─────────────────────────────
+   One div per building, everything flat paint consumed from the model's
+   custom-prop bundle. Layers, top down: a --film-2 fascia line at the
+   storefront, the storefront's hue spill (the road-reflection story keeps
+   lining up), a grounds-family veil that splits the three ground tokens into
+   more perceived tones and grades distance inside a band, then the per-model
+   floor and mullion rhythms. vh/vw pitches on purpose: a short building
+   shows fewer floors, not squashed ones. */
+.bldg {
+	position: relative;
+	flex: 0 1 var(--bw);
+	height: var(--bh);
+	box-sizing: border-box;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	background-color: var(--facade);
+	background-image:
+		linear-gradient(var(--film-2), var(--film-2)),
+		linear-gradient(to top, var(--spill), rgb(255 255 255 / 0)),
+		linear-gradient(var(--veil), var(--veil)),
+		repeating-linear-gradient(to bottom, var(--win-h) 0 2px, rgb(255 255 255 / 0) 2px var(--floor)),
+		repeating-linear-gradient(to right, var(--win-v) 0 1px, rgb(255 255 255 / 0) 1px var(--mull));
+	background-repeat: no-repeat;
+	background-size: 100% 2px, 100% var(--base), 100% 100%, 100% 100%, 100% 100%;
+	background-position: 0 calc(100% - var(--base)), 0 100%, 0 0, 0 0, 0 0;
+}
+
+/* parapet — the lit top edge of a roofline. Film hardware, squarely §5. */
+.bldg::before {
+	content: '';
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	height: 2px;
+	background-color: var(--parapet, var(--film-2));
+}
+
+/* every sign stack belongs to one building; --drop replaces the old
+   nth-child staggers so no two stack tops align */
+.bldg > .wallstack {
+	margin-top: var(--drop, 0);
+}
+
+.bldg > .wallstack + .wallstack {
+	margin-top: 2.5vh;
+}
+
+/* the seven models. Facades stay in the grounds family (§2): every tone is
+   one of the three ground tokens under a low-alpha night or film veil —
+   no new hexes. Window rhythms differ per model: a dense office grid (a, e),
+   ribbon floors with no mullions (b, f), a nearly blank infill (d, g), a
+   sparse wide-floor grid (c). */
+.bldg-a { --bw: 30%; --bh: 93%; --facade: var(--asphalt); --veil: rgb(255 255 255 / 0.03); --win-h: var(--film-1); --floor: 6vh; --win-v: var(--film-1); --mull: 3vw; --base: 13%; --spill: rgb(255 92 51 / 0.10); --drop: 9vh; }
+.bldg-b { --bw: 22%; --bh: 78%; --facade: var(--board); --veil: rgb(10 10 18 / 0.35); --win-h: rgb(255 255 255 / 0.05); --floor: 7.5vh; --win-v: rgb(255 255 255 / 0); --mull: 4vw; --base: 15%; --spill: rgb(255 201 51 / 0.08); --drop: 3vh; }
+.bldg-c { --bw: 27%; --bh: 86%; --facade: var(--asphalt); --veil: rgb(10 10 18 / 0.30); --win-h: var(--film-1); --floor: 8.5vh; --win-v: var(--film-1); --mull: 2.4vw; --base: 12%; --spill: rgb(255 61 158 / 0.08); --drop: 5.5vh; }
+.bldg-d { --bw: 21%; --bh: 72%; --facade: var(--board); --veil: rgb(255 255 255 / 0.03); --win-h: rgb(255 255 255 / 0.02); --floor: 9vh; --win-v: rgb(255 255 255 / 0); --mull: 4vw; --base: 16%; --spill: rgb(255 92 51 / 0.09); --drop: 0vh; --parapet: rgb(255 255 255 / 0); }
+.bldg-e { --bw: 40%; --bh: 90%; --facade: var(--board); --veil: rgb(10 10 18 / 0.06); --win-h: var(--film-1); --floor: 5.5vh; --win-v: var(--film-1); --mull: 2.2vw; --base: 12%; --spill: rgb(255 61 158 / 0.06); --drop: 6vh; }
+.bldg-f { --bw: 31%; --bh: 94%; --facade: var(--board); --veil: rgb(10 10 18 / 0.18); --win-h: rgb(255 255 255 / 0.04); --floor: 6.5vh; --win-v: rgb(255 255 255 / 0); --mull: 4vw; --base: 13%; --spill: rgb(255 201 51 / 0.07); --drop: 3vh; }
+.bldg-g { --bw: 29%; --bh: 98%; --facade: var(--board); --veil: rgb(10 10 18 / 0.30); --win-h: rgb(255 255 255 / 0.02); --floor: 7vh; --win-v: rgb(255 255 255 / 0); --mull: 4vw; --base: 11%; --spill: rgb(255 92 51 / 0.05); --drop: 2vh; --parapet: rgb(255 255 255 / 0); }
+
+/* a few lit windows — interior light, someone still up, not everyone
+   (migrated from the old wall-level overlay): tiny warm speck layers on a
+   few models only; the rest are dark */
+.bldg-a::after {
+	content: '';
+	position: absolute;
+	inset: 0;
+	background-image:
+		linear-gradient(rgb(255 200 140 / 0.16), rgb(255 200 140 / 0.10)),
+		linear-gradient(rgb(255 210 160 / 0.13), rgb(255 210 160 / 0.09));
+	background-repeat: no-repeat;
+	background-size: 11% 3.2%, 9% 2.7%;
+	background-position: 24% 22%, 68% 47%;
+}
+
+.bldg-d::after {
+	content: '';
+	position: absolute;
+	inset: 0;
+	background-image: linear-gradient(rgb(255 200 140 / 0.14), rgb(255 200 140 / 0.09));
+	background-repeat: no-repeat;
+	background-size: 13% 4.5%;
+	background-position: 32% 30%;
+}
+
+.bldg-f::after {
+	content: '';
+	position: absolute;
+	inset: 0;
+	background-image: linear-gradient(rgb(255 210 160 / 0.12), rgb(255 210 160 / 0.08));
+	background-repeat: no-repeat;
+	background-size: 10% 2.8%;
+	background-position: 61% 33%;
+}
+
+/* one rooftop silhouette per wall, max — model c's stair bulkhead: a small
+   unlit box above the roofline with a film top edge. Rectilinear and cheap
+   (§5); anything more drifts §9 cyberpunk. */
+.bldg-c::after {
+	content: '';
+	position: absolute;
+	bottom: 100%;
+	left: 16%;
+	width: 30%;
+	height: 3.2vh;
+	background-color: var(--asphalt);
+	border-top: 1px solid var(--film-1);
+}
+
+/* left wall keeps model defaults; only the far band's middle model takes a
+   darker veil so tone still grades darker toward the terminus */
+.canyon-wall-left .bldg-e { --veil: rgb(10 10 18 / 0.22); }
+
+/* right wall: same models, different clothes — cool storefront spills
+   (konbini/kusuri/densha, §3.5-checked against the row-reversed order),
+   different drops, a re-dressed near building — the walls never mirror (§6) */
+.canyon-wall-right .bldg-a { --bw: 25%; --veil: rgb(10 10 18 / 0.10); --spill: rgb(53 214 255 / 0.10); --drop: 12vh; }
+.canyon-wall-right .bldg-b { --spill: rgb(61 123 255 / 0.07); --drop: 0.5vh; }
+.canyon-wall-right .bldg-c { --spill: rgb(53 214 255 / 0.07); --drop: 17vh; }
+.canyon-wall-right .bldg-d { --spill: rgb(46 229 138 / 0.08); --drop: 0vh; }
+.canyon-wall-right .bldg-e { --spill: rgb(46 229 138 / 0.06); --drop: 2vh; }
+.canyon-wall-right .bldg-f { --spill: rgb(61 123 255 / 0.07); --drop: 9vh; }
+.canyon-wall-right .bldg-g { --spill: rgb(53 214 255 / 0.05); --drop: 5vh; }
 
 .wallstack {
 	display: flex;
@@ -261,16 +346,6 @@ body {
 	align-items: center;
 	gap: 2vh;
 }
-
-/* no two stacks align to the same top edge — scenery included. Child combinator
-   on purpose: the band-deep stacks stagger themselves. */
-.band-mid > .wallstack:nth-child(2) { margin-top: 9vh; }
-.band-mid > .wallstack:nth-child(3) { margin-top: 3.5vh; }
-.band-mid > .wallstack:nth-child(4) { margin-top: 12vh; }
-.band-far > .wallstack:nth-child(1) { margin-top: 2vh; }
-.band-far > .wallstack:nth-child(2) { margin-top: 12vh; }
-.band-far > .wallstack:nth-child(3) { margin-top: 5vh; }
-.band-far > .wallstack:nth-child(4) { margin-top: 9vh; }
 
 /* mid-distance signage — the cheap half of the §3.2 recipe; air does the rest */
 .wsign {
@@ -385,9 +460,8 @@ body {
 	display: flex;
 	align-items: flex-start;
 	gap: 1vw;
-	margin-top: 16vh;
 	transform: scale(0.6);
-	transform-origin: center top;
+	transform-origin: center bottom;   /* grounded, like the buildings it sits beyond */
 }
 
 .band-deep .wallstack { gap: 1.2vh; }
@@ -873,17 +947,21 @@ body {
 	/* the walls narrow their run and the far band collapses into the terminal haze */
 	.canyon-wall {
 		width: 55%;
-		padding: 4vh 3vw 6vh;
 	}
 
 	.band-far {
 		display: none;
 	}
 
-	/* mid drops back to two stacks per wall on a narrow street */
-	.wallstack-x {
+	/* mid drops back to two buildings per wall on a narrow street */
+	.bldg-x {
 		display: none;
 	}
+
+	/* the survivors widen — still unequal */
+	.canyon-wall .bldg-a { --bw: 56%; }
+	.canyon-wall .bldg-b { --bw: 42%; }
+	.canyon-wall .bldg-d { --bw: 42%; }
 
 	.band-mid {
 		flex: 1 1 auto;
