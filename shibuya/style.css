@@ -1,0 +1,763 @@
+/* shibuya — street level, some hour after the last Yamanote train.
+   No @import on purpose: the signs are Japanese, and every target OS ships a JP gothic
+   (§4) — zero download beats any webfont. */
+
+/* ── Tokens ──────────────────────────────────────────────────────────────── */
+
+:root {
+	/* grounds — never pure black; night air over a city is blue */
+	--night:   #0A0A12;
+	--asphalt: #15151F;
+	--board:   #1D1D2B;
+
+	/* neons — the light-emitting seven */
+	--izakaya: #FF5C33;
+	--kusuri:  #2EE58A;
+	--karaoke: #FF3D9E;
+	--konbini: #35D6FF;
+	--densha:  #3D7BFF;
+	--nama:    #FFC933;
+	--paper:   #F5F1E6;
+
+	/* tube — the white-hot core of a lit neon tube */
+	--tube: rgb(255 255 255 / 0.92);
+
+	/* films — the little light the dark is allowed to hold */
+	--film-1: rgb(255 255 255 / 0.04);
+	--film-2: rgb(255 255 255 / 0.08);
+	--wet:    rgb(255 255 255 / 0.06);
+
+	/* type */
+	--font-sign:  'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Noto Sans JP', Meiryo, system-ui, sans-serif;
+	--font-body:  'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Noto Sans JP', Meiryo, system-ui, sans-serif;
+	--font-micro: ui-monospace, 'SF Mono', 'Roboto Mono', Menlo, monospace;
+
+	--t-micro: clamp(0.62rem, 0.6rem + 0.1vw,  0.7rem);
+	--t-xs:    clamp(0.78rem, 0.75rem + 0.15vw, 0.88rem);
+	--t-sm:    clamp(0.92rem, 0.88rem + 0.2vw,  1.05rem);
+	--t-md:    clamp(1.05rem, 1rem + 0.35vw,    1.3rem);
+	--t-lg:    clamp(1.55rem, 1.3rem + 1.1vw,   2.4rem);
+	--t-xl:    clamp(2.4rem,  1.8rem + 3vw,     4.6rem);
+	/* vertical display type sizes against the viewport height — that is its long axis */
+	--t-sign:  clamp(1.6rem, 9vh, 4.5rem);
+
+	/* shape — zero to the bend of a glass tube, and no further */
+	--r-board: 2px;
+	--r-tube:  6px;
+	--r-full:  999px;
+
+	/* space — signs use the small end, the prose panel the large */
+	--s-1: 0.5rem;
+	--s-2: 1rem;
+	--s-3: 1.5rem;
+	--s-4: 2.5rem;
+	--s-5: 4rem;
+}
+
+/* ── Ground ──────────────────────────────────────────────────────────────── */
+
+html, body {
+	height: 100%;
+}
+
+body {
+	margin: 0;
+	padding: 0;
+	position: relative;
+	overflow: hidden;
+	background-color: var(--night);
+	color: var(--paper);
+	font-family: var(--font-body);
+	font-weight: 500;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+.visually-hidden {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	margin: -1px;
+	padding: 0;
+	overflow: hidden;
+	clip-path: inset(50%);
+	white-space: nowrap;
+}
+
+/* ── z0 · The canyon (§7) — one point, two walls, scenery only ───────────── */
+
+.canyon {
+	position: absolute;
+	inset: 0;
+	z-index: 0;
+	overflow: clip;                /* rotated walls overhang the box — clip, never scroll */
+	perspective: 900px;
+	perspective-origin: 50% 50%;   /* THE vanishing point: dead centre of the viewport */
+	pointer-events: none;
+}
+
+.canyon-wall {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	width: 62%;
+	box-sizing: border-box;
+	display: flex;
+	align-items: stretch;
+	gap: 2vw;
+	padding: 5vh 2vw 7vh;
+	overflow: clip;
+	background-color: var(--asphalt);
+}
+
+.canyon-wall-left {
+	left: 0;
+	transform-origin: left center;
+	transform: rotateY(58deg);
+	background-image:
+		linear-gradient(to right, rgb(10 10 18 / 0) 0%, rgb(10 10 18 / 0.55) 60%, rgb(10 10 18 / 0.92) 100%),
+		repeating-linear-gradient(to bottom, var(--film-1) 0 2px, rgb(255 255 255 / 0) 2px 11vh);
+}
+
+.canyon-wall-right {
+	right: 0;
+	transform-origin: right center;
+	transform: rotateY(-58deg);
+	flex-direction: row-reverse;
+	background-image:
+		linear-gradient(to left, rgb(10 10 18 / 0) 0%, rgb(10 10 18 / 0.55) 60%, rgb(10 10 18 / 0.92) 100%),
+		repeating-linear-gradient(to bottom, var(--film-1) 0 2px, rgb(255 255 255 / 0) 2px 11vh);
+}
+
+/* the terminus — the mixed light of every far sign, never sky */
+.canyon-end {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 38vmin;
+	height: 30vmin;
+	transform: translate(-50%, -50%);
+	background-image: radial-gradient(closest-side, rgb(150 160 210 / 0.10), transparent 70%);
+}
+
+/* the three distances — near has no class; near is the unfiltered default */
+.depth-mid {
+	filter: brightness(0.78) saturate(0.85);
+}
+
+.depth-far {
+	filter: brightness(0.55) saturate(0.7) blur(1.5px);
+}
+
+.wall-band {
+	display: flex;
+	align-items: flex-start;
+}
+
+.band-mid {
+	flex: 1 1 55%;
+	gap: 2.4vw;
+}
+
+/* extra distance is faked with scale() on flat elements — never translateZ chains */
+.band-far {
+	flex: 1 1 45%;
+	gap: 1.4vw;
+	justify-content: space-evenly;
+	transform: scale(0.82);
+}
+
+.wallstack {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 2vh;
+}
+
+/* no two stacks align to the same top edge — scenery included */
+.band-mid .wallstack:nth-child(2) { margin-top: 9vh; }
+.band-far .wallstack:nth-child(2) { margin-top: 12vh; }
+.band-far .wallstack:nth-child(3) { margin-top: 5vh; }
+
+/* mid-distance signage — the cheap half of the §3.2 recipe; air does the rest */
+.wsign {
+	writing-mode: vertical-rl;
+	text-orientation: mixed;
+	line-height: 1.6;
+	padding-block: 0.4em;
+	padding-inline: 0.5em;
+	letter-spacing: 0.16em;
+	font-family: var(--font-sign);
+	font-weight: 800;
+	font-size: clamp(1.1rem, 3.2vmin, 2.2rem);
+	text-shadow:
+		0 0 0.12em var(--hue),
+		0 0 0.45em var(--halo);
+}
+
+.wpanel {
+	writing-mode: vertical-rl;
+	text-orientation: mixed;
+	line-height: 1.4;
+	padding: 0.5em 0.25em;
+	font-family: var(--font-sign);
+	font-weight: 800;
+	font-size: clamp(0.9rem, 2.4vmin, 1.6rem);
+	background-color: var(--hue);
+	color: var(--night);
+	border-radius: var(--r-board);
+	box-shadow:
+		0 0 0 2px var(--night),
+		0 0 1.2vmin var(--halo);
+}
+
+/* down the block a sign is a light, not a message */
+.bulb {
+	display: block;
+	width: 1.5vmin;
+	height: 4vmin;
+	border-radius: 1px;
+	background-color: var(--hue);
+	box-shadow:
+		0 0 1vmin var(--halo),
+		0 0 3vmin var(--halo);
+}
+
+.bulb-wide {
+	width: 4.5vmin;
+	height: 1.2vmin;
+}
+
+/* ── z1 · Street glow wash (§3.4) — painted air, not an effect ───────────── */
+
+.street-glow {
+	position: absolute;
+	inset: 0;
+	z-index: 1;
+	background-image:
+		radial-gradient(42% 30% at 16% 90%, rgb(255 61 158 / 0.10), transparent 70%),
+		radial-gradient(50% 34% at 82% 94%, rgb(53 214 255 / 0.08), transparent 72%),
+		radial-gradient(34% 26% at 52% 82%, rgb(255 201 51 / 0.07), transparent 68%),
+		linear-gradient(to top, var(--wet) 0%, rgb(255 255 255 / 0) 14%);
+	pointer-events: none;
+}
+
+/* ── z2 · The street — the near layer. Owns the scroll. ──────────────────── */
+
+.street {
+	position: absolute;
+	inset: 0;
+	z-index: 2;
+	overflow-y: auto;
+	overflow-x: clip;
+	-webkit-overflow-scrolling: touch;
+}
+
+.content {
+	box-sizing: border-box;
+	min-height: 100%;
+	max-width: 72rem;
+	/* left-anchored — the street is not symmetric */
+	margin: 0 auto 0 0;
+	padding: clamp(1.2rem, 4vh, 2.6rem) clamp(1rem, 4vw, 3rem) clamp(1.4rem, 5vh, 3rem) clamp(1rem, 5vw, 4rem);
+	display: flex;
+	flex-direction: column;
+}
+
+/* ── The signage system (§3) ─────────────────────────────────────────────── */
+
+.stack {
+	display: flex;
+	flex-direction: column;
+	align-items: stretch;
+	gap: var(--s-1);              /* thin — the dark reads through as mortar, not as field */
+	width: max-content;
+}
+
+.sign {
+	writing-mode: vertical-rl;
+	text-orientation: mixed;      /* Latin rotates 90° with the flow, like romaji on a real sign */
+	line-height: 1.9;             /* in vertical flow this is the column's horizontal gauge */
+	padding-block: 0.5em;
+	padding-inline: 0.9em;
+	letter-spacing: 0.12em;
+	font-family: var(--font-sign);
+	font-weight: 800;
+}
+
+.sign-upright {
+	text-orientation: upright;    /* CJK-only or initialism signs: glyphs stand, one per row */
+	letter-spacing: 0.35em;
+}
+
+/* neon tube glow — the hue goes in the shadows, not the fill */
+.neon {
+	text-shadow:
+		0 0 0.02em var(--tube),      /* the glass */
+		0 0 0.14em var(--hue),       /* the gas */
+		0 0 0.40em var(--hue),       /* the halo */
+		0 0 1.10em var(--halo);      /* the air */
+}
+
+.neon-izakaya { color: #FFEFE9; --hue: #FF5C33; --halo: rgb(255 92 51 / 0.40); --wash: rgb(255 92 51 / 0.12); }
+.neon-kusuri  { color: #EAFFF4; --hue: #2EE58A; --halo: rgb(46 229 138 / 0.40); --wash: rgb(46 229 138 / 0.12); }
+.neon-karaoke { color: #FFEDF6; --hue: #FF3D9E; --halo: rgb(255 61 158 / 0.40); --wash: rgb(255 61 158 / 0.12); }
+.neon-konbini { color: #EBFAFF; --hue: #35D6FF; --halo: rgb(53 214 255 / 0.40); --wash: rgb(53 214 255 / 0.12); }
+.neon-densha  { color: #EDF3FF; --hue: #3D7BFF; --halo: rgb(61 123 255 / 0.45); --wash: rgb(61 123 255 / 0.12); }
+.neon-nama    { color: #FFF9E8; --hue: #FFC933; --halo: rgb(255 201 51 / 0.40); --wash: rgb(255 201 51 / 0.12); }
+
+/* tube-outlined board — a bent glass tube running the perimeter */
+.tube-box {
+	border: 2px solid var(--hue);
+	border-radius: var(--r-tube);
+	box-shadow:
+		inset 0 0 0 1px rgb(255 255 255 / 0.55),     /* white-hot inner edge of the tube */
+		inset 0 0 0.8em var(--halo),                 /* gas light falling inward */
+		0 0 0.5em var(--hue),                        /* halo */
+		0 0 2em var(--halo);                         /* air */
+}
+
+/* tube-outline sign — dark board, glowing border, glowing type. The workhorse. */
+.board-tube {
+	background-color: var(--board);
+	background-image: linear-gradient(to bottom, var(--film-2) 0%, rgb(255 255 255 / 0) 45%);
+	border: 2px solid var(--hue);
+	border-radius: var(--r-tube);
+	box-shadow:
+		0 0 0 2px var(--night),                       /* the mounting gap */
+		inset 0 0 0 1px rgb(255 255 255 / 0.55),
+		0 0 0.5em var(--halo),
+		0 0 70px 12px var(--wash);                    /* the light it throws on the wall behind it */
+}
+
+/* backlit panel — the whole surface is the lamp; where paragraphs live */
+.board-panel {
+	background-color: var(--nama);
+	background-image: linear-gradient(to bottom, rgb(255 255 255 / 0.18) 0%, rgb(255 255 255 / 0) 40%);
+	color: var(--night);
+	border-radius: var(--r-board);
+	box-shadow:
+		0 0 0 2px var(--night),
+		0 0 24px rgb(255 201 51 / 0.45),
+		0 0 90px 16px rgb(255 201 51 / 0.14);
+}
+
+/* paper lantern — the one soft rounded element this direction allows */
+.lantern {
+	background-color: var(--paper);
+	background-image: linear-gradient(to bottom, rgb(255 255 255 / 0.5) 0%, rgb(255 160 80 / 0.18) 100%);
+	color: var(--night);
+	border-radius: var(--r-full);
+	padding: 0.4em 1.1em;
+	box-shadow:
+		0 0 18px rgb(255 180 90 / 0.5),
+		0 0 60px 8px rgb(255 160 80 / 0.16);
+}
+
+/* small backlit boards for the side stacks */
+.mini-panel {
+	background-image: linear-gradient(to bottom, rgb(255 255 255 / 0.18) 0%, rgb(255 255 255 / 0) 40%);
+	color: var(--night);
+	border-radius: var(--r-board);
+	font-size: var(--t-sm);
+}
+
+.mp-nama {
+	background-color: var(--nama);
+	box-shadow:
+		0 0 0 2px var(--night),
+		0 0 24px rgb(255 201 51 / 0.45),
+		0 0 60px 10px rgb(255 201 51 / 0.12);
+}
+
+.mp-kusuri {
+	background-color: var(--kusuri);
+	box-shadow:
+		0 0 0 2px var(--night),
+		0 0 24px rgb(46 229 138 / 0.45),
+		0 0 60px 10px rgb(46 229 138 / 0.12);
+}
+
+/* bracket mark — mounting hardware, one or two per stack */
+.bracket {
+	position: relative;
+}
+
+.bracket::after {
+	content: '';
+	position: absolute;
+	top: 50%;
+	right: 100%;
+	width: 0.6rem;
+	height: 2px;
+	background-color: var(--film-1);
+}
+
+/* ── The hero row ────────────────────────────────────────────────────────── */
+
+.row-hero {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: flex-start;
+	gap: var(--s-2);
+}
+
+/* stacks reach different heights; no two share a top edge */
+.stack-hero  { gap: var(--s-2); }
+.stack-side  { margin-top: clamp(2.5rem, 11vh, 5.5rem); }
+.stack-third { margin-top: clamp(1rem, 5vh, 2.75rem); margin-inline-start: var(--s-2); }
+
+.stack-hero .tube-box {
+	align-self: flex-start;
+	font-size: var(--t-lg);
+}
+
+.name {
+	margin: 0;
+	font-size: var(--t-sign);
+	font-weight: 900;
+}
+
+/* two adjacent vertical columns; the top edges deliberately stagger */
+.name-a,
+.name-b {
+	display: block;
+}
+
+.name-b {
+	margin-inline-start: 1.1em;   /* inline axis is vertical here: this pushes almasi down */
+}
+
+.lantern-open {
+	align-self: center;
+	font-size: var(--t-xs);
+	letter-spacing: 0.2em;
+}
+
+.stack-side .tube-box    { font-size: var(--t-lg); }
+.stack-side .sign-upright { font-size: var(--t-md); align-self: center; }
+.stack-third .board-tube { font-size: var(--t-lg); }
+
+.micro-tag {
+	writing-mode: vertical-rl;
+	align-self: center;
+	font-family: var(--font-micro);
+	font-size: var(--t-micro);
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+	color: var(--paper);
+	opacity: 0.7;
+}
+
+/* ── The marquee band (§8) — crosses the street off-centre ───────────────── */
+
+.band {
+	margin-block: clamp(1.2rem, 5vh, 2.6rem) var(--s-2);
+	margin-inline-start: 9%;
+	max-width: min(44rem, 86%);
+}
+
+.marquee {
+	overflow: clip;
+	white-space: nowrap;
+	border-block-start: 1px solid var(--film-2);
+	border-block-end: 1px solid var(--film-1);
+	padding-block: 0.4rem;
+}
+
+.marquee-track {
+	display: inline-flex;
+	animation: shibuya-marquee 21s linear infinite;
+}
+
+.marquee-item {
+	font-family: var(--font-micro);
+	font-size: var(--t-micro);
+	letter-spacing: 0.22em;
+	text-transform: uppercase;
+	color: var(--konbini);
+}
+
+/* ── The letter home + link signs ────────────────────────────────────────── */
+
+.row-main {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: flex-start;
+	gap: var(--s-3);
+	margin-block-start: var(--s-3);
+}
+
+.letter {
+	flex: 0 1 34rem;
+	box-sizing: border-box;
+	padding: var(--s-3) var(--s-4) var(--s-4) var(--s-3);
+}
+
+.letter h2 {
+	margin: 0 0 var(--s-2);
+	font-family: var(--font-sign);
+	font-weight: 800;
+	font-size: var(--t-lg);
+	line-height: 1;
+	letter-spacing: -0.01em;
+}
+
+.letter p {
+	margin: 0;
+	max-width: 56ch;
+	font-size: var(--t-md);
+	line-height: 1.7;
+}
+
+.elsewhere {
+	flex: 1 1 20rem;
+	display: flex;
+	flex-wrap: wrap;
+	align-items: flex-start;
+	gap: var(--s-2);
+}
+
+/* chase lights — bulbs stepping around a border, karaoke hue */
+.open-sign {
+	margin-top: 0.4rem;
+	padding: 0.55rem 0.9rem;
+	font-family: var(--font-micro);
+	font-size: var(--t-micro);
+	letter-spacing: 0.14em;
+	color: var(--karaoke);
+	background-image:
+		repeating-linear-gradient(90deg, var(--karaoke) 0 8px, transparent 8px 16px),
+		repeating-linear-gradient(90deg, var(--karaoke) 0 8px, transparent 8px 16px),
+		repeating-linear-gradient(0deg,  var(--karaoke) 0 8px, transparent 8px 16px),
+		repeating-linear-gradient(0deg,  var(--karaoke) 0 8px, transparent 8px 16px);
+	background-size: 100% 3px, 100% 3px, 3px 100%, 3px 100%;
+	background-position: 0 0, 0 100%, 0 0, 100% 0;
+	background-repeat: no-repeat;
+	animation: shibuya-chase 1.4s steps(8) infinite;
+}
+
+/* three species, three hues, three vertical offsets */
+.link {
+	display: inline-flex;
+	flex-direction: column;
+	gap: 0.35rem;
+	padding: 0.9rem 1.4rem;
+	text-decoration: none;
+	font-family: var(--font-sign);
+	transition:
+		text-shadow 180ms steps(2, end),
+		box-shadow 180ms steps(2, end);
+}
+
+.link-k {
+	font-weight: 800;
+	font-size: var(--t-sm);
+	letter-spacing: 0.02em;
+}
+
+.link-v {
+	font-family: var(--font-micro);
+	font-size: var(--t-micro);
+	letter-spacing: 0.1em;
+	opacity: 0.85;
+}
+
+.link-github { margin-top: 1.5rem; }
+.link-email  { margin-top: 2.3rem; }
+
+/* the konbini fascia: solid neon ground, Night ink, no tube */
+.link-twitter {
+	margin-top: 0;
+	background-color: var(--konbini);
+	background-image: linear-gradient(to bottom, rgb(255 255 255 / 0.18) 0%, rgb(255 255 255 / 0) 40%);
+	color: var(--night);
+	border-radius: var(--r-board);
+	box-shadow:
+		0 0 0 2px var(--night),
+		0 0 24px rgb(53 214 255 / 0.4),
+		0 0 80px 14px rgb(53 214 255 / 0.12);
+}
+
+/* hover: the sign lights up, as if you stepped closer — light switches, it does not fade */
+.link-github:hover         { --halo: rgb(46 229 138 / 0.7); }
+.link-github:focus-visible { --halo: rgb(46 229 138 / 0.7); outline: none; }
+.link-email:hover          { --halo: rgb(255 92 51 / 0.7); }
+.link-email:focus-visible  { --halo: rgb(255 92 51 / 0.7); outline: none; }
+
+.link-twitter:hover {
+	box-shadow:
+		0 0 0 2px var(--night),
+		0 0 30px rgb(53 214 255 / 0.65),
+		0 0 100px 18px rgb(53 214 255 / 0.2);
+}
+
+.link-twitter:focus-visible {
+	outline: none;
+	box-shadow:
+		0 0 0 2px var(--night),
+		0 0 30px rgb(53 214 255 / 0.65),
+		0 0 100px 18px rgb(53 214 255 / 0.2);
+}
+
+/* ── Footer ──────────────────────────────────────────────────────────────── */
+
+.foot {
+	margin-top: auto;
+	padding-block-start: var(--s-4);
+	align-self: flex-end;
+	margin-inline-end: 6%;
+}
+
+.contact {
+	display: inline-block;
+	font-family: var(--font-micro);
+	font-size: var(--t-xs);
+	letter-spacing: 0.14em;
+	text-decoration: none;
+	transition: box-shadow 180ms steps(2, end);
+}
+
+.contact:hover {
+	box-shadow:
+		0 0 24px rgb(255 180 90 / 0.7),
+		0 0 80px 12px rgb(255 160 80 / 0.24);
+}
+
+.contact:focus-visible {
+	outline: none;
+	box-shadow:
+		0 0 24px rgb(255 180 90 / 0.7),
+		0 0 80px 12px rgb(255 160 80 / 0.24);
+}
+
+/* ── Motion (§8) — electric, not organic ─────────────────────────────────── */
+
+/* one dying tube per page; the floor stays at 0.55 — it dims, it never blacks out */
+@keyframes shibuya-flicker {
+	0%   { opacity: 1; }
+	7%   { opacity: 1; }
+	8%   { opacity: 0.55; }
+	9%   { opacity: 1; }
+	13%  { opacity: 0.62; }
+	14%  { opacity: 1; }
+	41%  { opacity: 1; }
+	42%  { opacity: 0.55; }
+	45%  { opacity: 1; }
+	78%  { opacity: 1; }
+	79%  { opacity: 0.7; }
+	80%  { opacity: 1; }
+	100% { opacity: 1; }
+}
+
+.sign-dying {
+	animation: shibuya-flicker 7.3s steps(1, end) infinite;
+}
+
+@keyframes shibuya-chase {
+	to { background-position: 16px 0, -16px 100%, 0 -16px, 100% 16px; }
+}
+
+@keyframes shibuya-marquee {
+	to { transform: translateX(-50%); }
+}
+
+/* exactly one karaoke sign cycles, slowly */
+.sign-cycle {
+	animation: shibuya-hue 43s linear infinite;
+}
+
+@keyframes shibuya-hue {
+	to { filter: hue-rotate(360deg); }
+}
+
+/* the power-up: JS staggers animation-delay per sign; without JS everything is lit */
+.pow.lit {
+	animation: shibuya-pow 420ms steps(1, end) backwards;
+}
+
+@keyframes shibuya-pow {
+	0%   { opacity: 0; }
+	34%  { opacity: 0; }
+	35%  { opacity: 1; }
+	57%  { opacity: 1; }
+	58%  { opacity: 0.55; }
+	72%  { opacity: 0.55; }
+	73%  { opacity: 1; }
+	100% { opacity: 1; }
+}
+
+/* ── Responsive ──────────────────────────────────────────────────────────── */
+
+@media (max-width: 700px) {
+	/* the walls narrow their run and the far band collapses into the terminal haze */
+	.canyon-wall {
+		width: 55%;
+		padding: 4vh 3vw 6vh;
+	}
+
+	.band-far {
+		display: none;
+	}
+
+	.band-mid {
+		flex: 1 1 auto;
+	}
+
+	.canyon-end {
+		width: 52vmin;
+		height: 40vmin;
+	}
+
+	.stack-side {
+		margin-top: 2rem;
+	}
+
+	.stack-third {
+		margin-top: 3.4rem;
+		margin-inline-start: var(--s-1);
+	}
+
+	.band {
+		margin-inline-start: 3%;
+		max-width: 100%;
+	}
+
+	.letter {
+		padding: var(--s-3);
+	}
+
+	.foot {
+		margin-inline-end: 2%;
+	}
+}
+
+/* a stopped sign is steady-lit, never dark */
+@media (prefers-reduced-motion: reduce) {
+	*, *::before, *::after {
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0.01ms !important;
+	}
+
+	.sign-dying {
+		animation: none;
+		opacity: 1;
+	}
+
+	.marquee-track {
+		animation: none;
+	}
+
+	.sign-cycle {
+		animation: none;
+	}
+
+	.open-sign {
+		animation: none;
+	}
+
+	.pow.lit {
+		animation: none;
+	}
+}

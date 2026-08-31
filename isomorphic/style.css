@@ -1,0 +1,681 @@
+@import url('https://fonts.googleapis.com/css2?family=Bungee&family=Archivo:wght@500%3B700&display=swap');
+
+/* ── Palette (BRANDING.md §2) ───────────────────────────────── */
+:root {
+	--grass:     #3E9B4A;
+	--moss:      #2C7A38;
+	--asphalt:   #191C21;
+	--walk:      #C9C6BC;
+	--water:     #1E4FC8;
+	--dirt:      #8A5A3B;
+
+	--chalk:     #F6F2E7;
+	--brick:     #D33A2C;
+	--cobalt:    #2E6FD8;
+	--sun:       #FFC72C;
+	--tangerine: #F2761B;
+
+	--ink:       #14171B;
+	--sign:      #E03127;
+	--paint:     #FFFFFF;
+
+	--shade-side:  16%;
+	--shade-front: 34%;
+	--cast:        rgb(20 23 27 / 0.22);
+
+	/* ── The grid (§3.2). 2:1 dimetric: atan(0.5) = 26.565°. ── */
+	--tile:   88px;
+	--half:   calc(var(--tile) / 2);
+	--quart:  calc(var(--tile) / 4);
+	--sq:     calc(var(--tile) / 1.4142136);
+	--storey: calc(var(--tile) * 0.28);
+
+	--font-sign: 'Bungee', 'Arial Black', Impact, sans-serif;
+	--font-body: 'Archivo', system-ui, -apple-system, 'Helvetica Neue', sans-serif;
+}
+
+/* the combined shell pins the wrapper to 100% with no page scroll —
+   the site owns its own scroll container (same rules work standalone) */
+body {
+	margin: 0;
+	padding: 0;
+	height: 100%;
+	background: var(--moss);
+	color: var(--ink);
+	font-family: var(--font-body);
+	overflow-y: auto;
+	overflow-x: clip;
+}
+
+.sr {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	margin: -1px;
+	overflow: hidden;
+	clip-path: inset(50%);
+	white-space: nowrap;
+}
+
+.wrap {
+	box-sizing: border-box;
+	min-height: 100vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 4vh 12px 48px;
+}
+
+.layout {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 30px;
+	max-width: 100%;
+}
+
+@media (min-width: 1220px) {
+	.layout {
+		flex-direction: row-reverse;
+		align-items: flex-end;
+		justify-content: center;
+		gap: 44px;
+	}
+}
+
+/* ── The stage and the plot ─────────────────────────────────── */
+.stage {
+	max-width: 100%;
+	overflow: clip;
+	display: flex;
+	justify-content: center;
+}
+
+.plot {
+	position: relative;
+	flex: none;
+	width: calc(9 * var(--tile));
+	height: calc(4.5 * var(--tile));
+	margin: calc(var(--storey) * 5.2) 0 calc(var(--storey) * 1.5);
+}
+
+/* ── Placement primitives (§3.2–§3.3) ───────────────────────── */
+
+/* an anchor at grid corner (--c, --r); children hang off (0,0) */
+.cell {
+	position: absolute;
+	width: 0;
+	height: 0;
+	left: calc((var(--c) - var(--r) + 9) * var(--half));
+	top: calc((var(--c) + var(--r)) * var(--quart));
+}
+
+/* a ground-plane piece: pre-transform square, projected flat */
+.flat {
+	position: absolute;
+	left: calc((var(--c) - var(--r) + 9) * var(--half));
+	top: calc((var(--c) + var(--r)) * var(--quart));
+	width: calc(var(--w, 1) * var(--sq));
+	height: calc(var(--d, 1) * var(--sq));
+	transform-origin: 0 0;
+	transform: scaleY(0.5) rotate(45deg);
+}
+
+/* ── Ground ─────────────────────────────────────────────────── */
+.ground {
+	background-color: var(--grass);
+	box-shadow:
+		inset 0 0 0 3px var(--ink),
+		inset 0 0 0 16px var(--moss),
+		inset 0 0 0 18px var(--ink);
+}
+
+.river {
+	background-color: var(--water);
+	box-shadow: inset 0 0 0 2px var(--ink);
+}
+
+.rail {
+	background-color: var(--dirt);
+	background-image:
+		linear-gradient(to bottom, transparent 30%, var(--walk) 30% 38%, transparent 38% 62%, var(--walk) 62% 70%, transparent 70%),
+		repeating-linear-gradient(to right, var(--ink) 0 calc(var(--sq) * 0.07), transparent calc(var(--sq) * 0.07) calc(var(--sq) * 0.28));
+	box-shadow: inset 0 0 0 2px var(--ink);
+}
+
+.road {
+	background-color: var(--asphalt);
+	box-shadow: inset 0 0 0 2px var(--ink);
+}
+
+.road .dash {
+	position: absolute;
+}
+
+.road-ns .dash {
+	top: 2%;
+	bottom: 2%;
+	left: 45%;
+	right: 45%;
+	background-image: repeating-linear-gradient(to bottom, var(--sun) 0 calc(var(--sq) * 0.3), transparent calc(var(--sq) * 0.3) calc(var(--sq) * 0.72));
+}
+
+.road-ew .dash {
+	left: 2%;
+	right: 2%;
+	top: 45%;
+	bottom: 45%;
+	background-image: repeating-linear-gradient(to right, var(--sun) 0 calc(var(--sq) * 0.3), transparent calc(var(--sq) * 0.3) calc(var(--sq) * 0.72));
+}
+
+.apron {
+	background-color: var(--walk);
+	background-image: repeating-linear-gradient(to right, var(--sun) 0 3px, transparent 3px calc(var(--sq) * 0.5));
+	box-shadow: inset 0 0 0 2px var(--ink);
+}
+
+/* a circle on the ground is a 2:1 ellipse (§3.1) — no transform */
+.pond {
+	position: absolute;
+	left: calc(var(--tile) * -0.75);
+	top: calc(var(--tile) * -0.375);
+	width: calc(var(--tile) * 1.5);
+	height: calc(var(--tile) * 0.75);
+	border-radius: 50%;
+	background: var(--water);
+	box-shadow: inset 0 0 0 2px var(--ink);
+}
+
+/* ── Buildings (§3.3–§3.5) ──────────────────────────────────── */
+.iso-box {
+	pointer-events: none;
+	text-decoration: none;
+	--wall: calc(var(--floors) * var(--storey));
+	--face-top:   var(--roof, var(--body));
+	--face-left:  color-mix(in oklab, var(--body), var(--ink) var(--shade-side));
+	--face-right: color-mix(in oklab, var(--body), var(--ink) var(--shade-front));
+}
+
+.face {
+	position: absolute;
+	pointer-events: auto;
+	cursor: pointer;
+	box-shadow: inset 0 0 0 2px var(--ink);
+	transition: translate 140ms cubic-bezier(0.2, 0.9, 0.3, 1.3);
+}
+
+/* roof: the footprint square, lifted by the wall, laid flat */
+.face--top {
+	left: 0;
+	top: 0;
+	width: calc(var(--w) * var(--sq));
+	height: calc(var(--d) * var(--sq));
+	background-color: var(--face-top);
+	transform-origin: 0 0;
+	transform: translateY(calc(-1 * var(--wall))) scaleY(0.5) rotate(45deg);
+}
+
+/* screen-left wall: base runs from the left vertex to the front vertex */
+.face--left {
+	left: calc(-1 * var(--d) * var(--half));
+	top: calc(var(--d) * var(--quart) - var(--wall));
+	width: calc(var(--w) * var(--half));
+	height: var(--wall);
+	background-color: var(--face-left);
+	transform-origin: 0 0;
+	transform: skewY(26.565deg);
+}
+
+/* screen-right wall: base runs from the front vertex to the right vertex */
+.face--right {
+	left: calc((var(--w) - var(--d)) * var(--half));
+	top: calc((var(--w) + var(--d)) * var(--quart) - var(--wall));
+	width: calc(var(--d) * var(--half));
+	height: var(--wall);
+	background-color: var(--face-right);
+	transform-origin: 0 0;
+	transform: skewY(-26.565deg);
+}
+
+/* the cast shadow: a flat in --cast, slid along the light's 2:1 vector (§3.5) */
+.shadow {
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: calc(var(--w) * var(--sq));
+	height: calc(var(--d) * var(--sq));
+	background: var(--cast);
+	transform-origin: 0 0;
+	transform: scaleY(0.5) rotate(45deg);
+	translate: calc(var(--wall) * 0.35) calc(var(--wall) * 0.175);
+	transition: translate 140ms cubic-bezier(0.2, 0.9, 0.3, 1.3);
+}
+
+/* hover / focus lift (§7): the box rises, the shadow slides further out */
+.iso-box:hover .face {
+	translate: 0 calc(var(--storey) * -0.5);
+}
+
+.iso-box:focus-visible .face {
+	translate: 0 calc(var(--storey) * -0.5);
+	outline: 3px solid var(--sun);
+	outline-offset: 3px;
+}
+
+.iso-box:hover .shadow {
+	translate: calc((var(--wall) + var(--storey)) * 0.35) calc((var(--wall) + var(--storey)) * 0.175);
+}
+
+.iso-box:focus-visible .shadow {
+	translate: calc((var(--wall) + var(--storey)) * 0.35) calc((var(--wall) + var(--storey)) * 0.175);
+}
+
+.mast {
+	transition: translate 140ms cubic-bezier(0.2, 0.9, 0.3, 1.3);
+}
+
+.iso-box:hover .mast {
+	translate: 0 calc(var(--storey) * -0.5);
+}
+
+.iso-box:focus-visible .mast {
+	translate: 0 calc(var(--storey) * -0.5);
+}
+
+/* ── The sign band (§4): painted on the wall, skews with it ── */
+.sign {
+	position: absolute;
+	left: 6%;
+	right: 6%;
+	top: calc(var(--storey) * 0.35);
+	height: calc(var(--storey) * 0.85);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: var(--sign);
+	box-shadow: inset 0 0 0 2px var(--ink);
+	color: var(--paint);
+	font-family: var(--font-sign);
+	font-weight: 400;
+	font-size: max(9px, calc(var(--storey) * 0.42));
+	letter-spacing: 0.02em;
+	white-space: nowrap;
+	overflow: hidden;
+}
+
+/* ── Windows: hard-stop pattern, mullions over lit bands (§5) ── */
+.win-left {
+	background-image:
+		repeating-linear-gradient(90deg, var(--face-left) 0 7px, transparent 7px 24px),
+		repeating-linear-gradient(0deg, transparent 0 calc(var(--storey) * 0.35), var(--sun) calc(var(--storey) * 0.35) calc(var(--storey) * 0.75), transparent calc(var(--storey) * 0.75) var(--storey));
+}
+
+.win-right {
+	background-image:
+		repeating-linear-gradient(90deg, var(--face-right) 0 7px, transparent 7px 24px),
+		repeating-linear-gradient(0deg, transparent 0 calc(var(--storey) * 0.35), var(--sun) calc(var(--storey) * 0.35) calc(var(--storey) * 0.75), transparent calc(var(--storey) * 0.75) var(--storey));
+}
+
+/* windows stop below the sign band */
+.b-github .face--left {
+	background-image:
+		linear-gradient(to bottom, var(--face-left) 0 calc(var(--storey) * 1.4), transparent calc(var(--storey) * 1.4)),
+		repeating-linear-gradient(90deg, var(--face-left) 0 7px, transparent 7px 24px),
+		repeating-linear-gradient(0deg, transparent 0 calc(var(--storey) * 0.35), var(--sun) calc(var(--storey) * 0.35) calc(var(--storey) * 0.75), transparent calc(var(--storey) * 0.75) var(--storey));
+}
+
+/* ── Building placements (§9). Coordinates live here, not inline,
+      so the mobile media query can re-lay the town. ─────────── */
+.b-github   { --c: 1; --r: 1; --w: 2; --d: 2; --floors: 6; --body: var(--chalk); --roof: var(--cobalt); }
+.b-linkedin { --c: 6; --r: 1; --w: 1; --d: 2; --floors: 4; --body: var(--cobalt); --roof: var(--chalk); }
+.b-twitter  { --c: 1; --r: 6; --w: 1; --d: 2; --floors: 3; --body: var(--tangerine); --roof: var(--chalk); }
+.b-email    { --c: 6; --r: 6; --w: 2; --d: 1; --floors: 2; --body: var(--chalk); --roof: var(--brick); }
+
+/* ── Props: scenery, never clickable (§9) ───────────────────── */
+
+/* trees — a circle canopy is projection-safe; shading is a hard crescent */
+.tree .t-base {
+	position: absolute;
+	left: calc(var(--tile) * -0.22);
+	top: calc(var(--tile) * -0.08);
+	width: calc(var(--tile) * 0.5);
+	height: calc(var(--tile) * 0.25);
+	border-radius: 50%;
+	background: var(--cast);
+	translate: calc(var(--tile) * 0.06) calc(var(--tile) * 0.03);
+}
+
+.tree .t-trunk {
+	position: absolute;
+	left: -3px;
+	top: calc(var(--tile) * -0.34);
+	width: 6px;
+	height: calc(var(--tile) * 0.38);
+	background: var(--ink);
+}
+
+.tree .t-canopy {
+	position: absolute;
+	left: calc(var(--tile) * -0.3);
+	top: calc(var(--tile) * -0.9);
+	width: calc(var(--tile) * 0.6);
+	height: calc(var(--tile) * 0.6);
+	border-radius: 50%;
+	background: var(--moss);
+	box-shadow:
+		inset 0 0 0 2px var(--ink),
+		inset calc(var(--tile) * -0.09) calc(var(--tile) * -0.1) 0 0 color-mix(in oklab, var(--moss), var(--ink) 28%);
+}
+
+/* twitter's mast, with a blinking beacon */
+.mast {
+	position: absolute;
+	left: calc(-0.5 * var(--half) - 1px);
+	top: calc(1.5 * var(--quart) - var(--wall) - var(--storey) * 2.1);
+	width: 3px;
+	height: calc(var(--storey) * 2.1);
+	background: var(--ink);
+}
+
+.mast::after {
+	content: '';
+	position: absolute;
+	top: -7px;
+	left: -3px;
+	width: 9px;
+	height: 9px;
+	border-radius: 50%;
+	background: var(--sign);
+	animation: isomorphic-blink 2.8s linear infinite;
+}
+
+/* the roadside sign: a small wall face on a post, in projection */
+.billboard .bb-post {
+	position: absolute;
+	left: -3px;
+	top: calc(var(--storey) * -2.6);
+	width: 6px;
+	height: calc(var(--storey) * 2.6);
+	background: var(--ink);
+}
+
+.billboard .bb-panel {
+	position: absolute;
+	left: calc(var(--tile) * -0.55);
+	top: calc(var(--storey) * -4.3 + var(--tile) * 0.24);
+	width: calc(var(--tile) * 1.1);
+	height: calc(var(--storey) * 1.7);
+	transform-origin: 0 0;
+	transform: skewY(-26.565deg);
+	background: var(--chalk);
+	box-shadow: inset 0 0 0 2px var(--ink);
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	font-family: var(--font-sign);
+	font-size: max(8px, calc(var(--storey) * 0.36));
+	line-height: 1.25;
+	color: var(--ink);
+	white-space: nowrap;
+}
+
+/* the traffic signal at the junction */
+.signal .sg-post {
+	position: absolute;
+	left: -2px;
+	top: calc(var(--storey) * -2.4);
+	width: 4px;
+	height: calc(var(--storey) * 2.4);
+	background: var(--ink);
+}
+
+.signal .sg-head {
+	position: absolute;
+	left: -8px;
+	top: calc(var(--storey) * -3.6);
+	width: 16px;
+	height: calc(var(--storey) * 1.3);
+	background: var(--ink);
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-evenly;
+}
+
+.signal .lamp {
+	width: 7px;
+	height: 7px;
+	border-radius: 50%;
+}
+
+.signal .lamp-stop { background: var(--sign);  animation: isomorphic-blink 2.6s linear infinite; }
+.signal .lamp-wait { background: var(--sun);   opacity: 0.25; }
+.signal .lamp-go   { background: var(--grass); animation: isomorphic-blink 2.6s linear infinite; animation-delay: -1.3s; }
+
+/* the level crossing: post, blinking light, striped gate arm (0°) */
+.gate .g-post {
+	position: absolute;
+	left: -3px;
+	top: calc(var(--storey) * -2.2);
+	width: 6px;
+	height: calc(var(--storey) * 2.2);
+	background: var(--ink);
+}
+
+.gate .g-lamp {
+	position: absolute;
+	left: -5px;
+	top: calc(var(--storey) * -2.7);
+	width: 10px;
+	height: 10px;
+	border-radius: 50%;
+	background: var(--sign);
+	box-shadow: inset 0 0 0 2px var(--ink);
+	animation: isomorphic-blink 1.4s linear infinite;
+}
+
+.gate .g-arm {
+	position: absolute;
+	left: 3px;
+	top: calc(var(--storey) * -1.9);
+	width: calc(var(--tile) * 0.85);
+	height: 7px;
+	background-image: repeating-linear-gradient(90deg, var(--sign) 0 10px, var(--paint) 10px 20px);
+	box-shadow: inset 0 0 0 1px var(--ink);
+}
+
+/* cars — inline SVGs drawn already in projection (§5) */
+.car {
+	position: absolute;
+	left: calc(var(--tile) * -0.38);
+	top: calc(var(--tile) * -0.42);
+	width: calc(var(--tile) * 0.75);
+	height: auto;
+}
+
+.car .c-edge  { stroke: var(--ink); stroke-width: 2; stroke-linejoin: miter; }
+.car .c-glass { fill: var(--sun); }
+.car .c-wheel { fill: var(--ink); }
+
+.car-parked .c-top   { fill: var(--brick); }
+.car-parked .c-left  { fill: color-mix(in oklab, var(--brick), var(--ink) 16%); }
+.car-parked .c-right { fill: color-mix(in oklab, var(--brick), var(--ink) 34%); }
+
+.car-go .c-top   { fill: var(--cobalt); }
+.car-go .c-left  { fill: color-mix(in oklab, var(--cobalt), var(--ink) 16%); }
+.car-go .c-right { fill: color-mix(in oklab, var(--cobalt), var(--ink) 34%); }
+
+/* the moving car drives the east–west road on the 2:1 world axis (§7) */
+.drive {
+	animation: isomorphic-drive 17s linear infinite alternate;
+}
+
+/* the water tower — the town's name goes on the tank */
+.tower-svg {
+	position: absolute;
+	left: calc(var(--tile) * -0.65);
+	top: calc(var(--tile) * -1.75);
+	width: calc(var(--tile) * 1.3);
+	height: auto;
+}
+
+.tower-svg .tw-edge  { stroke: var(--ink); stroke-linejoin: miter; }
+.tower-svg .tw-leg   { stroke: var(--ink); stroke-width: 3; }
+.tower-svg .tw-tank  { fill: var(--chalk); }
+.tower-svg .tw-roof  { fill: var(--cobalt); }
+.tower-svg .tw-band  { fill: var(--sign); }
+.tower-svg .tw-shade { fill: var(--ink); opacity: 0.16; }
+.tower-svg text {
+	font-family: var(--font-sign);
+	font-size: 10.5px;
+	letter-spacing: 0.5px;
+	fill: var(--paint);
+}
+
+/* ── The legend: the one unprojected element (§9) ───────────── */
+.legend {
+	box-sizing: border-box;
+	width: min(92vw, 340px);
+	background: var(--chalk);
+	border: 2px solid var(--ink);
+	box-shadow: 6px 6px 0 var(--cast);
+	padding: 18px 20px 16px;
+}
+
+.legend-cap {
+	margin: 0 0 10px;
+	font-family: var(--font-sign);
+	font-size: 11px;
+	letter-spacing: 0.12em;
+	color: var(--ink);
+	border-bottom: 2px solid var(--ink);
+	padding-bottom: 8px;
+}
+
+.legend-title {
+	margin: 0 0 6px;
+	font-family: var(--font-sign);
+	font-weight: 400;
+	font-size: 20px;
+	color: var(--ink);
+}
+
+.legend-copy {
+	margin: 0 0 14px;
+	font-size: 15px;
+	font-weight: 500;
+	line-height: 1.6;
+	max-width: 52ch;
+}
+
+.key {
+	list-style: none;
+	margin: 0 0 14px;
+	padding: 0;
+	display: flex;
+	flex-direction: column;
+	gap: 7px;
+	font-family: var(--font-sign);
+	font-size: 10px;
+	letter-spacing: 0.08em;
+}
+
+.key li {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+}
+
+.k {
+	flex: none;
+	width: 22px;
+	height: 22px;
+	display: inline-block;
+}
+
+.k-grass {
+	background: var(--grass);
+	box-shadow: inset 0 0 0 2px var(--ink);
+	transform: scaleY(0.5) rotate(45deg);
+}
+
+.k-road {
+	height: 10px;
+	background-color: var(--asphalt);
+	background-image: repeating-linear-gradient(90deg, var(--sun) 0 4px, transparent 4px 8px);
+	background-size: 100% 2px;
+	background-position: 0 50%;
+	background-repeat: no-repeat;
+	box-shadow: inset 0 0 0 1px var(--ink);
+	margin: 6px 0;
+}
+
+.k-sign {
+	height: 12px;
+	background: var(--sign);
+	box-shadow: inset 0 0 0 2px var(--ink);
+	margin: 5px 0;
+}
+
+.legend-contact {
+	margin: 0;
+	font-size: 13px;
+	font-weight: 700;
+}
+
+.legend-contact a {
+	color: var(--ink);
+}
+
+/* ── Motion (§7) ────────────────────────────────────────────── */
+@keyframes isomorphic-blink {
+	0%, 49.9% { opacity: 1; }
+	50%, 100% { opacity: 0.12; }
+}
+
+@keyframes isomorphic-drive {
+	from { translate: 0 0; }
+	to   { translate: calc(var(--tile) * 3.5) calc(var(--tile) * 1.75); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+	*, *::before, *::after {
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0.01ms !important;
+	}
+}
+
+/* ── Responsive (§6): the town re-lays, the tile shrinks ────── */
+@media (max-width: 1020px) {
+	:root { --tile: 72px; }
+}
+
+@media (max-width: 700px) {
+	:root { --tile: 56px; }
+
+	/* the stage center-crops the plot; only fringe scenery is lost */
+	.stage {
+		display: block;
+		position: relative;
+		width: 100%;
+		height: calc(4.5 * var(--tile) + var(--storey) * 7.4);
+	}
+
+	.plot {
+		position: absolute;
+		left: 50%;
+		top: 0;
+		margin-left: calc(var(--tile) * -4.5);
+	}
+
+	.fringe { display: none; }
+
+	.b-linkedin { --c: 5; --r: 2; }
+	.b-twitter  { --c: 3; --r: 5; }
+
+	.plot { margin-top: calc(var(--storey) * 5.6); }
+
+	.legend-copy { font-size: 14px; }
+}

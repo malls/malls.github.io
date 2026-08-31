@@ -1,0 +1,32 @@
+{
+  "assigned_to": null,
+  "branch_links": [],
+  "comment_count": 2,
+  "complexity": null,
+  "created_at": "2026-08-08T23:52:11Z",
+  "created_by": "agent:claude-fable-5",
+  "custom_fields": {},
+  "description": null,
+  "done_at": "2026-08-09T00:10:18Z",
+  "evidence_refs": [
+    {
+      "id": "ev_01KZHXNHK16ZTFWV7F051G8WDQ",
+      "role": "review",
+      "source_type": "comment"
+    }
+  ],
+  "id": "task_01KZHWN4VE2KHF2W9ND4WWSQ63",
+  "last_event_id": "ev_01KZHXPAE8T2N0FJPV46S2688Y",
+  "last_status_changed_at": "2026-08-09T00:10:18Z",
+  "priority": "medium",
+  "relationships_out": [],
+  "reopened_count": 0,
+  "schema_version": 1,
+  "short_id": "FA-12",
+  "status": "done",
+  "tags": null,
+  "title": "Generate 8bit/index.html from 8bit/BRANDING.md (brand-page)",
+  "type": "task",
+  "updated_at": "2026-08-09T00:10:18Z",
+  "urgency": null
+}

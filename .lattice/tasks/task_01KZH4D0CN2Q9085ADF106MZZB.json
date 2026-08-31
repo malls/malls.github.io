@@ -1,0 +1,32 @@
+{
+  "assigned_to": null,
+  "branch_links": [],
+  "comment_count": 1,
+  "complexity": null,
+  "created_at": "2026-08-08T16:48:19Z",
+  "created_by": "agent:claude-opus-5",
+  "custom_fields": {},
+  "description": null,
+  "done_at": "2026-08-08T16:55:05Z",
+  "evidence_refs": [
+    {
+      "id": "ev_01KZH4SCY3TB7AJ13KV03B00S4",
+      "role": "review",
+      "source_type": "comment"
+    }
+  ],
+  "id": "task_01KZH4D0CN2Q9085ADF106MZZB",
+  "last_event_id": "ev_01KZH4SD1BZT2BVB5G8ZMF3VT8",
+  "last_status_changed_at": "2026-08-08T16:55:05Z",
+  "priority": "medium",
+  "relationships_out": [],
+  "reopened_count": 0,
+  "schema_version": 1,
+  "short_id": "FA-9",
+  "status": "done",
+  "tags": null,
+  "title": "liquid: enforce no straight lines and no symmetry (blob edges, off-axis layout)",
+  "type": "task",
+  "updated_at": "2026-08-08T16:55:05Z",
+  "urgency": null
+}

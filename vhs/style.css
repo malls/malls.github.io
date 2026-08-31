@@ -1,0 +1,553 @@
+@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+/* The URL above contains no raw ";" — but if it is ever extended with weights or
+	a second family, every ";" inside it must be percent-encoded as "%3B". build.js
+	splits top-level statements on a raw ";" without string awareness and would cut
+	the rule in half. */
+
+/* ── Palette — names from vhs/BRANDING.md §2 ─────────────── */
+:root {
+	--shell:      #2B2B30;
+	--shell-hi:   #4A4A52;
+	--shell-deep: #141416;
+	--deck:       #1C1C1F;
+	--silver:     #C9CBD1;
+	--rec:        #FF4545;
+
+	--led-well:   #050607;
+	--led:        #3DF07A;
+	--amber:      #FFB020;
+
+	--tube:       #0A0A12;
+	--osd-blue:   #0000AA;
+	--osd-deep:   #000058;
+	--osd-white:  #F2F2FA;
+	--static-hi:  #9B9BA1;
+	--static-lo:  #3A3A40;
+	--scrim:      rgb(4 4 22 / 0.82);
+
+	/* type — §3 */
+	--font-osd:   'VT323', 'Courier New', monospace;
+	--font-panel: 'Arial Narrow', 'Helvetica Neue', Arial, sans-serif;
+
+	--t-ident:     13cqi;              /* the name — the biggest thing the tube ever says */
+	--t-osd:       max(5.5cqi, 19px);  /* OSD status line, menu rows, links */
+	--t-osd-small: max(3.8cqi, 14px);  /* the counter readout, OSD footnotes — the floor */
+	--t-clock:     22px;               /* the display well digits */
+	--t-panel:     12px;               /* button legends, silkscreen — bold, +0.08em tracking */
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body {
+	margin: 0;
+	padding: 0;
+	height: 100%;
+}
+body {
+	background: #0B0A09;               /* the den with the lights off */
+	overflow: hidden;                  /* this television is not scrolled */
+	isolation: isolate;                /* required by the §5.1 blend layer */
+	font-family: var(--font-panel);
+}
+
+/* ── The room ────────────────────────────────────────────── */
+.vhs-room {
+	height: 100%;
+	display: grid;
+	place-items: center;
+	padding: 1.5vmin;
+}
+
+/* ── Molded plastic — §4.1 ───────────────────────────────── */
+.vhs-molded {
+	background-color: var(--shell);
+	background-image: linear-gradient(rgb(255 255 255 / 0.07), rgb(0 0 0 / 0.18));
+	border: 1px solid #0E0E10;
+	border-radius: 10px;
+	box-shadow:
+		inset 0 1px 0 rgb(255 255 255 / 0.10),
+		inset 0 -1px 0 rgb(0 0 0 / 0.45);
+}
+
+/* ── The cabinet ─────────────────────────────────────────── */
+.vhs-cabinet {
+	width: min(94vw, 840px, max(300px, calc((96vh - 240px) * 1.33)));
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	padding: 10px 14px 10px;
+	border-radius: 16px;
+	box-shadow:
+		inset 0 1px 0 rgb(255 255 255 / 0.10),
+		inset 0 -1px 0 rgb(0 0 0 / 0.45),
+		0 18px 40px rgb(0 0 0 / 0.55);
+}
+.vhs-cabinet:focus { outline: none; }
+.vhs-cabinet:focus-visible .vhs-tube {
+	box-shadow:
+		inset 0 0 0 1px rgb(255 255 255 / 0.04),
+		inset 0 10px 30px rgb(0 0 0 / 0.55),
+		0 1px 0 rgb(255 255 255 / 0.06),
+		0 0 0 3px rgb(201 203 209 / 0.9);
+}
+
+/* ── Silkscreen — §3: ink on plastic reflects, never emits ─ */
+.vhs-silk {
+	color: var(--silver);
+	font-family: var(--font-panel);
+	font-size: var(--t-panel);
+	font-weight: bold;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+}
+.vhs-rail {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 2px 4px 0;
+}
+
+/* ── Screen row: grille | tube | grille ──────────────────── */
+.vhs-screen-row {
+	display: flex;
+	align-items: stretch;
+	gap: 12px;
+}
+.vhs-grille {
+	flex: 0 0 32px;
+	border-radius: 4px;
+	background-image: repeating-linear-gradient(
+		to bottom,
+		rgb(0 0 0 / 0.55) 0 2px,
+		rgb(255 255 255 / 0.05) 2px 3px,
+		transparent 3px 7px
+	);
+}
+
+/* ── The tube glass — §4.2 ───────────────────────────────── */
+.vhs-tube {
+	position: relative;
+	flex: 1 1 auto;
+	min-width: 0;
+	background-color: var(--tube);
+	border-radius: 5% / 7%;
+	border: 2px solid #0B0B0D;
+	box-shadow:
+		inset 0 0 0 1px rgb(255 255 255 / 0.04),
+		inset 0 10px 30px rgb(0 0 0 / 0.55),
+		0 1px 0 rgb(255 255 255 / 0.06);
+	overflow: hidden;              /* the picture, the OSD and the haze all clip to the glass */
+	aspect-ratio: 4 / 3;
+}
+
+/* ── Layer 0: the screen content ─────────────────────────── */
+.vhs-screen {
+	position: absolute;
+	inset: 0;
+	background: var(--tube);
+	container-type: inline-size;
+	overflow-y: auto;              /* the ONE scroll container — no-JS stacked baseline */
+	animation: vhs-poweron 320ms ease-out;
+}
+.vhs-screen.vhs-js { overflow: hidden; }
+
+.vhs-reel { position: relative; }
+.vhs-js .vhs-reel { position: absolute; inset: 0; }
+.vhs-shuttling .vhs-reel { animation: vhs-shuttle 450ms linear; }
+
+.vhs-segment {
+	position: relative;
+	min-height: 75cqi;             /* one full 4:3 glass per segment when stacked */
+	display: grid;
+	place-items: center;
+	padding: 6cqi;
+}
+.vhs-js .vhs-segment {
+	position: absolute;
+	inset: 0;
+	min-height: 0;
+	display: none;
+	overflow-y: auto;              /* only if a segment's OSD text exceeds the glass */
+}
+.vhs-js .vhs-segment.vhs-on { display: grid; }
+
+/* Video slots — stand-ins per §6; a later <video> layers over
+	these with object-fit: cover and absolute /vhs/ URLs, and a
+	failed load exposes the stand-in again. No JS detection. */
+.vhs-slot {
+	position: absolute;
+	inset: 0;
+}
+.vhs-slot-ident {
+	background-color: var(--osd-blue);
+	background-image: radial-gradient(
+		130% 130% at 50% 42%,
+		var(--osd-blue) 52%,
+		var(--osd-deep) 100%
+	);
+}
+.vhs-slot-memo { background-color: var(--tube); }
+.vhs-nosignal {
+	position: absolute;
+	top: 7cqi;
+	left: 50%;
+	transform: translateX(-50%);
+	background: var(--scrim);
+	padding: 0.6cqi 2cqi;
+	font-size: var(--t-osd);
+	white-space: nowrap;
+}
+
+/* ── OSD type — §3, copied verbatim ──────────────────────── */
+.vhs-osd-text {
+	font-family: var(--font-osd);
+	color: var(--osd-white);
+	text-transform: uppercase;
+	text-shadow:
+		0 0 0.14em rgb(242 242 250 / 0.50),   /* bloom */
+		-0.04em 0 rgb(255 45 85 / 0.28),      /* red ghost, left */
+		0.04em  0 rgb(0 229 255 / 0.28);      /* cyan ghost, right */
+}
+.vhs-lower { text-transform: none; }           /* the email address is data, not display */
+
+/* OSD cards sit on the plate whenever their ground could one
+	day be video (§2 — the plate rule). CONTACTS never needs it. */
+.vhs-card {
+	position: relative;
+	z-index: 1;
+	max-width: 100%;
+}
+.vhs-plate {
+	background: var(--scrim);
+	padding: 2.5cqi 3.5cqi;
+}
+.vhs-ident-name {
+	font-size: var(--t-ident);
+	font-weight: normal;
+	line-height: 0.9;
+	text-align: center;
+}
+.vhs-ident-role {
+	margin-top: 1.5cqi;
+	font-size: var(--t-osd);
+	text-align: center;
+}
+.vhs-memo-card { font-size: var(--t-osd); }
+.vhs-memo-card p { margin-top: 1cqi; }
+.vhs-memo-title { font-size: var(--t-osd); }
+
+/* ── Segment 2: the sacred CONTACTS menu — flat VCR Blue ─── */
+.vhs-seg-contacts { background: var(--osd-blue); }
+.vhs-menu {
+	display: grid;
+	gap: 0.5cqi;
+	width: min(86cqi, 100%);
+}
+.vhs-menu-title {
+	font-size: var(--t-osd-small);
+	padding: 0 1.2em;
+}
+.vhs-row {
+	display: flex;
+	align-items: center;
+	min-height: 44px;
+	font-size: var(--t-osd);
+	color: var(--osd-white);
+	text-decoration: none;
+	white-space: nowrap;
+}
+.vhs-row::before {
+	content: '▶';
+	width: 1.2em;
+	flex: none;
+	opacity: 0;                    /* the OSD cursor — parked until focus/hover */
+}
+.vhs-row:hover { text-decoration: underline; }
+.vhs-row:hover::before { opacity: 1; }
+.vhs-row:focus-visible {
+	outline: none;
+	text-decoration: underline;
+}
+.vhs-row:focus-visible::before { opacity: 1; }
+
+/* ── The STOP idle screen — a real place, JS-only state ──── */
+.vhs-stopscreen {
+	display: none;
+	background: var(--osd-blue);
+}
+.vhs-js .vhs-stopscreen {
+	position: absolute;
+	inset: 0;
+	display: none;
+	place-items: center;
+}
+.vhs-js .vhs-stopscreen.vhs-on { display: grid; }
+.vhs-wordmark { font-size: var(--t-osd); }
+
+/* ── OSD chrome: status + counter, JS playback only ──────── */
+.vhs-osd-chrome {
+	position: absolute;
+	top: 3cqi;
+	left: 3.5cqi;
+	right: 3.5cqi;
+	z-index: 2;
+	display: none;
+	justify-content: space-between;
+	pointer-events: none;
+}
+.vhs-js .vhs-osd-chrome { display: flex; }
+.vhs-chip {
+	background: var(--scrim);
+	padding: 0.4cqi 1.4cqi;
+	font-size: var(--t-osd-small);
+}
+
+/* ── The haze stack — §5, layers 1–6, all optical ────────── */
+.vhs-fringe {
+	position: absolute;
+	inset: 0;
+	background-image: linear-gradient(
+		90deg,
+		rgb(255 45 85 / 0.05),
+		transparent 30%,
+		transparent 70%,
+		rgb(0 229 255 / 0.05)
+	);
+	mix-blend-mode: screen;
+	pointer-events: none;
+}
+.vhs-scanlines {
+	position: absolute;
+	inset: 0;
+	background-image: repeating-linear-gradient(
+		to bottom,
+		rgb(0 0 0 / 0.22) 0 1px,
+		transparent 1px 3px
+	);
+	pointer-events: none;
+}
+.vhs-tracking {
+	position: absolute;
+	inset: -8% 0 auto 0;
+	height: 6%;
+	background-image: linear-gradient(
+		to bottom,
+		transparent,
+		rgb(255 255 255 / 0.10) 30%,
+		rgb(155 155 161 / 0.20) 50%,
+		rgb(0 0 0 / 0.28) 55%,
+		transparent
+	);
+	filter: blur(1px);
+	animation: vhs-track 11s linear infinite;
+	pointer-events: none;
+}
+.vhs-static {
+	position: absolute;
+	inset: 0;
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='vhs-noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23vhs-noise)'/%3E%3C/svg%3E");
+	background-size: 160px 160px;
+	opacity: 0.07;
+	animation: vhs-grain 0.5s steps(5) infinite;
+	pointer-events: none;
+}
+.vhs-static-full { opacity: 1; }               /* NO SIGNAL: static IS the content (§5.4) */
+.vhs-shuttling .vhs-haze-static { opacity: 0.35; }
+.vhs-glass {
+	position: absolute;
+	inset: 0;
+	border-radius: inherit;
+	background-image:
+		radial-gradient(120% 90% at 22% 10%,
+			rgb(255 255 255 / 0.13),
+			rgb(255 255 255 / 0.04) 28%,
+			transparent 45%),
+		radial-gradient(140% 120% at 50% 50%,
+			transparent 58%,
+			rgb(0 0 0 / 0.45) 100%);
+	pointer-events: none;
+}
+
+/* ── The deck fascia ─────────────────────────────────────── */
+.vhs-deck {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	padding: 10px 12px;
+	background-color: var(--deck);
+	background-image: linear-gradient(rgb(255 255 255 / 0.05), rgb(0 0 0 / 0.20));
+	border: 1px solid #0A0A0C;
+	border-radius: 8px;
+	box-shadow:
+		inset 0 1px 0 rgb(255 255 255 / 0.08),
+		inset 0 -1px 0 rgb(0 0 0 / 0.45);
+}
+
+/* The cassette slot — §4.6: a recess inverts the sandwich ── */
+.vhs-cassette {
+	position: relative;
+	height: 38px;
+	background: var(--shell-deep);
+	border: 1px solid #000;
+	border-radius: 4px;
+	box-shadow:
+		inset 0 2px 5px rgb(0 0 0 / 0.7),
+		inset 0 -1px 0 rgb(255 255 255 / 0.10);   /* the lit bottom lip */
+	padding: 6px 10px;
+}
+.vhs-flap {
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background-color: var(--shell);
+	background-image: linear-gradient(rgb(255 255 255 / 0.09), rgb(0 0 0 / 0.16));
+	border: 1px solid #0E0E10;
+	border-radius: 3px;
+	box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.12);
+}
+
+/* Transport — §4.4 ───────────────────────────────────────── */
+.vhs-controls {
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: 10px;
+}
+.vhs-btn {
+	min-width: 56px;
+	min-height: 44px;
+	background-color: var(--deck);
+	background-image: linear-gradient(rgb(255 255 255 / 0.08), rgb(0 0 0 / 0.25));
+	border: 1px solid #0A0A0C;
+	border-radius: 4px;
+	box-shadow:
+		inset 0 1px 0 rgb(255 255 255 / 0.12),
+		0 2px 0 #000;
+	color: var(--silver);
+	font-family: var(--font-panel);
+	font-size: var(--t-panel);
+	font-weight: bold;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	padding: 0 10px;
+	cursor: pointer;
+}
+.vhs-btn:active {
+	transform: translateY(2px);
+	background-image: linear-gradient(rgb(0 0 0 / 0.25), rgb(0 0 0 / 0.10));
+	box-shadow:
+		inset 0 1px 0 rgb(255 255 255 / 0.05),
+		inset 0 2px 4px rgb(0 0 0 / 0.5),
+		0 0 0 #000;
+}
+.vhs-btn:focus-visible {
+	outline: 2px solid var(--silver);
+	outline-offset: 2px;
+}
+.vhs-rec {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+}
+.vhs-rec-dot {
+	width: 10px;
+	height: 10px;
+	border-radius: 50%;
+	background: var(--rec);
+	box-shadow: 0 0 5px rgb(255 69 69 / 0.55);   /* the last sanctioned cabinet glow */
+}
+
+/* The display well — §4.5 ────────────────────────────────── */
+.vhs-display {
+	margin-left: auto;
+	display: flex;
+	align-items: baseline;
+	gap: 16px;
+	background-color: var(--led-well);
+	border: 1px solid #000;
+	border-radius: 3px;
+	box-shadow:
+		inset 0 2px 6px rgb(0 0 0 / 0.8),
+		inset 0 -1px 0 rgb(255 255 255 / 0.04);
+	color: var(--led);
+	font-family: var(--font-osd);
+	font-size: var(--t-clock);
+	text-shadow: 0 0 6px rgb(61 240 122 / 0.6);
+	padding: 2px 12px;
+}
+.vhs-clock   { animation: vhs-blink 1s steps(1) infinite; }
+.vhs-counter { color: var(--amber); text-shadow: 0 0 6px rgb(255 176 32 / 0.55); }
+
+/* ── The plinth — machines end in plastic, not a footer ──── */
+.vhs-plinth {
+	position: relative;
+	height: 16px;
+	border-radius: 6px;
+}
+.vhs-vents {
+	position: absolute;
+	inset: 4px 18%;
+	background-image: repeating-linear-gradient(
+		to right,
+		rgb(0 0 0 / 0.55) 0 3px,
+		rgb(255 255 255 / 0.05) 3px 4px,
+		transparent 4px 9px
+	);
+}
+
+/* ── Motion — §7, sanctioned keyframes only ──────────────── */
+@keyframes vhs-track {
+	to { transform: translateY(1900%); }
+	/* 1900% of a 6%-tall band ≈ 114% of the tube — fully off the bottom edge */
+}
+@keyframes vhs-grain {
+	0%   { background-position: 0 0; }
+	20%  { background-position: -34px 22px; }
+	40%  { background-position: 18px -40px; }
+	60%  { background-position: -46px -14px; }
+	80%  { background-position: 30px 36px; }
+	100% { background-position: 0 0; }
+}
+@keyframes vhs-blink {
+	0%, 49%   { opacity: 1; }
+	50%, 100% { opacity: 0.12; }
+}
+@keyframes vhs-shuttle {
+	0%   { transform: translateX(0) skewX(0); filter: none; }
+	30%  { transform: translateX(-3%) skewX(-6deg); filter: saturate(0.4) contrast(1.4); }
+	70%  { transform: translateX(2%) skewX(4deg); filter: saturate(0.3) contrast(1.6); }
+	100% { transform: translateX(0) skewX(0); filter: none; }
+}
+@keyframes vhs-poweron {
+	0%   { transform: scaleY(0.004); filter: brightness(4); }
+	60%  { transform: scaleY(0.004); filter: brightness(4); }
+	100% { transform: scaleY(1); filter: none; }
+}
+
+/* ── Narrow: grilles fold under the tube ─────────────────── */
+@media (max-width: 620px) {
+	.vhs-cabinet { padding: 8px 10px; gap: 8px; }
+	.vhs-screen-row { flex-wrap: wrap; gap: 8px; }
+	.vhs-tube { order: 1; flex: 1 1 100%; }
+	.vhs-grille { order: 2; flex: 1 1 40%; height: 10px; }
+	.vhs-controls { gap: 8px; }
+	.vhs-display { margin-left: 0; flex: 1 1 100%; justify-content: space-between; }
+}
+
+/* ── Short rooms: slim the fascia so the tube still fits ─── */
+@media (max-height: 520px) {
+	.vhs-cassette { height: 26px; padding: 4px 8px; }
+	.vhs-plinth { display: none; }
+	.vhs-rail { display: none; }
+}
+
+/* ── Reduced motion — a composed frame, not a degraded one ─ */
+@media (prefers-reduced-motion: reduce) {
+	*, *::before, *::after {
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0.01ms !important;
+	}
+	.vhs-tracking { top: 72%; }        /* parked low, faint, visible — wear, not motion */
+}

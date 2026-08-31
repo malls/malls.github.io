@@ -1,0 +1,32 @@
+{
+  "assigned_to": null,
+  "branch_links": [],
+  "comment_count": 2,
+  "complexity": null,
+  "created_at": "2026-08-09T05:27:39Z",
+  "created_by": "agent:claude-fable-5",
+  "custom_fields": {},
+  "description": null,
+  "done_at": "2026-08-09T14:38:29Z",
+  "evidence_refs": [
+    {
+      "id": "ev_01KZKFBQZ2JCGH2HKTS420N3T3",
+      "role": "review",
+      "source_type": "comment"
+    }
+  ],
+  "id": "task_01KZJFVD06E7JNM77WPFD8583A",
+  "last_event_id": "ev_01KZKFC08W1NY619KSW1NF4EN3",
+  "last_status_changed_at": "2026-08-09T14:38:29Z",
+  "priority": "medium",
+  "relationships_out": [],
+  "reopened_count": 0,
+  "schema_version": 1,
+  "short_id": "FA-21",
+  "status": "done",
+  "tags": null,
+  "title": "vhs/: generate index.html from BRANDING.md (brand-page skill) + map in sites.config.json",
+  "type": "task",
+  "updated_at": "2026-08-09T14:38:29Z",
+  "urgency": null
+}

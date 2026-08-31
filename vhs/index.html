@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Forrest Almasi</title>
+
+	<meta charset="utf-8"/>
+	<meta name="viewport" content="width=device-width"/>
+	<meta name="description" content="Software developer Forrest Almasi's personal website">
+	<meta name="robots" content="noindex">
+	<link rel="stylesheet" href="./style.css"/>
+	
+</head>
+
+<body>
+	<div class="vhs-room">
+		<div class="vhs-cabinet vhs-molded" tabindex="0" aria-label="MALLSVISION TV/VCR. Left and right arrow keys rewind and fast-forward.">
+			<div class="vhs-rail">
+				<span class="vhs-silk">MALLSVISION</span>
+				<span class="vhs-silk">FA-96 · 4-HEAD HQ</span>
+			</div>
+
+			<div class="vhs-screen-row">
+				<div class="vhs-grille" aria-hidden="true"></div>
+				<div class="vhs-tube">
+					<div class="vhs-screen">
+						<div class="vhs-reel">
+							<section class="vhs-segment vhs-seg-ident">
+								<div class="vhs-slot vhs-slot-ident" aria-hidden="true"></div>
+								<div class="vhs-card vhs-plate">
+									<h1 class="vhs-osd-text vhs-ident-name">Forrest Almasi</h1>
+									<p class="vhs-osd-text vhs-ident-role">Software Developer</p>
+								</div>
+							</section>
+
+							<section class="vhs-segment vhs-seg-contacts">
+								<nav class="vhs-card vhs-menu" aria-label="Contacts">
+									<span class="vhs-osd-text vhs-menu-title">Contacts</span>
+									<a class="vhs-osd-text vhs-row" href="https://github.com/malls">GitHub — @malls</a>
+									<a class="vhs-osd-text vhs-row" href="https://twitter.com/forrestalmasi">Twitter — @forrestalmasi</a>
+									<a class="vhs-osd-text vhs-row" href="mailto:_@forrestalmasi.com">Email — <span class="vhs-lower">_@forrestalmasi.com</span></a>
+								</nav>
+							</section>
+
+							<section class="vhs-segment vhs-seg-memo">
+								<div class="vhs-slot vhs-slot-memo" aria-hidden="true">
+									<div class="vhs-static vhs-static-full"></div>
+								</div>
+								<p class="vhs-osd-text vhs-nosignal">No Signal</p>
+								<div class="vhs-card vhs-plate vhs-memo-card">
+									<p class="vhs-osd-text vhs-memo-title">What's up?</p>
+									<p class="vhs-osd-text">I build software. I specialize in full-stack agentic development.</p>
+								</div>
+							</section>
+
+							<div class="vhs-stopscreen">
+								<span class="vhs-osd-text vhs-wordmark">MALLSVISION</span>
+							</div>
+						</div>
+
+						<div class="vhs-osd-chrome">
+							<span class="vhs-osd-text vhs-chip vhs-status" aria-live="polite">Play</span>
+							<span class="vhs-osd-text vhs-chip vhs-count">0:00:00</span>
+						</div>
+					</div>
+
+					<div class="vhs-fringe" aria-hidden="true"></div>
+					<div class="vhs-scanlines" aria-hidden="true"></div>
+					<div class="vhs-tracking" aria-hidden="true"></div>
+					<div class="vhs-static vhs-haze-static" aria-hidden="true"></div>
+					<div class="vhs-glass" aria-hidden="true"></div>
+				</div>
+				<div class="vhs-grille" aria-hidden="true"></div>
+			</div>
+
+			<div class="vhs-deck">
+				<div class="vhs-cassette" aria-hidden="true">
+					<div class="vhs-flap">
+						<span class="vhs-silk">VHS</span>
+					</div>
+				</div>
+				<div class="vhs-controls">
+					<button class="vhs-btn" type="button" data-vhs="rew" aria-label="Rewind">◀◀ REW</button>
+					<button class="vhs-btn" type="button" data-vhs="play" aria-label="Play">PLAY ▶</button>
+					<button class="vhs-btn" type="button" data-vhs="ff" aria-label="Fast-forward">FF ▶▶</button>
+					<button class="vhs-btn" type="button" data-vhs="stop" aria-label="Stop">STOP ■</button>
+					<span class="vhs-rec">
+						<span class="vhs-rec-dot" aria-hidden="true"></span>
+						<span class="vhs-silk">REC</span>
+					</span>
+					<div class="vhs-display">
+						<span class="vhs-clock">12:00</span>
+						<span class="vhs-counter">0:00:00</span>
+					</div>
+				</div>
+			</div>
+
+			<div class="vhs-plinth vhs-molded">
+				<div class="vhs-vents" aria-hidden="true"></div>
+			</div>
+		</div>
+	</div>
+
+	<script>
+		(window.SITES = window.SITES || {})['vhs'] = function (root) {
+			var cabinet = root.querySelector('.vhs-cabinet');
+			var screen = root.querySelector('.vhs-screen');
+			var tube = root.querySelector('.vhs-tube');
+			var segments = root.querySelectorAll('.vhs-segment');
+			var stopScreen = root.querySelector('.vhs-stopscreen');
+			var status = root.querySelector('.vhs-status');
+			var chromeCount = root.querySelector('.vhs-count');
+			var wellCount = root.querySelector('.vhs-counter');
+			var btnRew = root.querySelector('[data-vhs="rew"]');
+			var btnPlay = root.querySelector('[data-vhs="play"]');
+			var btnFf = root.querySelector('[data-vhs="ff"]');
+			var btnStop = root.querySelector('[data-vhs="stop"]');
+			if (!cabinet || !screen || !tube || segments.length === 0) return;
+
+			var COUNTS = ['0:00:00', '0:04:12', '0:09:47'];
+			var current = 0;
+			var stopped = false;
+			var shuttling = false;
+			var spinTimer = null;
+
+			function setCount(text) {
+				if (chromeCount) chromeCount.textContent = text;
+				if (wellCount) wellCount.textContent = text;
+			}
+			function setStatus(text) {
+				if (status) status.textContent = text;
+			}
+			function show() {
+				for (var i = 0; i < segments.length; i++) {
+					segments[i].classList.toggle('vhs-on', !stopped && i === current);
+				}
+				if (stopScreen) stopScreen.classList.toggle('vhs-on', stopped);
+			}
+			function toSeconds(text) {
+				var p = text.split(':');
+				return (+p[0]) * 3600 + (+p[1]) * 60 + (+p[2]);
+			}
+			function format(total) {
+				var m = Math.floor((total % 3600) / 60);
+				var s = Math.floor(total % 60);
+				return Math.floor(total / 3600) + ':' + ('0' + m).slice(-2) + ':' + ('0' + s).slice(-2);
+			}
+			function shuttle(dir) {
+				var target = current + dir;
+				if (shuttling || stopped) return;
+				if (target < 0 || target >= segments.length) return;   /* end of tape: nothing, no apology */
+				shuttling = true;
+				setStatus(dir > 0 ? 'FF ▶▶' : 'REW ◀◀');
+				tube.classList.add('vhs-shuttling');
+				var from = toSeconds(COUNTS[current]);
+				var to = toSeconds(COUNTS[target]);
+				var step = 0;
+				spinTimer = setInterval(function () {
+					step++;
+					setCount(format(Math.round(from + (to - from) * step / 9)));
+					if (step >= 9) {
+						clearInterval(spinTimer);
+						spinTimer = null;
+					}
+				}, 45);
+				setTimeout(function () {
+					if (spinTimer) {
+						clearInterval(spinTimer);
+						spinTimer = null;
+					}
+					current = target;
+					setCount(COUNTS[current]);
+					tube.classList.remove('vhs-shuttling');
+					show();
+					setStatus('PLAY');
+					shuttling = false;
+				}, 450);
+			}
+			function doStop() {
+				if (shuttling || stopped) return;
+				stopped = true;
+				show();
+				setStatus('STOP');
+			}
+			function doPlay() {
+				if (shuttling || !stopped) return;
+				stopped = false;
+				show();
+				setStatus('PLAY');
+			}
+
+			if (btnFf) btnFf.addEventListener('click', function () { shuttle(1); });
+			if (btnRew) btnRew.addEventListener('click', function () { shuttle(-1); });
+			if (btnStop) btnStop.addEventListener('click', doStop);
+			if (btnPlay) btnPlay.addEventListener('click', doPlay);
+			cabinet.addEventListener('keydown', function (e) {
+				if (e.key === 'ArrowRight') { e.preventDefault(); shuttle(1); }
+				if (e.key === 'ArrowLeft') { e.preventDefault(); shuttle(-1); }
+			});
+
+			screen.classList.add('vhs-js');
+			show();
+			setStatus('PLAY');
+			setCount(COUNTS[0]);
+		};
+	</script>
+	<script>SITES['vhs'](document);</script>
+</body>
+
+</html>

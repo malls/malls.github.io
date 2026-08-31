@@ -1,0 +1,39 @@
+{
+  "assigned_to": null,
+  "branch_links": [
+    {
+      "branch": "liquid",
+      "linked_at": "2026-08-08T16:13:11Z",
+      "linked_by": "agent:fable-5-orchestrator",
+      "repo": null
+    }
+  ],
+  "comment_count": 3,
+  "complexity": null,
+  "created_at": "2026-08-08T16:13:11Z",
+  "created_by": "agent:fable-5-orchestrator",
+  "custom_fields": {},
+  "description": null,
+  "done_at": "2026-08-08T16:30:47Z",
+  "evidence_refs": [
+    {
+      "id": "ev_01KZH3CX2FX3CXYBHCP4YNV53G",
+      "role": "review",
+      "source_type": "comment"
+    }
+  ],
+  "id": "task_01KZH2CNZA4BP9JFCANYXV6XM0",
+  "last_event_id": "ev_01KZH3CX5KQ0YX9N1CJE939CZM",
+  "last_status_changed_at": "2026-08-08T16:30:47Z",
+  "priority": "medium",
+  "relationships_out": [],
+  "reopened_count": 0,
+  "schema_version": 1,
+  "short_id": "FA-4",
+  "status": "done",
+  "tags": null,
+  "title": "Replace JS iframe router with CSS-breakpoint single-page build (compiled index.html)",
+  "type": "task",
+  "updated_at": "2026-08-08T16:30:47Z",
+  "urgency": null
+}
