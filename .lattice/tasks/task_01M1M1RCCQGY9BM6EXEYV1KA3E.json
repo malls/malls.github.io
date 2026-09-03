@@ -1,17 +1,23 @@
 {
   "assigned_to": null,
   "branch_links": [],
-  "comment_count": 1,
+  "comment_count": 3,
   "complexity": null,
   "created_at": "2026-09-03T16:31:13Z",
   "created_by": "agent:claude-opus-5",
   "custom_fields": {},
   "description": "Build the /blog sub-site from blog/BRANDING.md (written in FA-31).\n\nWHY: The user wants a place to publish their writing at forrestalmasi.com/blog, styled per the Web 2.0 brief.\n\nDELIVERABLE:\n- blog/index.html \u2014 blog home: masthead, post list with excerpts and permalinks, sidebar, footer.\n- blog/style.css \u2014 separate stylesheet, per the CLAUDE.md sub-site authoring contract.\n- Individual post pages plus a documented way to add a new post without a build step.\n\nCONSTRAINTS:\n- Follow the sub-site authoring contract in CLAUDE.md (ids prefixed with the site name, relative url() for local assets, no external requests unless the brief names a font, no horizontal scroll, full-bleed background) so the folder could be mapped into a viewport bucket later if wanted.\n- NOT mapped in sites.config.json and the root index.html is NOT rebuilt for this task \u2014 /blog is a standalone destination. Do not hand-edit root index.html.\n- Everything the brief specifies must actually appear in the page.\n\nCONTENT: Do not fabricate opinions or biography in the user's voice. Ship a genuine first \"Hello world\"-style post about starting the blog plus a copy-to-write post template; the user supplies the real writing.",
-  "done_at": null,
-  "evidence_refs": [],
+  "done_at": "2026-09-03T17:30:19Z",
+  "evidence_refs": [
+    {
+      "id": "ev_01M1M54K1K1QZM06TBAXNMEEN7",
+      "role": "review",
+      "source_type": "comment"
+    }
+  ],
   "id": "task_01M1M1RCCQGY9BM6EXEYV1KA3E",
-  "last_event_id": "ev_01M1M42VXPMX36EQ5YK2W39MS6",
-  "last_status_changed_at": "2026-09-03T17:11:54Z",
+  "last_event_id": "ev_01M1M54K5KN7BJHAH4VVP7CTEX",
+  "last_status_changed_at": "2026-09-03T17:30:19Z",
   "priority": "medium",
   "relationships_out": [
     {
@@ -25,10 +31,10 @@
   "reopened_count": 0,
   "schema_version": 1,
   "short_id": "FA-32",
-  "status": "in_progress",
+  "status": "done",
   "tags": null,
   "title": "blog/: build the /blog site from BRANDING.md \u2014 home, post pages, posting workflow",
   "type": "task",
-  "updated_at": "2026-09-03T17:11:54Z",
+  "updated_at": "2026-09-03T17:30:19Z",
   "urgency": null
 }
