@@ -267,5 +267,23 @@ must keep their count and order.
 "memphis"` for 900–<1000px, or a `mobile` slot), run `node build.js`, verify,
 commit sources + `sites.config.json` + `index.html`.
 
+### `blog/` is the exception: a destination, not a design direction
+
+`blog/` follows the sub-site authoring contract above but is deliberately **not** mapped
+in `sites.config.json` and is **not** inlined into the root `index.html`. It is a real
+destination served at `/blog/` — the built root page does not scroll, and a blog must.
+Two consequences a future agent should not "fix":
+
+- **Do not add `blog` to a viewport bucket.** If it is ever mapped, `blog/style.css`'s
+  zero-`url()` rule and the pages' `robots` meta both have to be revisited.
+- **Blog pages are indexable on purpose.** Sibling sites carry `robots noindex` only
+  because `build.js` duplicates their bodies into the root page; `/blog` has no
+  duplicate, so it carries a canonical and no `noindex` (except `posts/_template.html`).
+
+`blog/style.css` is loaded from two depths (`./style.css` from `blog/`, `../style.css`
+from `blog/posts/`), so it must contain **no local `url()` at all** — all texture is
+CSS-generated. Adding a background image there silently breaks post pages. The publishing
+workflow for a new post is documented in `blog/README.md`.
+
 Root-level files that must stay at root: `CNAME`, `favicon.ico`, `splash.png`,
 `twitter-splash-malls.png`. All SEO/OG/Twitter meta lives in `template.html`.
