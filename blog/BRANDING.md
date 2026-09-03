@@ -207,14 +207,14 @@ Four stacks; every element on the page belongs to one of them.
 ```
 
 ```css
-#site-blog .blog-entry-body {
+.blog-entry-body {
 	font-family: var(--font-prose);
 	font-size: var(--t-md);       /* 16–17px Georgia */
 	line-height: 1.65;
 	color: var(--ink);
 	max-width: 68ch;
 }
-#site-blog .blog-entry-body p { margin: 0 0 var(--s-4); text-indent: 0; }
+.blog-entry-body p { margin: 0 0 var(--s-4); text-indent: 0; }
 ```
 
 - **Measure is capped at `68ch`**, and first-line indent is **off** — 2006 blogs used a
@@ -355,7 +355,7 @@ field. Either way the tile stays at or below `0.035`, a texture nobody should be
 describe without leaning in.
 
 ```css
-#site-blog {
+body {
 	background-color: var(--ground);
 	background-image:
 		linear-gradient(to bottom, rgb(0 0 0 / 0.22), rgb(0 0 0 / 0) 320px),
@@ -430,7 +430,7 @@ Numbers, all normative:
 :root {
 	--s-1: 0.25rem; --s-2: 0.5rem; --s-3: 0.75rem; --s-4: 1.25rem; --s-5: 2rem; --s-6: 3rem;
 }
-#site-blog .blog-wrap { width: min(100% - 24px, 940px); margin: 0 auto; }
+.blog-wrap { width: min(100% - 24px, 940px); margin: 0 auto; }
 ```
 
 Wrapper `940px` with `12px` of internal padding a side leaves `916px` of content: main `620`
@@ -441,8 +441,8 @@ wrapper and `--s-6` below.
 **Masthead.** `.blog-gloss` in blue, `--r-md` on its top corners only. The wordmark is
 `--font-title` in Content White at `--t-2xl`, entirely in the **top half** of the bar, over
 the reflection (measured 5.1). The tagline is `--font-ui` at `--t-sm` in Kubrick Pale,
-entirely **below the 50% hard stop** on the darkened half (measured 8.6). That split is not
-decorative — it is what makes both readings pass.
+entirely **below the 50% hard stop**, whose lightest pixel is `--blue` under 18% black
+(`#164371`) — measured 7.5. That split is not decorative: it is what makes both pass.
 
 **Nav strip.** Flat `--blue-deep`, tabs left-aligned with `--s-2` between them: `Home`,
 `Archives`, `About`, `Subscribe`. The current tab is the lit one and connects to the content
@@ -459,7 +459,8 @@ below (§4.4). No dropdown, no mega-menu, no search in the nav.
 3. **Tags** — a real tag cloud: five size steps (`--t-tag-1` … `--t-tag-5`) mapped to post
    count, weight stepping with size (400 at steps 1–2, 700 at step 5), color stepping from
    `--ink-soft` to `--link`. Pills are `--r-pill`, `--paper-alt` ground, `--rule` border,
-   `--link` text, hover tint `rgb(91 163 224 / 0.15)` (measured 5.6). Every tag resolves.
+   `--link` text, hover tint `rgb(91 163 224 / 0.15)` on Alt Row (measured 5.4). Every tag
+   resolves.
 4. **Archives** — by month, newest first, with counts: `March 2026 (3)`, each linking to a
    real anchor.
 5. **Elsewhere** — the blogroll. Real outbound links only: GitHub, Twitter, email, the main
@@ -578,7 +579,7 @@ sanctioned effects; everything else holds still.
 	0%   { background-color: var(--highlight); }
 	100% { background-color: rgb(255 246 191 / 0); }
 }
-#site-blog .blog-entry:target { animation: blog-yft 1.2s ease-out 1; }
+.blog-entry:target { animation: blog-yft 1.2s ease-out 1; }
 ```
 
 The fade ends at a **transparent version of the highlight**, never at the `transparent`
@@ -641,8 +642,10 @@ from 500 to 1400 are already mapped, and the built root page sets
 bucket later stays possible without a rewrite. Every rule below comes from the root
 `CLAUDE.md` and is a rule of this direction:
 
-- **Wrapper `#site-blog`.** `style.css` is written as if standalone; the build rewrites
-  `html` / `body` / `:root` to the wrapper and prefixes every other selector.
+- **Wrapper `#site-blog`.** `style.css` is written as if standalone and **never writes the
+  wrapper itself**: the build rewrites `html` / `body` / `:root` to it and prefixes every other
+  selector with it, so an authored `#site-blog .x` compiles to `#site-blog #site-blog .x` and
+  matches nothing. The ground goes on `body`; no page carries an `id="site-blog"` of its own.
 - **Every `id` in markup and inline SVG is prefixed `blog-`** — `blog-archive-2026-03`,
   `blog-tag-css`, `blog-feed-glyph`, `blog-main` — and so is every `@keyframes` name
   (`blog-yft`). All sites share one document in the built page: ids, `<use href>` targets,
@@ -656,8 +659,8 @@ bucket later stays possible without a rewrite. Every rule below comes from the r
   with a per-page relative `src`.
 - **No `@import`** (§3) — the only at-rules in `style.css` are `@media`, `@supports` and
   `@keyframes` — and **no literal `</style>` sequence in CSS, no literal `</script>` in JS.**
-- **No commas inside functional pseudo-classes.** Write `#site-blog a:hover` and
-  `#site-blog a:focus-visible` as separate rules; never `:is(a, b)` or `:where(h1, h2)`.
+- **No commas inside functional pseudo-classes.** Write `a:hover` and
+  `a:focus-visible` as separate rules; never `:is(a, b)` or `:where(h1, h2)`.
 - **Never set `display` on `html` or `body`**, and never set the same property to different
   values on `html` versus `body` — both map to the wrapper and the last one wins. The one
   sanctioned pair is §5's scroll container: `html, body { height: 100% }` (identical) plus
