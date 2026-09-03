@@ -1,0 +1,32 @@
+{
+  "assigned_to": null,
+  "branch_links": [],
+  "comment_count": 3,
+  "complexity": null,
+  "created_at": "2026-08-31T03:46:18Z",
+  "created_by": "agent:claude-fable-5",
+  "custom_fields": {},
+  "description": null,
+  "done_at": "2026-08-31T04:02:22Z",
+  "evidence_refs": [
+    {
+      "id": "ev_01M1AZPXP7AY2Q1B8DKYQW4M5D",
+      "role": "review",
+      "source_type": "comment"
+    }
+  ],
+  "id": "task_01M1AYSMDY1GYEWXSPXNNGTD7M",
+  "last_event_id": "ev_01M1AZQ1FMKM7KMX97GEASPDSQ",
+  "last_status_changed_at": "2026-08-31T04:02:22Z",
+  "priority": "medium",
+  "relationships_out": [],
+  "reopened_count": 0,
+  "schema_version": 1,
+  "short_id": "FA-29",
+  "status": "done",
+  "tags": null,
+  "title": "Make shibuya sub-site more realistic \u2014 denser, more physical street scene",
+  "type": "task",
+  "updated_at": "2026-08-31T04:02:22Z",
+  "urgency": null
+}

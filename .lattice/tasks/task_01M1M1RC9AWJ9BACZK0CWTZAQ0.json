@@ -1,0 +1,32 @@
+{
+  "assigned_to": null,
+  "branch_links": [],
+  "comment_count": 3,
+  "complexity": null,
+  "created_at": "2026-09-03T16:31:13Z",
+  "created_by": "agent:claude-opus-5",
+  "custom_fields": {},
+  "description": "Write blog/BRANDING.md \u2014 the design brief for a new sub-site at /blog that hosts Forrest's writing.\n\nWHY: Every top-level folder in this repo is a design direction whose BRANDING.md is the source of truth and whose index.html is the rendering of it (see .claude/skills/brand-page). The brief comes first; the page is generated from it.\n\nUSER'S ASK, VERBATIM: \"i want to make a new site /blog for my writing. the branding should be bloggy and web 2.0\".\n\nDIRECTION: Web 2.0 blog, played straight and seriously the way vhs/ plays the TV-VCR straight \u2014 glossy gradient headers with reflections, rounded corners, 1-2px borders with inner highlights, Lucida Grande / Georgia body, striped or tiled body background, a real right sidebar (about blurb, blogroll, tag cloud, archives by month, orange RSS badge), permalinks, post meta lines, footer badges. Circa 2005-2008 Blogger/WordPress/Movable Type, not a retro pastiche that winks at itself.\n\nDECISIONS ALREADY MADE (do not re-litigate):\n- This is a destination at /blog/, NOT a viewport bucket in sites.config.json. Buckets 500-1400 are all taken, the built root page does not scroll, and a blog must scroll. It stays standalone.\n- Even so, the brief must not specify anything that would violate the sub-site authoring contract in CLAUDE.md (site-prefixed ids, relative asset urls, separate style.css, own scroll container), so mapping it later stays possible.\n- Depth and format should match sibling briefs (vhs/BRANDING.md, memphis/BRANDING.md): the direction, a named palette table, type, layout, motion, voice.\n\nSCOPE: brief only. FA-32 builds the page.",
+  "done_at": "2026-09-03T17:04:06Z",
+  "evidence_refs": [
+    {
+      "id": "ev_01M1M3MKJTB5DPXGN3D065KG5R",
+      "role": "review",
+      "source_type": "comment"
+    }
+  ],
+  "id": "task_01M1M1RC9AWJ9BACZK0CWTZAQ0",
+  "last_event_id": "ev_01M1M3MKP661ESK00E2XBA97PZ",
+  "last_status_changed_at": "2026-09-03T17:04:06Z",
+  "priority": "medium",
+  "relationships_out": [],
+  "reopened_count": 0,
+  "schema_version": 1,
+  "short_id": "FA-31",
+  "status": "done",
+  "tags": null,
+  "title": "blog/: BRANDING.md \u2014 Web 2.0 bloggy design direction (glossy gradients, sidebar, badges) for /blog writing site",
+  "type": "task",
+  "updated_at": "2026-09-03T17:04:06Z",
+  "urgency": null
+}

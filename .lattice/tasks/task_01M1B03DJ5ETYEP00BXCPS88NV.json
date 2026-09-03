@@ -1,0 +1,32 @@
+{
+  "assigned_to": null,
+  "branch_links": [],
+  "comment_count": 3,
+  "complexity": null,
+  "created_at": "2026-08-31T04:09:07Z",
+  "created_by": "agent:claude-fable-5",
+  "custom_fields": {},
+  "description": null,
+  "done_at": "2026-08-31T04:39:46Z",
+  "evidence_refs": [
+    {
+      "id": "ev_01M1B1VD8Y9D8Q3QP91KVNK7EF",
+      "role": "review",
+      "source_type": "comment"
+    }
+  ],
+  "id": "task_01M1B03DJ5ETYEP00BXCPS88NV",
+  "last_event_id": "ev_01M1B1VH6Q5J89SFD6RBVNHD6A",
+  "last_status_changed_at": "2026-08-31T04:39:46Z",
+  "priority": "medium",
+  "relationships_out": [],
+  "reopened_count": 0,
+  "schema_version": 1,
+  "short_id": "FA-30",
+  "status": "done",
+  "tags": null,
+  "title": "Shibuya: make canyon walls read as distinct buildings",
+  "type": "task",
+  "updated_at": "2026-08-31T04:39:46Z",
+  "urgency": null
+}
