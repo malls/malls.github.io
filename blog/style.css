@@ -269,7 +269,9 @@ a:focus-visible { outline: 2px solid var(--link); outline-offset: 2px; }
 	padding: var(--s-5) 12px;
 	background-color: var(--paper);
 }
-.blog-main { flex: 0 0 620px; width: 620px; min-width: 0; }
+/* main absorbs the deficit between the 760px breakpoint and the 964px viewport at which
+   the wrapper first reaches its full 940; the sidebar keeps its designed 268 throughout */
+.blog-main { flex: 1 1 620px; width: 620px; min-width: 0; }
 .blog-sidebar { flex: 0 0 268px; width: 268px; min-width: 0; }
 
 /* ── Entries and prose — §3, §6 ───────────────────────────── */
