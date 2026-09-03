@@ -6,14 +6,23 @@
 		"landscape": "horse"
 	},
 	"buckets": {
+		"500": "random",
+		"600": "random",
+		"700": "random",
+		"800": "random",
+		"900": "isomorphic",
+		"1000": "isomorphic",
+		"1100": "isomorphic",
+		"1200": "marble",
+		"1300": "marble",
+		"1400": "marble",
+		"1500": "marble",
+		"1600": "marble",
 		"5000": "slop",
 		"6000": "liquid",
-		"7000": "software",
-		"500": "random",
-		"900": "isomorphic",
-		"10000": "vhs",
 		"11000": "8bit",
-		"1200": "marble",
+		"10000": "vhs",
+		"7000": "software",
 		"13000": "memphis",
 		"14000": "shibuya"
 	}

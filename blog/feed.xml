@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0">
+	<channel>
+		<title>Forrest Almasi — Blog</title>
+		<link>https://www.forrestalmasi.com/blog/</link>
+		<description>The weblog of Forrest Almasi.</description>
+		<language>en-us</language>
+		<lastBuildDate>Thu, 03 Sep 2026 13:14:28 -0400</lastBuildDate>
+
+		<item>
+			<title>Hello world</title>
+			<link>https://www.forrestalmasi.com/blog/posts/2026-09-03-hello-world.html#blog-entry-2026-09-03-hello-world</link>
+			<description><![CDATA[This is the first post on this blog. It lives at forrestalmasi.com/blog, and it is where my writing gets published.
+
+There is no build step here. Every page in this folder is hand-written HTML sharing one stylesheet, and publishing a post means editing a handful of files by hand: the post itself, the front page, the archive and the feed.
+
+Nothing on this page phones anywhere else. No analytics, no trackers, no fonts fetched from a CDN, and no scripts at all — the page renders exactly the same with JavaScript switched off.]]></description>
+			<pubDate>Thu, 03 Sep 2026 13:14:28 -0400</pubDate>
+			<guid isPermaLink="true">https://www.forrestalmasi.com/blog/posts/2026-09-03-hello-world.html#blog-entry-2026-09-03-hello-world</guid>
+		</item>
+	</channel>
+</rss>

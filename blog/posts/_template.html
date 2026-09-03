@@ -1,0 +1,156 @@
+<!--
+	New post checklist — there is no build step for /blog/. Every one of these is by hand.
+	1. blog/posts/YYYY-MM-DD-slug.html   copy this file; fill title, date, tags, body, ids
+	2. blog/index.html                   new .blog-entry at the top of the blog:entries block
+	3. blog/archive.html                 add under its month AND under each of its tags
+	4. blog/feed.xml                     new <item> at the top of the channel
+	5. the sidebar block in every page   archive counts + tag-cloud steps
+	Full details, including the tag-cloud step table: blog/README.md
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>[POST TITLE] — Forrest Almasi</title>
+
+	<meta charset="utf-8"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1"/>
+	<meta name="description" content="[ONE SENTENCE SUMMARY OF THE POST]">
+	<meta name="robots" content="noindex">
+
+	<meta property="og:type" content="article" />
+	<meta property="og:title" content="[POST TITLE] — Forrest Almasi" />
+	<meta property="og:description" content="[ONE SENTENCE SUMMARY OF THE POST]" />
+	<meta property="og:image" content="http://www.forrestalmasi.com/twitter-splash-malls.png" />
+	<meta property="og:image:secure_url" content="https://www.forrestalmasi.com/twitter-splash-malls.png" />
+	<meta property="og:image:type" content="image/png" />
+	<meta property="og:image:width" content="1200" />
+	<meta property="og:image:height" content="630" />
+	<meta property="og:url" content="https://www.forrestalmasi.com/blog/posts/[YYYY-MM-DD]-[slug].html" />
+	<meta property="og:site_name" content="Forrest Almasi" />
+
+	<meta name="twitter:card" content="summary_large_image"></meta>
+	<meta name="twitter:title" content="[POST TITLE] — Forrest Almasi">
+	<meta name="twitter:description" content="[ONE SENTENCE SUMMARY OF THE POST]">
+	<meta name="twitter:image" content="https://www.forrestalmasi.com/twitter-splash-malls.png">
+	<meta name="twitter:image:alt" content="Colorful text reading 'what's up?'">
+	<meta name="twitter:site" content="@forrestalmasi">
+	<meta name="twitter:creator" content="@forrestalmasi">
+
+	<link rel="canonical" href="https://www.forrestalmasi.com/blog/posts/[YYYY-MM-DD]-[slug].html" />
+	<link rel="alternate" type="application/rss+xml" title="Forrest Almasi — Blog" href="../feed.xml"/>
+	<link rel="stylesheet" href="../style.css"/>
+</head>
+
+<body>
+	<div class="blog-wrap">
+		<header class="blog-masthead blog-gloss">
+			<h1 class="blog-wordmark"><a href="../index.html">Forrest Almasi</a></h1>
+			<p class="blog-tagline">Writing by Forrest Almasi</p>
+		</header>
+
+		<nav class="blog-nav" aria-label="Blog">
+			<a class="blog-tab" href="../index.html">Home</a>
+			<a class="blog-tab" href="../archive.html">Archives</a>
+			<a class="blog-tab" href="../index.html#blog-about">About</a>
+			<a class="blog-tab" href="../feed.xml">Subscribe</a>
+		</nav>
+
+		<div class="blog-cols">
+			<main class="blog-main" id="blog-main">
+				<article class="blog-entry" id="blog-entry-[YYYY-MM-DD]-[slug]">
+					<h1 class="blog-entry-title">[POST TITLE]</h1>
+					<p class="blog-entry-meta">Posted by Forrest on [Month D, YYYY] at [H:MM pm] &middot; Filed under: <a href="../archive.html#blog-tag-[tag]">[tag]</a> &middot; <a href="./[YYYY-MM-DD]-[slug].html#blog-entry-[YYYY-MM-DD]-[slug]">Permalink</a></p>
+					<div class="blog-entry-body">
+						<p>[FIRST PARAGRAPH. The first one to three paragraphs of this body are copied
+						verbatim into blog/index.html as the excerpt, above a "Continue reading" link.]</p>
+						<p>[SECOND PARAGRAPH.]</p>
+						<p>[THIRD PARAGRAPH.]</p>
+						<p>[THE REST OF THE POST. Plain prose: no gradient, shadow, radius or tint on
+						anything in here. Headings inside the body are h2 and h3.]</p>
+					</div>
+
+					<footer class="blog-post-foot">
+						<p>Filed under: <a href="../archive.html#blog-tag-[tag]">[tag]</a></p>
+						<p><a href="mailto:_@forrestalmasi.com?subject=[POST%20TITLE]">Reply by email</a></p>
+						<!--
+							Prev/next: add this nav only once there is a post on the other side, and
+							wire BOTH directions — "next" on the older post, "prev" on this one. Never
+							ship a disabled prev/next link, or one pointing at a bare fragment.
+
+							<nav class="blog-post-nav" aria-label="More posts">
+								<p><a href="./[OLDER-FILE].html#blog-entry-[OLDER-SLUG]">&larr; [OLDER TITLE]</a></p>
+								<p><a href="./[NEWER-FILE].html#blog-entry-[NEWER-SLUG]">[NEWER TITLE] &rarr;</a></p>
+							</nav>
+						-->
+						<p><a href="../index.html">&larr; Back to the front page</a></p>
+					</footer>
+				</article>
+			</main>
+
+			<aside class="blog-sidebar" aria-label="Sidebar">
+				<!-- blog:sidebar -->
+				<section class="blog-module" id="blog-about">
+					<h2 class="blog-module-head blog-gloss">About</h2>
+					<div class="blog-module-body">
+						<div class="blog-about-row">
+							<svg class="blog-avatar" viewBox="0 0 48 48" aria-hidden="true" focusable="false">
+								<rect class="blog-avatar-ground" x="0.5" y="0.5" width="47" height="47" rx="4"/>
+								<circle class="blog-avatar-ink" cx="24" cy="18" r="8"/>
+								<path class="blog-avatar-ink" d="M8 44a16 16 0 0 1 32 0z"/>
+							</svg>
+							<!-- blog:about-blurb — a slot: replace with your own words. See blog/README.md. -->
+							<p class="blog-about-text">This is the weblog of Forrest Almasi. Posts here are written and published by hand.</p>
+						</div>
+						<p class="blog-about-link"><a href="https://www.forrestalmasi.com/">forrestalmasi.com</a></p>
+					</div>
+				</section>
+
+				<section class="blog-module">
+					<h2 class="blog-module-head blog-gloss">Subscribe</h2>
+					<div class="blog-module-body">
+						<a class="blog-subscribe" href="../feed.xml"><svg class="blog-chiclet" viewBox="0 0 14 14" aria-hidden="true" focusable="false"><rect class="blog-chiclet-ground" x="0.5" y="0.5" width="13" height="13" rx="2.5"/><circle class="blog-chiclet-dot" cx="4" cy="10" r="1.4"/><path class="blog-chiclet-arc" d="M3.2 7.2a3.6 3.6 0 0 1 3.6 3.6"/><path class="blog-chiclet-arc" d="M3.2 4.2a6.6 6.6 0 0 1 6.6 6.6"/></svg>Subscribe</a>
+						<p class="blog-subscribe-note">RSS 2.0 &middot; updated by hand with every post.</p>
+					</div>
+				</section>
+
+				<section class="blog-module" id="blog-tags">
+					<h2 class="blog-module-head blog-gloss">Tags</h2>
+					<div class="blog-module-body">
+						<div class="blog-tagcloud blog-well">
+							<a class="blog-tag blog-tag-1" href="../archive.html#blog-tag-[tag]">[tag]</a>
+						</div>
+					</div>
+				</section>
+
+				<section class="blog-module" id="blog-archives">
+					<h2 class="blog-module-head blog-gloss">Archives</h2>
+					<ul>
+						<li><a href="../archive.html#blog-archive-[YYYY-MM]">[Month YYYY] <span class="blog-count">([N])</span></a></li>
+					</ul>
+				</section>
+
+				<section class="blog-module">
+					<h2 class="blog-module-head blog-gloss">Elsewhere</h2>
+					<ul>
+						<li><a href="https://github.com/malls">GitHub</a></li>
+						<li><a href="https://twitter.com/forrestalmasi">Twitter</a></li>
+						<li><a href="mailto:_@forrestalmasi.com">Email</a></li>
+						<li><a href="https://www.forrestalmasi.com/">forrestalmasi.com</a></li>
+					</ul>
+				</section>
+				<!-- /blog:sidebar -->
+			</aside>
+		</div>
+
+		<footer class="blog-footer">
+			<p class="blog-badges">
+				<span class="blog-badge blog-gloss">Hand-written HTML</span>
+				<span class="blog-badge blog-gloss">No trackers</span>
+				<span class="blog-badge blog-gloss">RSS 2.0</span>
+				<span class="blog-badge blog-gloss">2026</span>
+			</p>
+			<p class="blog-colophon">&copy; 2026 Forrest Almasi &middot; <a href="../index.html">Blog</a> &middot; <a href="../feed.xml">RSS</a></p>
+		</footer>
+	</div>
+</body>
+</html>

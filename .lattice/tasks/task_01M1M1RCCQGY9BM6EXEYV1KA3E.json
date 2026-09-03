@@ -1,7 +1,7 @@
 {
   "assigned_to": null,
   "branch_links": [],
-  "comment_count": 0,
+  "comment_count": 1,
   "complexity": null,
   "created_at": "2026-09-03T16:31:13Z",
   "created_by": "agent:claude-opus-5",
@@ -10,8 +10,8 @@
   "done_at": null,
   "evidence_refs": [],
   "id": "task_01M1M1RCCQGY9BM6EXEYV1KA3E",
-  "last_event_id": "ev_01M1M3N1G3P35V7Y45DCXVZA2Q",
-  "last_status_changed_at": "2026-09-03T17:04:20Z",
+  "last_event_id": "ev_01M1M42VXPMX36EQ5YK2W39MS6",
+  "last_status_changed_at": "2026-09-03T17:11:54Z",
   "priority": "medium",
   "relationships_out": [
     {
@@ -25,10 +25,10 @@
   "reopened_count": 0,
   "schema_version": 1,
   "short_id": "FA-32",
-  "status": "in_planning",
+  "status": "in_progress",
   "tags": null,
   "title": "blog/: build the /blog site from BRANDING.md \u2014 home, post pages, posting workflow",
   "type": "task",
-  "updated_at": "2026-09-03T17:04:20Z",
+  "updated_at": "2026-09-03T17:11:54Z",
   "urgency": null
 }
